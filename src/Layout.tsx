@@ -1,11 +1,17 @@
-import Header from './components/Layout/Header'
-import LeftMenu from './components/Layout/LeftMenu'
+import { Outlet } from 'react-router-dom';
+import Header from './components/Layout/Header';
+import LeftMenu from './components/Layout/LeftMenu';
 
 export const Layout = () => {
   return (
-    <>
-      <Header/>
-      <LeftMenu/>
-    </>
-  )
-}
+    <div className='bg-[#fffff]'>
+      <Header />
+      <main className='flex'>
+        <LeftMenu />
+        <div className='border-dashed border-4px border-gray-150 border-2 w-full m-[56px]'>
+          <Outlet />
+        </div>
+      </main>
+    </div>
+  );
+};

@@ -4,7 +4,7 @@ import { faFileLines, faPaste, faHeartCirclePlus } from '@fortawesome/free-solid
 const LeftMenu = () => {
   return (
     <>
-      <div className="w-[310px] h-screen bg-[#f8f8f8] shadow-lg p-6">
+      <div className="w-[310px] h-screen bg-[#f8f8f8] p-6">
         <div className="mt-[50px]">
           <div className='flex items-center mb-5'>
             <FontAwesomeIcon icon={faFileLines} />
@@ -30,12 +30,12 @@ const LeftMenu = () => {
 
         <div className="mb-4 mt-[50px] flex items-center">
           <FontAwesomeIcon icon={faPaste} />
-          <h2 className="font-bold text-lg ml-3">리포트 일반 내역</h2>
+          <h2 className="font-bold text-lg ml-3">리포트 열람 내역</h2>
         </div>
 
         <div className='flex items-center mb-2'>
           <FontAwesomeIcon icon={faHeartCirclePlus} />
-          <h2 className="font-bold text-lg ml-3">서비스 개발 현황</h2>
+          <h2 className="font-bold text-lg ml-3">서비스 개발 희망</h2>
         </div>
       </div>
     </>
