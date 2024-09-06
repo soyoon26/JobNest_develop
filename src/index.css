@@ -1,11 +1,11 @@
-@import url('https://cdn.jsdelivr.net/gh/sun-typeface/SUIT@2/fonts/variable/woff2/SUIT-Variable.css');
+@import url("https://cdn.jsdelivr.net/gh/sun-typeface/SUIT@2/fonts/variable/woff2/SUIT-Variable.css");
 
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
 body {
-  font-family: 'SUIT Variable', sans-serif;
+  font-family: "SUIT Variable", sans-serif;
 }
 
 .item {
@@ -14,4 +14,26 @@ body {
 
 .border-dash {
   background-image: url("data:image/svg+xml,%3csvg width='100%25' height='100%25' xmlns='http://www.w3.org/2000/svg'%3e%3crect width='100%25' height='100%25' fill='none' stroke='%23333' stroke-width='2' stroke-dasharray='7.5' stroke-dashoffset='4' stroke-linecap='square'/%3e%3c/svg%3e");
+}
+
+/* 스크롤바 전체 */
+::-webkit-scrollbar {
+  width: 8px; /* 스크롤바의 너비 */
+}
+
+/* 스크롤바 트랙 (스크롤바 배경) */
+::-webkit-scrollbar-track {
+  background: #f1f1f1; /* 배경 색상 */
+  border-radius: 8px; /* 라운디드 모서리 */
+}
+
+/* 스크롤바 핸들 */
+::-webkit-scrollbar-thumb {
+  background: #888; /* 핸들의 색상 */
+  border-radius: 8px; /* 핸들의 라운디드 모서리 */
+}
+
+/* 스크롤바 핸들이 호버될 때의 색상 */
+::-webkit-scrollbar-thumb:hover {
+  background: #555; /* 핸들의 호버 색상 */
 }
