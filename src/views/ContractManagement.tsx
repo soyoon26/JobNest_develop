@@ -1,4 +1,3 @@
-import DraftContract from "../components/ContractManagement/DraftContract";
 import Search from "../components/ContractManagement/main/Search";
 const ContractManagement = () => {
   return (
