@@ -3,7 +3,13 @@ import clipboard from "../../../assets/images/clipboard.png";
 import SearchDropDown from "./SearchDropDown";
 import SearchCheck from "./SearchCheck";
 import SearchDate from "./SearchDate";
-const Search = () => {
+import { FiSearch, FiRefreshCw } from "react-icons/fi";
+import SearchBtn from "./SearchBtn";
+
+interface SearchProps {
+  onCreateDraft: () => void;
+}
+const Search: React.FC<SearchProps> = ({ onCreateDraft }) => {
   const contractType = [
     "아파트",
     "주상복합",
@@ -24,6 +30,7 @@ const Search = () => {
   ];
 
   const brokerageTypeOptions = [{ label: "공동중개" }, { label: "단독중개" }];
+
   return (
     <div>
       <div className="flex  w-[1142px] mt-[80px] justify-between">
@@ -31,7 +38,7 @@ const Search = () => {
           <img src={clipboard} alt="Clipboard" className="w-[23px] h-[23px]" />
           <span className="text-[23px]  font-bold">계약관리</span>
         </div>
-        <Btn />
+        <Btn onClick={onCreateDraft} />
       </div>
       <div className="bg-white w-[1142px] h-[457px] flex justify-center">
         <h1>
@@ -66,6 +73,21 @@ const Search = () => {
             <SearchCheck options={brokerageTypeOptions} />
           </div>
           <div className="w-[1076px] h-[1px] bg-[#CCCCCC]"></div>
+          <div className="flex justify-center gap-2 mt-6">
+            <SearchBtn
+              icon={<FiRefreshCw />}
+              text="초기화"
+              borderColor="gray"
+              textColor="black"
+            />
+
+            <SearchBtn
+              icon={<FiSearch />}
+              text="검색"
+              borderColor="#335995"
+              textColor="#335995"
+            />
+          </div>
         </h1>
       </div>
     </div>

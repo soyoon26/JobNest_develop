@@ -18,9 +18,9 @@ const SearchDropDown: React.FC<DropDownProps> = ({ items }) => {
     <div className="relative w-[240px] h-[36px]">
       <button
         onClick={toggleDropdown}
-        className="w-full h-full rounded border border-[#6F6F6F] bg-white text-[#6F6F6F] text-sm flex items-center justify-between px-2"
+        className="w-full h-full rounded border border-gray bg-white text-[#6F6F6F] text-sm flex items-center justify-between px-2"
       >
-        <span>{selectedItem || "선택"}</span>
+        <span>{selectedItem || "전체"}</span>
         <FaChevronDown className="text-[#6F6F6F] text-[14px]" />
       </button>
       {isOpen && (
