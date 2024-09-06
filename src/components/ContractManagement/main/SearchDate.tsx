@@ -1,8 +1,17 @@
-import React, { useState } from "react";
+import React from "react";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import { AiOutlineCalendar } from "react-icons/ai";
 import SearchRadio from "./SearchRadio";
+
+interface SearchDateProps {
+  startDate: Date | null;
+  endDate: Date | null;
+  setStartDate: (date: Date | null) => void;
+  setEndDate: (date: Date | null) => void;
+  selectedPeriod: string;
+  setSelectedPeriod: (period: string) => void;
+}
 
 const addPeriodToDate = (startDate: Date, period: string): Date => {
   const newDate = new Date(startDate);
@@ -25,28 +34,28 @@ const addPeriodToDate = (startDate: Date, period: string): Date => {
   return newDate;
 };
 
-const SearchDate: React.FC = () => {
-  const [startDate, setStartDate] = useState<Date>(new Date());
-  const [endDate, setEndDate] = useState<Date>(new Date());
-  const [selectedPeriod, setSelectedPeriod] = useState<string>("");
-
+const SearchDate: React.FC<SearchDateProps> = ({
+  startDate,
+  endDate,
+  setStartDate,
+  setEndDate,
+  selectedPeriod,
+  setSelectedPeriod,
+}) => {
   const handleStartDateChange = (date: Date | null): void => {
     if (date) {
-      if (endDate < date) {
+      if (endDate && endDate < date) {
         alert("시작 날짜는 종료 날짜보다 늦을 수 없습니다.");
         return;
       }
       setStartDate(date);
-      if (selectedPeriod) {
-        setEndDate(addPeriodToDate(date, selectedPeriod));
-        setSelectedPeriod("");
-      }
+      setSelectedPeriod("");
     }
   };
 
   const handleEndDateChange = (date: Date | null): void => {
     if (date) {
-      if (date < startDate) {
+      if (date && date < startDate!) {
         alert("종료 날짜는 시작 날짜보다 빠를 수 없습니다.");
         return;
       }
@@ -55,22 +64,15 @@ const SearchDate: React.FC = () => {
     }
   };
 
-  const handlePeriodSelect = (period: string): void => {
+  const handlePeriodChange = (period: string) => {
     setSelectedPeriod(period);
-    setEndDate(addPeriodToDate(startDate, period));
+    if (startDate) {
+      setEndDate(addPeriodToDate(startDate, period));
+    }
   };
 
   return (
     <div className="flex items-center space-x-4">
-      {/* <div className="relative">
-        <select className="px-3 py-2 border border-gray-300 rounded cursor-pointer">
-          <option>전체</option>
-          <option>일별</option>
-          <option>주별</option>
-          <option>월별</option>
-        </select>
-      </div> */}
-
       <div className="relative flex items-center border border-gray-300 rounded w-[111px] h-[36px] px-3 py-2">
         <DatePicker
           selected={startDate}
@@ -79,12 +81,8 @@ const SearchDate: React.FC = () => {
           className="w-full h-full border-none focus:ring-0 text-[12px]"
           popperPlacement="bottom-start"
           preventOpenOnFocus
-          onClickOutside={() => {}}
         />
-        <AiOutlineCalendar
-          className="absolute text-gray-500 cursor-pointer right-2"
-          onClick={(e) => e.stopPropagation()}
-        />
+        <AiOutlineCalendar className="absolute text-gray-500 cursor-pointer right-2" />
       </div>
 
       <span>~</span>
@@ -97,17 +95,14 @@ const SearchDate: React.FC = () => {
           className="w-full h-full border-none focus:ring-0 text-[12px]"
           popperPlacement="bottom-start"
           preventOpenOnFocus
-          onClickOutside={() => {}}
         />
-        <AiOutlineCalendar
-          className="absolute text-gray-500 cursor-pointer right-2"
-          onClick={(e) => e.stopPropagation()}
-        />
+        <AiOutlineCalendar className="absolute text-gray-500 cursor-pointer right-2" />
       </div>
 
       <SearchRadio
-        onPeriodChange={handlePeriodSelect}
+        options={["1개월", "3개월", "6개월", "1년"]}
         selectedPeriod={selectedPeriod}
+        onPeriodChange={handlePeriodChange}
       />
     </div>
   );

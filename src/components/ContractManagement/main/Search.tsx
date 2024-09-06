@@ -5,10 +5,12 @@ import SearchCheck from "./SearchCheck";
 import SearchDate from "./SearchDate";
 import { FiSearch, FiRefreshCw } from "react-icons/fi";
 import SearchBtn from "./SearchBtn";
+import { useState } from "react";
 
 interface SearchProps {
   onCreateDraft: () => void;
 }
+
 const Search: React.FC<SearchProps> = ({ onCreateDraft }) => {
   const contractType = [
     "아파트",
@@ -31,6 +33,32 @@ const Search: React.FC<SearchProps> = ({ onCreateDraft }) => {
 
   const brokerageTypeOptions = [{ label: "공동중개" }, { label: "단독중개" }];
 
+  const [selectedContractType, setSelectedContractType] = useState<
+    string | null
+  >(null);
+  const [selectedTransactionType, setSelectedTransactionType] = useState<
+    string | null
+  >(null);
+  const [selectedContractStatus, setSelectedContractStatus] = useState<
+    string | null
+  >(null);
+  const [selectedBrokerageType, setSelectedBrokerageType] = useState<
+    string | null
+  >(null);
+  const [startDate, setStartDate] = useState<Date | null>(new Date());
+  const [endDate, setEndDate] = useState<Date | null>(new Date());
+  const [selectedPeriod, setSelectedPeriod] = useState<string>("");
+
+  const resetAll = () => {
+    setSelectedContractType(null);
+    setSelectedTransactionType(null);
+    setSelectedContractStatus(null);
+    setSelectedBrokerageType(null);
+    setStartDate(new Date());
+    setEndDate(new Date());
+    setSelectedPeriod("");
+  };
+
   return (
     <div>
       <div className="flex  w-[1142px] mt-[80px] justify-between">
@@ -46,7 +74,14 @@ const Search: React.FC<SearchProps> = ({ onCreateDraft }) => {
           <div className="w-[1076px] h-[1px] bg-black"></div>
           <div className="flex items-center">
             <div className="text-[13px] w-[100px] my-4 font-bold">날짜조회</div>
-            <SearchDate />
+            <SearchDate
+              startDate={startDate}
+              endDate={endDate}
+              setStartDate={setStartDate}
+              setEndDate={setEndDate}
+              selectedPeriod={selectedPeriod}
+              setSelectedPeriod={setSelectedPeriod}
+            />
           </div>
           <div className="w-[1076px] h-[1px] bg-[#CCCCCC]"></div>
           <div className="flex items-center">
@@ -54,12 +89,20 @@ const Search: React.FC<SearchProps> = ({ onCreateDraft }) => {
               <div className="text-[13px] my-4 font-bold w-[100px]">
                 계약서 종류
               </div>
-              <SearchDropDown items={contractType} />
+              <SearchDropDown
+                items={contractType}
+                selectedItem={selectedContractType}
+                onSelect={setSelectedContractType}
+              />
             </div>
             <div className="text-[13px] my-4 font-bold w-[100px]">
               계약서상태
             </div>
-            <SearchCheck options={contractStatusOptions} />
+            <SearchCheck
+              options={contractStatusOptions}
+              selectedOption={selectedContractStatus}
+              onSelect={setSelectedContractStatus}
+            />
           </div>
           <div className="w-[1076px] h-[1px] bg-[#CCCCCC]"></div>
           <div className="flex items-center">
@@ -67,10 +110,18 @@ const Search: React.FC<SearchProps> = ({ onCreateDraft }) => {
               <div className="text-[13px] my-4 font-bold w-[100px]">
                 거래유형
               </div>
-              <SearchDropDown items={transactionType} />
+              <SearchDropDown
+                items={transactionType}
+                selectedItem={selectedTransactionType}
+                onSelect={setSelectedTransactionType}
+              />
             </div>
             <div className="text-[13px] my-4 font-bold w-[100px]">중개유형</div>
-            <SearchCheck options={brokerageTypeOptions} />
+            <SearchCheck
+              options={brokerageTypeOptions}
+              selectedOption={selectedBrokerageType}
+              onSelect={setSelectedBrokerageType}
+            />
           </div>
           <div className="w-[1076px] h-[1px] bg-[#CCCCCC]"></div>
           <div className="flex justify-center gap-2 mt-6">
@@ -79,6 +130,7 @@ const Search: React.FC<SearchProps> = ({ onCreateDraft }) => {
               text="초기화"
               borderColor="gray"
               textColor="black"
+              onClick={resetAll}
             />
 
             <SearchBtn
@@ -86,6 +138,7 @@ const Search: React.FC<SearchProps> = ({ onCreateDraft }) => {
               text="검색"
               borderColor="#335995"
               textColor="#335995"
+              onClick={() => {}}
             />
           </div>
         </h1>
@@ -93,4 +146,5 @@ const Search: React.FC<SearchProps> = ({ onCreateDraft }) => {
     </div>
   );
 };
+
 export default Search;

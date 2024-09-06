@@ -1,16 +1,22 @@
 import React, { useState } from "react";
 import { FaChevronDown } from "react-icons/fa";
+
 interface DropDownProps {
   items: string[];
+  selectedItem: string | null;
+  onSelect: (item: string) => void;
 }
 
-const SearchDropDown: React.FC<DropDownProps> = ({ items }) => {
+const SearchDropDown: React.FC<DropDownProps> = ({
+  items,
+  selectedItem,
+  onSelect,
+}) => {
   const [isOpen, setIsOpen] = useState(false);
-  const [selectedItem, setSelectedItem] = useState<string | null>(null);
 
   const toggleDropdown = () => setIsOpen(!isOpen);
   const handleItemClick = (item: string) => {
-    setSelectedItem(item);
+    onSelect(item);
     setIsOpen(false);
   };
 

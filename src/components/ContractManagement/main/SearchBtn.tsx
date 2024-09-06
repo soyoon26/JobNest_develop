@@ -5,6 +5,7 @@ interface SearchBtnProps {
   text: string;
   borderColor: string;
   textColor: string;
+  onClick: () => void;
 }
 
 const SearchBtn: React.FC<SearchBtnProps> = ({
@@ -12,9 +13,11 @@ const SearchBtn: React.FC<SearchBtnProps> = ({
   text,
   borderColor,
   textColor,
+  onClick,
 }) => {
   return (
     <button
+      onClick={onClick}
       className={`flex items-center justify-center w-[96px] h-[36px] font-bold text-[13px] border rounded`}
       style={{ borderColor: borderColor, color: textColor }}
     >

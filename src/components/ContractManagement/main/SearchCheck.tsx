@@ -1,19 +1,23 @@
-import React, { useState } from "react";
+import React from "react";
 import { AiOutlineCheck } from "react-icons/ai";
 
 interface CheckboxOption {
   label: string;
 }
 
-interface CheckboxGroupProps {
+interface SearchCheckProps {
   options: CheckboxOption[];
+  selectedOption: string | null;
+  onSelect: (option: string) => void;
 }
 
-const SearchCheck: React.FC<CheckboxGroupProps> = ({ options }) => {
-  const [selected, setSelected] = useState<string | null>(null);
-
+const SearchCheck: React.FC<SearchCheckProps> = ({
+  options,
+  selectedOption,
+  onSelect,
+}) => {
   const handleSelect = (label: string) => {
-    setSelected(selected === label ? null : label);
+    onSelect(selectedOption === label ? "" : label);
   };
 
   return (
@@ -25,13 +29,12 @@ const SearchCheck: React.FC<CheckboxGroupProps> = ({ options }) => {
         >
           <input
             type="checkbox"
-            checked={selected === option.label}
+            checked={selectedOption === option.label}
             onChange={() => handleSelect(option.label)}
             className="hidden"
           />
-
           <div className="w-[21px] h-[21px] rounded border border-[#D9D9D9] flex items-center justify-center cursor-pointer">
-            {selected === option.label && (
+            {selectedOption === option.label && (
               <AiOutlineCheck className="text-black" />
             )}
           </div>
