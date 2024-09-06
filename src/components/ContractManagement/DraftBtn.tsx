@@ -1,11 +1,11 @@
 import React from "react";
 
 interface DraftBtnProps {
-  color?: string; // 버튼 배경색
-  borderColor?: string; // 보더 색상
-  text?: string; // 버튼에 들어갈 텍스트
-  textColor?: string; // 버튼 텍스트 색상
-  onClick?: () => void; // 클릭 시 동작
+  color?: string;
+  borderColor?: string;
+  text?: string;
+  textColor?: string;
+  onClick?: () => void;
 }
 
 const DraftBtn: React.FC<DraftBtnProps> = ({
