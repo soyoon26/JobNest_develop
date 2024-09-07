@@ -39,8 +39,8 @@ const BookMarkManageModal = ({ closeModal, bookmarksArray }: Props) => {
           </span>
         </div>
         <div className='overflow-y-scroll h-[460px]'>
-          {bookmarksArray.map((val, index) => (
-            <div className='pt-[12px] pl-[20px] relative'>
+          {bookmarksArray.map((val, idx) => (
+            <div className='pt-[12px] pl-[20px] relative group' key={idx}>
               {checked ? (
                 <FontAwesomeIcon
                   icon={faSolidSquareCheck}
@@ -59,7 +59,7 @@ const BookMarkManageModal = ({ closeModal, bookmarksArray }: Props) => {
               <span className='text-[#8894A0] text-[20px] cursor-default'>
                 {val.title}
                 <FontAwesomeIcon
-                  className='cursor-pointer absolute right-3'
+                  className='cursor-pointer absolute right-3 hidden group-hover:inline-block'
                   color='#8894A0'
                   icon={faEllipsis}
                   onClick={clickMenuBar}
@@ -84,6 +84,7 @@ const BookMarkManageModal = ({ closeModal, bookmarksArray }: Props) => {
               페이지 추가
             </button>
           </p>
+          <div></div>
         </div>
       </div>
     </>
