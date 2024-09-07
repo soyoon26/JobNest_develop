@@ -3,11 +3,11 @@ import {
   useTable,
   useRowSelect,
   HeaderGroup,
-  Row,
+  //   Row,
   Column as TableColumn,
   CellProps,
   HeaderProps,
-  ColumnInstance,
+  //   ColumnInstance,
 } from "react-table";
 
 type Data = {
