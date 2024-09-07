@@ -6,6 +6,7 @@ import SearchDate from "./SearchDate";
 import { FiSearch, FiRefreshCw } from "react-icons/fi";
 import SearchBtn from "./SearchBtn";
 import { useState } from "react";
+import SearchResults from "./SearchResults";
 
 interface SearchProps {
   onCreateDraft: () => void;
@@ -143,6 +144,7 @@ const Search: React.FC<SearchProps> = ({ onCreateDraft }) => {
           </div>
         </h1>
       </div>
+      <SearchResults />
     </div>
   );
 };
