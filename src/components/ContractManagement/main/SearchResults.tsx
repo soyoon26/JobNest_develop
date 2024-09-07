@@ -97,7 +97,7 @@ const SearchResults: React.FC = () => {
     headerGroups,
     rows,
     prepareRow,
-    selectedFlatRows,
+    // selectedFlatRows,
   } = useTable<Data>({ columns, data }, useRowSelect);
 
   const [currentPage, setCurrentPage] = useState(1);
