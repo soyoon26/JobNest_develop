@@ -1,15 +1,9 @@
-import {
-  faEllipsis,
-  faSquareCheck as faSolidSquareCheck,
-} from '@fortawesome/free-solid-svg-icons';
-import { faSquareCheck as faRegularSquareCheck } from '@fortawesome/free-regular-svg-icons';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { useEffect, useState } from 'react';
 import BookMarkList from './BookMarkList';
 import BookMarkManageModal from './BookMarkManageModal';
 
 const BookMark = () => {
-  const bookmarks = [
+  const initialBookmarks = [
     { title: '씨리얼', url: 'https://seereal.lh.or.kr/main.do' },
     { title: '부동산거래관리시스템', url: 'https://rtms.molit.go.kr/' },
     { title: '건축행정시스템(세움터)', url: 'https://www.eais.go.kr/' },
@@ -30,7 +24,7 @@ const BookMark = () => {
 
   useEffect(() => {
     if (!savedBookmarks) {
-      localStorage.setItem('Bookmark', JSON.stringify(bookmarks));
+      localStorage.setItem('Bookmark', JSON.stringify(initialBookmarks));
     }
   }, []);
 
