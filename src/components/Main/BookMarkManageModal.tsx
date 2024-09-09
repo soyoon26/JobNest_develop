@@ -8,7 +8,7 @@ import { useState } from 'react';
 
 type Props = {
   closeModal: () => void;
-  bookmarksArray: [{ title: string; url: string }];
+  bookmarksArray: [{ id: number; title: string; url: string }];
 };
 
 const BookMarkManageModal = ({ closeModal, bookmarksArray }: Props) => {

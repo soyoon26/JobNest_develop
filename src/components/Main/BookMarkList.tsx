@@ -1,5 +1,5 @@
 type Props = {
-  bookmarksArray: [{ title: string; url: string }];
+  bookmarksArray: [{ id: number; title: string; url: string }];
 };
 
 const BookMarkList = ({ bookmarksArray }: Props) => {
