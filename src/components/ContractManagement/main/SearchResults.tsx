@@ -9,6 +9,8 @@ import {
   HeaderProps,
   //   ColumnInstance,
 } from "react-table";
+import SearchResultsBtn from "./SearchResultsBtn";
+import SearchResultsDropDown from "./SearchResultsDropDown";
 
 type Data = {
   계약일: string;
@@ -101,7 +103,7 @@ const SearchResults: React.FC = () => {
   } = useTable<Data>({ columns, data }, useRowSelect);
 
   const [currentPage, setCurrentPage] = useState(1);
-  const pageSize = 10;
+  const [pageSize, setPageSize] = useState(10);
   const totalPages = Math.ceil(data.length / pageSize);
 
   const handleFirstPage = () => setCurrentPage(1);
@@ -109,9 +111,40 @@ const SearchResults: React.FC = () => {
   const handleNextPage = () =>
     setCurrentPage(Math.min(totalPages, currentPage + 1));
   const handleLastPage = () => setCurrentPage(totalPages);
-
+  const handlePageSizeChange = (item: string) => {
+    const size = parseInt(item.replace("개씩 보기", "").trim());
+    setPageSize(size);
+    setCurrentPage(1);
+  };
   return (
     <div className="w-[1067px] mx-auto">
+      <div className="flex items-center justify-between my-4">
+        <div className="font-bold">
+          검색결과 <span className="text-[#335995]">{data.length}</span>
+        </div>
+        <div className="flex gap-2">
+          <SearchResultsBtn
+            text="개인정보 수집 및 이용 동의서 출력"
+            borderColor="#335995"
+            textColor="#335995"
+            width={191}
+            onClick={() => console.log("")}
+          />
+          <SearchResultsBtn
+            text="엑셀다운로드"
+            borderColor="#D9D9D9"
+            textColor="black"
+            width={96}
+            onClick={() => console.log("")}
+          />
+
+          <SearchResultsDropDown
+            selectedItem={`${pageSize}개씩 보기`}
+            onSelect={handlePageSizeChange}
+          />
+        </div>
+      </div>
+
       <table
         {...getTableProps()}
         className="w-full "
