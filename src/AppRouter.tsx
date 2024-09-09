@@ -1,5 +1,3 @@
-// src/routes/AppRoutes.js
-
 import { Routes, Route } from "react-router-dom";
 
 import ContractManagement from "../src/views/ContractManagement";

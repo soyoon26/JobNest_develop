@@ -1,24 +1,17 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 
 interface SearchRadioProps {
-  onPeriodChange: (period: string) => void;
+  options: string[];
   selectedPeriod: string;
+  onPeriodChange: (period: string) => void;
 }
 
 const SearchRadio: React.FC<SearchRadioProps> = ({
-  onPeriodChange,
+  options,
   selectedPeriod,
+  onPeriodChange,
 }) => {
-  const [selected, setSelected] = useState<string | null>(selectedPeriod);
-
-  useEffect(() => {
-    setSelected(selectedPeriod);
-  }, [selectedPeriod]);
-
-  const options = ["1개월", "3개월", "6개월", "1년"];
-
   const handleSelect = (option: string) => {
-    setSelected(option);
     onPeriodChange(option);
   };
 
@@ -33,16 +26,16 @@ const SearchRadio: React.FC<SearchRadioProps> = ({
             type="radio"
             name="period"
             value={option}
-            checked={selected === option}
+            checked={selectedPeriod === option}
             onChange={() => handleSelect(option)}
             className="hidden"
           />
           <div
             className={`w-[21px] h-[21px] rounded-full border border-[#D9D9D9] flex items-center justify-center cursor-pointer ${
-              selected === option ? "border-black" : ""
+              selectedPeriod === option ? "border-black" : ""
             }`}
           >
-            {selected === option && (
+            {selectedPeriod === option && (
               <div className="w-[11px] h-[11px] bg-black rounded-full"></div>
             )}
           </div>

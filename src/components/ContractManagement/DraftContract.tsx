@@ -1,8 +1,10 @@
 import DraftBtn from "./DraftBtn";
 import DraftDropdown from "./DraftDropDown";
 import SearchInput from "./SearchInput";
-
-const DraftContract = () => {
+interface DraftContractProps {
+  onCancel: () => void;
+}
+const DraftContract: React.FC<DraftContractProps> = ({ onCancel }) => {
   const contractType = [
     "아파트",
     "주상복합",
@@ -35,7 +37,7 @@ const DraftContract = () => {
         <div className="text-[13px] font-bold my-4">주소 입력</div>
         <SearchInput />
         <div className="flex items-center justify-center gap-2 mt-7">
-          <DraftBtn />
+          <DraftBtn onClick={onCancel} />
           <DraftBtn
             color="#335995"
             borderColor="#335995"

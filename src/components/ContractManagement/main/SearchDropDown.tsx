@@ -1,16 +1,22 @@
 import React, { useState } from "react";
 import { FaChevronDown } from "react-icons/fa";
+
 interface DropDownProps {
   items: string[];
+  selectedItem: string | null;
+  onSelect: (item: string) => void;
 }
 
-const SearchDropDown: React.FC<DropDownProps> = ({ items }) => {
+const SearchDropDown: React.FC<DropDownProps> = ({
+  items,
+  selectedItem,
+  onSelect,
+}) => {
   const [isOpen, setIsOpen] = useState(false);
-  const [selectedItem, setSelectedItem] = useState<string | null>(null);
 
   const toggleDropdown = () => setIsOpen(!isOpen);
   const handleItemClick = (item: string) => {
-    setSelectedItem(item);
+    onSelect(item);
     setIsOpen(false);
   };
 
@@ -18,9 +24,9 @@ const SearchDropDown: React.FC<DropDownProps> = ({ items }) => {
     <div className="relative w-[240px] h-[36px]">
       <button
         onClick={toggleDropdown}
-        className="w-full h-full rounded border border-[#6F6F6F] bg-white text-[#6F6F6F] text-sm flex items-center justify-between px-2"
+        className="w-full h-full rounded border border-gray bg-white text-[#6F6F6F] text-sm flex items-center justify-between px-2"
       >
-        <span>{selectedItem || "선택"}</span>
+        <span>{selectedItem || "전체"}</span>
         <FaChevronDown className="text-[#6F6F6F] text-[14px]" />
       </button>
       {isOpen && (
