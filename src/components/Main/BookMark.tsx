@@ -4,19 +4,24 @@ import BookMarkManageModal from './BookMarkManageModal';
 
 const BookMark = () => {
   const initialBookmarks = [
-    { title: '씨리얼', url: 'https://seereal.lh.or.kr/main.do' },
-    { title: '부동산거래관리시스템', url: 'https://rtms.molit.go.kr/' },
-    { title: '건축행정시스템(세움터)', url: 'https://www.eais.go.kr/' },
+    { id: 1, title: '씨리얼', url: 'https://seereal.lh.or.kr/main.do' },
+    { id: 1, title: '부동산거래관리시스템', url: 'https://rtms.molit.go.kr/' },
+    { id: 1, title: '건축행정시스템(세움터)', url: 'https://www.eais.go.kr/' },
     {
+      id: 1,
       title: '토지이용계획열람',
       url: 'https://www.eum.go.kr/',
     },
-    { title: '정부24', url: 'https://www.gov.kr/portal/' },
-    { title: '인터넷등기소', url: 'http://www.iros.go.kr/' },
-    { title: '부동산 공시가격 알리미', url: 'https://www.realtyprice.kr/' },
-    { title: '통계지리정보 서비스', url: 'https://sgis.kostat.go.kr/' },
-    { title: '일사편리', url: 'https://www.kras.go.kr/' },
-    { title: '부동산 계산기', url: 'https://www.eais.go.kr/' },
+    { id: 1, title: '정부24', url: 'https://www.gov.kr/portal/' },
+    { id: 1, title: '인터넷등기소', url: 'http://www.iros.go.kr/' },
+    {
+      id: 1,
+      title: '부동산 공시가격 알리미',
+      url: 'https://www.realtyprice.kr/',
+    },
+    { id: 1, title: '통계지리정보 서비스', url: 'https://sgis.kostat.go.kr/' },
+    { id: 1, title: '일사편리', url: 'https://www.kras.go.kr/' },
+    { id: 1, title: '부동산 계산기', url: 'https://www.eais.go.kr/' },
   ];
 
   // localStorage에서 데이터를 가져옴
