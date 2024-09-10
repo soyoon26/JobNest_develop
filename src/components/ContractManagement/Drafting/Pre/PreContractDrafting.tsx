@@ -1,3 +1,4 @@
+import { useNavigate } from "react-router-dom";
 import DraftBtn from "./DraftBtn";
 import DraftDropdown from "./DraftDropDown";
 import SearchInput from "./SearchInput";
@@ -5,6 +6,7 @@ interface DraftContractProps {
   onCancel: () => void;
 }
 const DraftContract: React.FC<DraftContractProps> = ({ onCancel }) => {
+  const navigate = useNavigate();
   const contractType = [
     "아파트",
     "주상복합",
@@ -18,6 +20,9 @@ const DraftContract: React.FC<DraftContractProps> = ({ onCancel }) => {
     "주상복합분양권",
   ];
   const transactionType = ["매매", "전세", "월세", "연세"];
+  const handleDraftClick = () => {
+    navigate("/contractDrafting");
+  };
   return (
     <div className="bg-white w-[584px] h-[364px] flex flex-col items-center justify-center rounded-lg">
       <div className="w-[477px]">
@@ -43,6 +48,7 @@ const DraftContract: React.FC<DraftContractProps> = ({ onCancel }) => {
             borderColor="#335995"
             text="계약서 작성"
             textColor="white"
+            onClick={handleDraftClick}
           />
         </div>
       </div>
