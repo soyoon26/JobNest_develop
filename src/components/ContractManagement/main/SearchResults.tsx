@@ -1,4 +1,5 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
+import axios from "axios";
 import {
   useTable,
   useRowSelect,
@@ -18,49 +19,64 @@ type Data = {
   계약서유형: string;
   거래유형: string;
   소재지: string;
-  매매보증금: string;
+  매매보증금: number;
   매도임대인: string;
   매수입차인: string;
-  공동중개업소: string;
-  계약관리: string;
+  공동중개업소: string | null;
   계약서번호: string;
 };
 
-const SearchResults: React.FC = () => {
-  const data: Data[] = React.useMemo(
-    () => [
-      // {
-      //   계약일: "24.08.29",
-      //   잔금일: "-",
-      //   만기일: "-",
-      //   계약서유형: "다세대",
-      //   거래유형: "매매",
-      //   소재지: "서울 서초구 양재동 8-26",
-      //   매매보증금: "-",
-      //   매도임대인: "-",
-      //   매수입차인: "-",
-      //   공동중개업소: "-",
-      //   계약관리: "-",
-      //   계약서번호: "A000111222",
-      // },
-      // {
-      //   계약일: "24.08.30",
-      //   잔금일: "-",
-      //   만기일: "-",
-      //   계약서유형: "연립",
-      //   거래유형: "전세",
-      //   소재지: "부산시 ",
-      //   매매보증금: "1,000원",
-      //   매도임대인: "김소금",
-      //   매수입차인: "박소윤",
-      //   공동중개업소: "스나이퍼부동산",
-      //   계약관리: "버튼 들어갈 자리",
-      //   계약서번호: "B000333444",
-      // },
-    ],
-    []
-  );
+const formatDate = (dateString: string): string => {
+  const date = new Date(dateString);
+  if (isNaN(date.getTime())) return "-";
+  return `${date.getFullYear().toString().slice(2)}.${(date.getMonth() + 1)
+    .toString()
+    .padStart(2, "0")}.${date.getDate().toString().padStart(2, "0")}`;
+};
 
+const formatNumber = (number: number | undefined): string => {
+  if (number === undefined) return "-";
+  return number.toLocaleString();
+};
+
+const SearchResults: React.FC = () => {
+  const [data, setData] = useState<Data[]>([]);
+  const [loading, setLoading] = useState<boolean>(true);
+  const [error, setError] = useState<string | null>(null);
+
+  const fetchData = async () => {
+    try {
+      const response = await axios.get("/contract-list");
+
+      console.log("데이터 확인", response);
+
+      const fetchedData =
+        response.data?.result.map((item: any) => ({
+          계약일: item.contract_date,
+          잔금일: item.balance_date,
+          만기일: item.end_date,
+          계약서유형: item.contract_type,
+          거래유형: item.transaction_type,
+          소재지: item.juso,
+          매매보증금: item.deposit,
+          매도임대인: item.seller,
+          매수입차인: item.buyer,
+          공동중개업소: item.partner_realtor,
+          계약서번호: item.contract_num,
+          계약관리: null,
+        })) ?? [];
+      setData(fetchedData);
+      setLoading(false);
+    } catch (err: any) {
+      setError("데이터를 가져오는 데 실패했습니다.");
+      console.error("Error fetching data:", err.message || err);
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    fetchData();
+  }, []);
   const columns: TableColumn<Data>[] = React.useMemo(
     () => [
       {
@@ -70,23 +86,77 @@ const SearchResults: React.FC = () => {
             <input type="checkbox" {...getToggleAllRowsSelectedProps()} />
           </div>
         ),
-        Cell: ({ row }: CellProps<Data>) => (
+        Cell: (cellProps: CellProps<Data>) => (
           <div>
-            <input type="checkbox" {...row.getToggleRowSelectedProps()} />
+            <input
+              type="checkbox"
+              {...cellProps.row.getToggleRowSelectedProps()}
+            />
           </div>
         ),
       },
-      { Header: "계약일", accessor: "계약일", id: "contract_date" },
-      { Header: "잔금일", accessor: "잔금일", id: "balance_date" },
-      { Header: "만기일", accessor: "만기일", id: "expiry_date" },
-      { Header: "계약서 유형", accessor: "계약서유형", id: "contract_type" },
-      { Header: "거래 유형", accessor: "거래유형", id: "transaction_type" },
-      { Header: "소재지", accessor: "소재지", id: "location" },
-      { Header: "매매(보증)금", accessor: "매매보증금", id: "sale_deposit" },
+      {
+        Header: "계약일",
+        accessor: (row) => formatDate(row.계약일),
+        id: "contract_date",
+      },
+      {
+        Header: "잔금일",
+        accessor: (row) => formatDate(row.잔금일),
+        id: "balance_date",
+      },
+      {
+        Header: "만기일",
+        accessor: (row) => formatDate(row.만기일),
+        id: "expiry_date",
+      },
+      {
+        Header: () => (
+          <div>
+            계약서
+            <br />
+            유형
+          </div>
+        ),
+        accessor: "계약서유형",
+        id: "contract_type",
+      },
+      {
+        Header: () => (
+          <div>
+            거래
+            <br />
+            유형
+          </div>
+        ),
+        accessor: "거래유형",
+        id: "transaction_type",
+      },
+      {
+        Header: "소재지",
+        accessor: "소재지",
+        id: "location",
+      },
+      {
+        Header: "매매(보증)금",
+        accessor: (row) => formatNumber(row.매매보증금),
+        id: "sale_deposit",
+      },
       { Header: "매도/임대인", accessor: "매도임대인", id: "seller_landlord" },
       { Header: "매수/임차인", accessor: "매수입차인", id: "buyer_tenant" },
       { Header: "공동 중개업소", accessor: "공동중개업소", id: "joint_agency" },
-      { Header: "계약 관리", accessor: "계약관리", id: "contract_management" },
+      {
+        Header: "계약 관리",
+        id: "contract_management",
+        Cell: ({}: CellProps<Data>) => (
+          <button
+            className="px-2 py-1 text-gray-500 border border-gray-300 rounded"
+            onClick={() => console.log("계약관리 버튼 클릭")}
+          >
+            상세보기
+          </button>
+        ),
+      },
       { Header: "계약서번호", accessor: "계약서번호", id: "contract_number" },
     ],
     []
@@ -112,9 +182,21 @@ const SearchResults: React.FC = () => {
     setCurrentPage(1);
   };
 
+  if (loading) {
+    return (
+      <div className="flex items-center justify-center bg-white">
+        <div className="w-10 h-10 m-10 border-4 border-gray-400 border-solid rounded-full border-t-transparent animate-spin"></div>
+      </div>
+    );
+  }
+
+  if (error) {
+    return <div>{error}</div>;
+  }
+
   return (
     <div className="w-[1142px] bg-white">
-      <div className="w-[1067px] pt-4  mx-auto">
+      <div className="w-[1067px] pt-4 mx-auto">
         <div className="flex items-center justify-between my-4">
           <div className="font-bold">
             검색결과 <span className="text-[#335995]">{data.length}</span>
@@ -184,36 +266,32 @@ const SearchResults: React.FC = () => {
               </tr>
             ))}
           </thead>
+          <tbody>
+            {rows
+              .slice((currentPage - 1) * pageSize, currentPage * pageSize)
+              .map((row) => {
+                prepareRow(row);
+                return (
+                  <tr {...row.getRowProps()}>
+                    {row.cells.map((cell) => (
+                      <td
+                        {...cell.getCellProps()}
+                        className={`text-[12px] text-center font-bold ${
+                          cell.column.id === "location"
+                            ? "break-words max-w-[200px]"
+                            : "whitespace-nowrap"
+                        }`}
+                        style={{ padding: "10px 5px" }}
+                      >
+                        {cell.render("Cell")}
+                      </td>
+                    ))}
+                  </tr>
+                );
+              })}
+          </tbody>
         </table>
-        {/* 검색결과 0 */}
-        {data.length === 0 ? (
-          <WarningIcon />
-        ) : (
-          <table {...getTableProps()} className="w-full bg-white">
-            <tbody>
-              {rows
-                .slice((currentPage - 1) * pageSize, currentPage * pageSize)
-                .map((row) => {
-                  prepareRow(row);
-                  return (
-                    <tr
-                      {...(row.getRowProps() as React.HTMLProps<HTMLTableRowElement>)}
-                    >
-                      {row.cells.map((cell) => (
-                        <td
-                          {...(cell.getCellProps() as React.HTMLProps<HTMLTableCellElement>)}
-                          className="text-[12px] text-center font-bold whitespace-nowrap"
-                          style={{ padding: "10px 5px" }}
-                        >
-                          {cell.render("Cell")}
-                        </td>
-                      ))}
-                    </tr>
-                  );
-                })}
-            </tbody>
-          </table>
-        )}
+        {data.length === 0 && <WarningIcon />}
         {data.length > 0 && (
           <div className="flex items-center justify-center p-2 mt-4 space-x-2 ">
             <button
