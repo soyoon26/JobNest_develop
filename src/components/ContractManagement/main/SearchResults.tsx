@@ -77,7 +77,6 @@ const SearchResults: React.FC = () => {
   useEffect(() => {
     fetchData();
   }, []);
-
   const columns: TableColumn<Data>[] = React.useMemo(
     () => [
       {
@@ -87,9 +86,12 @@ const SearchResults: React.FC = () => {
             <input type="checkbox" {...getToggleAllRowsSelectedProps()} />
           </div>
         ),
-        Cell: ({ row }: CellProps<Data>) => (
+        Cell: (cellProps: CellProps<Data>) => (
           <div>
-            <input type="checkbox" {...row.getToggleRowSelectedProps()} />
+            <input
+              type="checkbox"
+              {...cellProps.row.getToggleRowSelectedProps()}
+            />
           </div>
         ),
       },
@@ -146,7 +148,7 @@ const SearchResults: React.FC = () => {
       {
         Header: "계약 관리",
         id: "contract_management",
-        Cell: ({ row }: CellProps<Data>) => (
+        Cell: ({}: CellProps<Data>) => (
           <button
             className="px-2 py-1 text-gray-500 border border-gray-300 rounded"
             onClick={() => console.log("계약관리 버튼 클릭")}
