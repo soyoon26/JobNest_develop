@@ -17,6 +17,7 @@ const SearchDropDown: React.FC<DropDownProps> = ({
   const toggleDropdown = () => setIsOpen(!isOpen);
   const handleItemClick = (item: string) => {
     onSelect(item);
+    console.log(item);
     setIsOpen(false);
   };
 

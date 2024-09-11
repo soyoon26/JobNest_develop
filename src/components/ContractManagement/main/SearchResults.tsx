@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import axios from "axios";
+
 import {
   useTable,
   useRowSelect,
@@ -26,6 +26,10 @@ type Data = {
   계약서번호: string;
 };
 
+type SearchResultsProps = {
+  filteredData: Data[];
+};
+
 const formatDate = (dateString: string): string => {
   const date = new Date(dateString);
   if (isNaN(date.getTime())) return "-";
@@ -39,44 +43,16 @@ const formatNumber = (number: number | undefined): string => {
   return number.toLocaleString();
 };
 
-const SearchResults: React.FC = () => {
-  const [data, setData] = useState<Data[]>([]);
-  const [loading, setLoading] = useState<boolean>(true);
+const SearchResults: React.FC<SearchResultsProps> = ({ filteredData }) => {
+  // filteredData
+  const [data, setData] = useState<Data[]>(filteredData);
+  const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
 
-  const fetchData = async () => {
-    try {
-      const response = await axios.get("/contract-list");
-
-      console.log("데이터 확인", response);
-
-      const fetchedData =
-        response.data?.result.map((item: any) => ({
-          계약일: item.contract_date,
-          잔금일: item.balance_date,
-          만기일: item.end_date,
-          계약서유형: item.contract_type,
-          거래유형: item.transaction_type,
-          소재지: item.juso,
-          매매보증금: item.deposit,
-          매도임대인: item.seller,
-          매수입차인: item.buyer,
-          공동중개업소: item.partner_realtor,
-          계약서번호: item.contract_num,
-          계약관리: null,
-        })) ?? [];
-      setData(fetchedData);
-      setLoading(false);
-    } catch (err: any) {
-      setError("데이터를 가져오는 데 실패했습니다.");
-      console.error("Error fetching data:", err.message || err);
-      setLoading(false);
-    }
-  };
-
   useEffect(() => {
-    fetchData();
-  }, []);
+    setData(filteredData);
+  }, [filteredData]);
+
   const columns: TableColumn<Data>[] = React.useMemo(
     () => [
       {
