@@ -34,7 +34,9 @@ const BookMark = () => {
   }, []);
 
   // 데이터를 다시 객체 배열로 변환
-  const bookmarksArray = savedBookmarks ? JSON.parse(savedBookmarks) : [];
+  const tempBookmarksArray = savedBookmarks ? JSON.parse(savedBookmarks) : [];
+  // 그걸 useState 형태로 저장
+  const [bookmarksArray, setBookmarksArray] = useState(tempBookmarksArray);
 
   const [manageModal, setManageModal] = useState(false);
   // const [checked, setChecked] = useState(false);
@@ -111,6 +113,7 @@ const BookMark = () => {
           <BookMarkManageModal
             closeModal={closeModal}
             bookmarksArray={bookmarksArray}
+            setBookmarksArray={setBookmarksArray}
           ></BookMarkManageModal>
           {/* <div
             id='modal-content'

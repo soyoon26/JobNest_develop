@@ -7,14 +7,18 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { useState } from 'react';
 import BookMarkAdd from './BookMarkAdd';
 
+type Bookmark = { id: number; title: string; url: string };
+
 type TPropsManageModal = {
   closeModal: () => void;
-  bookmarksArray: [{ id: number; title: string; url: string }];
+  bookmarksArray: Bookmark[];
+  setBookmarksArray: React.Dispatch<React.SetStateAction<Bookmark[]>>;
 };
 
 const BookMarkManageModal = ({
   closeModal,
   bookmarksArray,
+  setBookmarksArray,
 }: TPropsManageModal) => {
   const [checked, setChecked] = useState(false);
   const handleCheckbox = () => {
@@ -105,6 +109,7 @@ const BookMarkManageModal = ({
       {addModal ? (
         <BookMarkAdd
           bookmarksArray={bookmarksArray}
+          setBookmarksArray={setBookmarksArray}
           closeAddModal={closeAddModal}
         />
       ) : (

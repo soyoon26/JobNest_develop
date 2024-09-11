@@ -1,5 +1,7 @@
+type Bookmark = { id: number; title: string; url: string };
+
 type TPropsList = {
-  bookmarksArray: [{ id: number; title: string; url: string }];
+  bookmarksArray: Bookmark[];
 };
 
 const BookMarkList = ({ bookmarksArray }: TPropsList) => {
