@@ -18,13 +18,33 @@ const DraftContract: React.FC<DraftContractProps> = ({ onCancel }) => {
     "다세대",
     "아파트분양권",
     "주상복합분양권",
+    "오피스텔분양권",
+    "조합원입주권",
+    "단독주택",
+    "다가구주택",
+    "다중주택",
+    "원룸",
+    "상가주택",
+    "상가건물",
+    "건물",
+    "공장",
+    "창고",
+    "부동산",
+    "토지",
+    "표준임대차계약서",
+    "주택표준임대차계약서",
+    "상가건물임대차표준계약서",
+    "전대차(주택)",
+    "전대차(상가)",
+    "상가권리금",
+    "권리양도양수",
   ];
   const transactionType = ["매매", "전세", "월세", "연세"];
   const handleDraftClick = () => {
     navigate("/contractDrafting");
   };
   return (
-    <div className="bg-white w-[584px] h-[364px] flex flex-col items-center justify-center rounded-lg">
+    <div className="bg-white w-[584px] h-[364px] flex my-16 flex-col items-center justify-center rounded-lg">
       <div className="w-[477px]">
         <span className="text-[23px] font-bold">계약서 작성</span>
         <div className="mt-4 text-[15px] font-bold">계약서 선택</div>

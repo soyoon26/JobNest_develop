@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import axios from "axios";
+
 import {
   useTable,
   useRowSelect,
@@ -26,6 +26,10 @@ type Data = {
   계약서번호: string;
 };
 
+type SearchResultsProps = {
+  filteredData: Data[];
+};
+
 const formatDate = (dateString: string): string => {
   const date = new Date(dateString);
   if (isNaN(date.getTime())) return "-";
@@ -39,44 +43,13 @@ const formatNumber = (number: number | undefined): string => {
   return number.toLocaleString();
 };
 
-const SearchResults: React.FC = () => {
-  const [data, setData] = useState<Data[]>([]);
-  const [loading, setLoading] = useState<boolean>(true);
-  const [error, setError] = useState<string | null>(null);
-
-  const fetchData = async () => {
-    try {
-      const response = await axios.get("/contract-list");
-
-      console.log("데이터 확인", response);
-
-      const fetchedData =
-        response.data?.result.map((item: any) => ({
-          계약일: item.contract_date,
-          잔금일: item.balance_date,
-          만기일: item.end_date,
-          계약서유형: item.contract_type,
-          거래유형: item.transaction_type,
-          소재지: item.juso,
-          매매보증금: item.deposit,
-          매도임대인: item.seller,
-          매수입차인: item.buyer,
-          공동중개업소: item.partner_realtor,
-          계약서번호: item.contract_num,
-          계약관리: null,
-        })) ?? [];
-      setData(fetchedData);
-      setLoading(false);
-    } catch (err: any) {
-      setError("데이터를 가져오는 데 실패했습니다.");
-      console.error("Error fetching data:", err.message || err);
-      setLoading(false);
-    }
-  };
+const SearchResults: React.FC<SearchResultsProps> = ({ filteredData }) => {
+  const [data, setData] = useState<Data[]>(filteredData);
 
   useEffect(() => {
-    fetchData();
-  }, []);
+    setData(filteredData);
+  }, [filteredData]);
+
   const columns: TableColumn<Data>[] = React.useMemo(
     () => [
       {
@@ -182,20 +155,8 @@ const SearchResults: React.FC = () => {
     setCurrentPage(1);
   };
 
-  if (loading) {
-    return (
-      <div className="flex items-center justify-center bg-white">
-        <div className="w-10 h-10 m-10 border-4 border-gray-400 border-solid rounded-full border-t-transparent animate-spin"></div>
-      </div>
-    );
-  }
-
-  if (error) {
-    return <div>{error}</div>;
-  }
-
   return (
-    <div className="w-[1142px] bg-white">
+    <div className="w-[1142px]  bg-white">
       <div className="w-[1067px] pt-4 mx-auto">
         <div className="flex items-center justify-between my-4">
           <div className="font-bold">
@@ -293,7 +254,7 @@ const SearchResults: React.FC = () => {
         </table>
         {data.length === 0 && <WarningIcon />}
         {data.length > 0 && (
-          <div className="flex items-center justify-center p-2 mt-4 space-x-2 ">
+          <div className="flex items-center justify-center p-2 pb-8 mt-4 space-x-2 ">
             <button
               onClick={handleFirstPage}
               className="w-[20px] h-[20px] border border-gray-300 text-gray-500 text-[12px] flex items-center justify-center rounded"
