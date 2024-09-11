@@ -2,6 +2,7 @@ import { useNavigate } from "react-router-dom";
 import DraftBtn from "./DraftBtn";
 import DraftDropdown from "./DraftDropDown";
 import SearchInput from "./SearchInput";
+import SearchKakaoInput from "./SearchKakaoInput";
 interface DraftContractProps {
   onCancel: () => void;
 }
@@ -60,6 +61,7 @@ const DraftContract: React.FC<DraftContractProps> = ({ onCancel }) => {
           </div>
         </div>
         <div className="text-[13px] font-bold my-4">주소 입력</div>
+        <SearchKakaoInput />
         <SearchInput />
         <div className="flex items-center justify-center gap-2 mt-7">
           <DraftBtn onClick={onCancel} />

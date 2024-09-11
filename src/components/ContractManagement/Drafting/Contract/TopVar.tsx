@@ -10,7 +10,7 @@ const TopVar: React.FC = () => {
   };
 
   return (
-    <div className="flex flex-col">
+    <div className="flex flex-col ">
       <span className="text-[23px] font-bold mb-4">✍ 계약서 작성</span>
       <div className="flex mb-4 space-x-2">
         <TopBtn
