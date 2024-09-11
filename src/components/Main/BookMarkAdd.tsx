@@ -45,7 +45,9 @@ const BookMarkAdd = ({
     setInputUrlValue(e.target.value); // input 값 업데이트
   };
 
-  // const addBookmarksArray = () => {};
+  const savedBookmarks = localStorage.getItem('Bookmark');
+  // 데이터를 다시 객체 배열로 변환
+  const tempBookmarksArray = savedBookmarks ? JSON.parse(savedBookmarks) : [];
 
   return (
     <>
@@ -84,12 +86,30 @@ const BookMarkAdd = ({
             onClick={() => {
               console.log(bookmarksArray);
               setBookmarksArray(bookmarksArray);
+              const newBookmark = {
+                id: tempBookmarksArray.length + 1,
+                title: inputTitleValue,
+                url: inputUrlValue,
+              };
+              // 기존 북마크 배열에 새 북마크를 추가
+              const newBookmarksArray = [...tempBookmarksArray, newBookmark];
+              setBookmarksArray(newBookmarksArray);
+
+              // 로컬 스토리지에 새 북마크 배열을 저장
+              localStorage.setItem(
+                'Bookmark',
+                JSON.stringify(newBookmarksArray)
+              );
+
+              closeAddModal();
             }}
           >
             저장
           </button>
         </div>
-        {/* <pre>{inputUrlValue}</pre> */}
+        {/* <pre>{JSON.stringify(inputTitleValue)}</pre>
+        <pre>{JSON.stringify(inputUrlValue)}</pre>
+        <pre>{JSON.stringify(tempBookmarksArray.length)}</pre> */}
       </div>
     </>
   );
