@@ -20,9 +20,22 @@ const BookMarkManageModal = ({
   bookmarksArray,
   setBookmarksArray,
 }: TPropsManageModal) => {
-  const [checked, setChecked] = useState(false);
-  const handleCheckbox = () => {
-    setChecked(!checked);
+  // const [checked, setChecked] = useState(true);
+  // const handleCheckbox = () => {
+  //   setChecked(!checked);
+  // };
+
+  // 각 북마크의 체크 상태를 개별적으로 관리
+  const [checkedItems, setCheckedItems] = useState<{ [key: number]: boolean }>(
+    {}
+  );
+
+  const handleCheckbox = (id: number) => {
+    // 해당 ID의 체크 상태를 반전
+    setCheckedItems((prev) => ({
+      ...prev,
+      [id]: !prev[id], // 체크 상태를 반전
+    }));
   };
 
   const [menuBar, setMenuBar] = useState(false);
@@ -58,19 +71,19 @@ const BookMarkManageModal = ({
         <div className='overflow-y-scroll h-[460px]'>
           {bookmarksArray.map((val, idx) => (
             <div className='pt-[12px] pl-[20px] relative group' key={idx}>
-              {checked ? (
+              {checkedItems[val.id] ? (
                 <FontAwesomeIcon
                   icon={faSolidSquareCheck}
                   color='#636363'
                   className='mr-[11px] text-[23px] cursor-pointer'
-                  onClick={handleCheckbox}
+                  onClick={() => handleCheckbox(val.id)}
                 />
               ) : (
                 <FontAwesomeIcon
                   icon={faRegularSquareCheck}
                   color='#636363'
                   className='mr-[11px] text-[23px] cursor-pointer'
-                  onClick={handleCheckbox}
+                  onClick={() => handleCheckbox(val.id)}
                 />
               )}
               <span className='text-[#8894A0] text-[20px] cursor-default'>
