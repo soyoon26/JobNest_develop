@@ -1,8 +1,8 @@
-type Props = {
+type TPropsList = {
   bookmarksArray: [{ id: number; title: string; url: string }];
 };
 
-const BookMarkList = ({ bookmarksArray }: Props) => {
+const BookMarkList = ({ bookmarksArray }: TPropsList) => {
   return (
     <>
       {bookmarksArray?.map((val, idx) => (
