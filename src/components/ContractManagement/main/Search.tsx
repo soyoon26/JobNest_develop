@@ -132,17 +132,10 @@ const Search: React.FC<SearchProps> = ({ onCreateDraft }) => {
     setEndDate(new Date());
     setSelectedPeriod("");
     setFilteredData(data); // 초기화 시 전체 데이터
-    setIsSearchClicked(false); // 초기화 시 검색 결과 숨기기
+    setIsSearchClicked(false);
   };
 
   const handleSearch = () => {
-    console.log("선택된 계약서 유형:", selectedContractType);
-    console.log("선택된 거래 유형:", selectedTransactionType);
-    console.log("선택된 계약 상태:", selectedContractStatus);
-    console.log("선택된 중개 유형:", selectedBrokerageType);
-    console.log("선택된 시작 날짜:", startDate);
-    console.log("선택된 종료 날짜:", endDate);
-
     const today = new Date();
 
     const startDateObj = startDate ? new Date(startDate) : null;
@@ -175,8 +168,6 @@ const Search: React.FC<SearchProps> = ({ onCreateDraft }) => {
       // 날짜
       const contractDate = new Date(item.계약일);
 
-      console.log("Contract Date:", contractDate.toDateString());
-
       const isDateInRange =
         startDateObj &&
         endDateObj &&
@@ -199,8 +190,8 @@ const Search: React.FC<SearchProps> = ({ onCreateDraft }) => {
   };
 
   return (
-    <div>
-      <div className="flex  w-[1142px] mt-[80px] justify-between">
+    <div className="mb-16">
+      <div className="flex  w-[1142px] mt-[80px]  justify-between">
         <div className="flex items-center mb-4">
           <img src={clipboard} alt="Clipboard" className="w-[23px] h-[23px]" />
           <span className="text-[23px]  font-bold">계약관리</span>

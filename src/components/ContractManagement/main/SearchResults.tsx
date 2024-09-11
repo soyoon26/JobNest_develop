@@ -44,10 +44,7 @@ const formatNumber = (number: number | undefined): string => {
 };
 
 const SearchResults: React.FC<SearchResultsProps> = ({ filteredData }) => {
-  // filteredData
   const [data, setData] = useState<Data[]>(filteredData);
-  const [loading, setLoading] = useState<boolean>(false);
-  const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
     setData(filteredData);
@@ -158,20 +155,8 @@ const SearchResults: React.FC<SearchResultsProps> = ({ filteredData }) => {
     setCurrentPage(1);
   };
 
-  if (loading) {
-    return (
-      <div className="flex items-center justify-center bg-white">
-        <div className="w-10 h-10 m-10 border-4 border-gray-400 border-solid rounded-full border-t-transparent animate-spin"></div>
-      </div>
-    );
-  }
-
-  if (error) {
-    return <div>{error}</div>;
-  }
-
   return (
-    <div className="w-[1142px] bg-white">
+    <div className="w-[1142px]  bg-white">
       <div className="w-[1067px] pt-4 mx-auto">
         <div className="flex items-center justify-between my-4">
           <div className="font-bold">
@@ -269,7 +254,7 @@ const SearchResults: React.FC<SearchResultsProps> = ({ filteredData }) => {
         </table>
         {data.length === 0 && <WarningIcon />}
         {data.length > 0 && (
-          <div className="flex items-center justify-center p-2 mt-4 space-x-2 ">
+          <div className="flex items-center justify-center p-2 pb-8 mt-4 space-x-2 ">
             <button
               onClick={handleFirstPage}
               className="w-[20px] h-[20px] border border-gray-300 text-gray-500 text-[12px] flex items-center justify-center rounded"

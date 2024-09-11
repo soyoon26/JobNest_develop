@@ -12,7 +12,7 @@ const ContractManagement = () => {
     setIsDraftVisible(false);
   };
   return (
-    <div className="bg-[#F7F8F9] flex flex-col items-center w-[1280px]">
+    <div className="bg-[#F7F8F9] flex flex-col items-center w-full">
       {isDraftVisible ? (
         <PreContractDrafting onCancel={handleCancelDraft} />
       ) : (
