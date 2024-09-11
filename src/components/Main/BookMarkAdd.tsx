@@ -81,7 +81,10 @@ const BookMarkAdd = ({
           </button>
           <button
             className='w-[58px] h-[34px] border border-[#747474] rounded-[6px] text-[14px] bg-[#747474] text-white'
-            // onClick={}
+            onClick={() => {
+              console.log(bookmarksArray);
+              setBookmarksArray(bookmarksArray);
+            }}
           >
             저장
           </button>
