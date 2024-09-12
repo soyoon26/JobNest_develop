@@ -24,10 +24,18 @@ const BookMarkManageModal = ({
 }: TPropsManageModal) => {
   const [menuBar, setMenuBar] = useState<{ [key: number]: boolean }>({});
 
-  const clickMenuBar = (id: number) => {
+  const clickMenuBar = (id: number, idx: number) => {
     setMenuBar((prev) => ({
       [id]: !prev[id],
     }));
+    const element = document.getElementById('scrollbar');
+    setTimeout(() => {
+      if (idx > 9) {
+        element?.scrollTo({
+          top: element.scrollHeight,
+        });
+      }
+    }, 10);
   };
 
   const [addModal, setAddModal] = useState(false);
@@ -55,7 +63,7 @@ const BookMarkManageModal = ({
             즐겨찾기 관리
           </span>
         </div>
-        <div className='overflow-y-scroll h-[450px]'>
+        <div id='scrollbar' className='overflow-y-scroll h-[450px]'>
           {bookmarksArray.map((val, idx) => (
             <div className='pt-[12px] pl-[20px] relative group' key={idx}>
               {val.checked ? (
@@ -90,7 +98,7 @@ const BookMarkManageModal = ({
                   className='absolute hidden cursor-pointer right-3 group-hover:inline-block'
                   color='#8894A0'
                   icon={faEllipsis}
-                  onClick={() => clickMenuBar(val.id)}
+                  onClick={() => clickMenuBar(val.id, idx)}
                 />
               </span>
               {menuBar[val.id] ? (
@@ -108,7 +116,7 @@ const BookMarkManageModal = ({
             </div>
           ))}
         </div>
-        <p className='px-[20px] py-[20px] bottom-[14px] left-[20px]'>
+        <p className='absolute bottom-[14px] left-[20px]'>
           <button
             className='border border-[#ededed] text-[#347fff] bg-[#f8f8f8] w-[289px] h-[53px] text-[18px] font-medium rounded-[10px]'
             onClick={handleAddModal}
