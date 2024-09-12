@@ -7,26 +7,25 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { useState } from 'react';
 import BookMarkAdd from './BookMarkAdd';
 
-type Bookmark = { id: number; title: string; url: string; checked: boolean };
+type TBookmark = { id: number; title: string; url: string; checked: boolean };
 
 type TPropsManageModal = {
   closeModal: () => void;
-  bookmarksArray: Bookmark[];
-  setBookmarksArray: React.Dispatch<React.SetStateAction<Bookmark[]>>;
+  bookmarksArray: TBookmark[];
+  updateBookmarksArray: (item: TBookmark[]) => void;
   toggleCheckbox: (id: number) => void;
 };
 
 const BookMarkManageModal = ({
   closeModal,
   bookmarksArray,
-  setBookmarksArray,
+  updateBookmarksArray,
   toggleCheckbox,
 }: TPropsManageModal) => {
   const [menuBar, setMenuBar] = useState<{ [key: number]: boolean }>({});
 
   const clickMenuBar = (id: number) => {
     setMenuBar((prev) => ({
-      ...prev,
       [id]: !prev[id],
     }));
   };
@@ -56,7 +55,7 @@ const BookMarkManageModal = ({
             즐겨찾기 관리
           </span>
         </div>
-        <div className='overflow-y-scroll h-[460px]'>
+        <div className='overflow-y-scroll h-[450px]'>
           {bookmarksArray.map((val, idx) => (
             <div className='pt-[12px] pl-[20px] relative group' key={idx}>
               {val.checked ? (
@@ -83,6 +82,7 @@ const BookMarkManageModal = ({
                   onClick={() => {
                     toggleCheckbox(val.id);
                   }}
+                  className='cursor-pointer'
                 >
                   {val.title}
                 </span>
@@ -94,7 +94,7 @@ const BookMarkManageModal = ({
                 />
               </span>
               {menuBar[val.id] ? (
-                <span className='absolute flex flex-col right-10 top-3 z-60'>
+                <span className='flex flex-col right-10 top-3 absolute z-60'>
                   <button className='text-[14px] border border-black px-[18px] py-[6px] z-50 bg-white'>
                     수정
                   </button>
@@ -107,20 +107,20 @@ const BookMarkManageModal = ({
               )}
             </div>
           ))}
-          <p className='absolute bottom-[14px] left-[20px]'>
-            <button
-              className='border border-[#ededed] text-[#347fff] bg-[#f8f8f8] w-[289px] h-[53px] text-[18px] font-medium'
-              onClick={handleAddModal}
-            >
-              페이지 추가
-            </button>
-          </p>
         </div>
+        <p className='px-[20px] py-[20px] bottom-[14px] left-[20px]'>
+          <button
+            className='border border-[#ededed] text-[#347fff] bg-[#f8f8f8] w-[289px] h-[53px] text-[18px] font-medium rounded-[10px]'
+            onClick={handleAddModal}
+          >
+            페이지 추가
+          </button>
+        </p>
       </div>
       {addModal ? (
         <BookMarkAdd
           bookmarksArray={bookmarksArray}
-          setBookmarksArray={setBookmarksArray}
+          updateBookmarksArray={updateBookmarksArray}
           closeAddModal={closeAddModal}
         />
       ) : (

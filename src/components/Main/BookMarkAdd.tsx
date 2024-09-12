@@ -1,17 +1,17 @@
 import { useState } from 'react';
 
-type Bookmark = { id: number; title: string; url: string; checked: boolean };
+type TBookmark = { id: number; title: string; url: string; checked: boolean };
 
 type TPropsAddModal = {
   closeAddModal: () => void;
-  bookmarksArray: Bookmark[];
-  setBookmarksArray: React.Dispatch<React.SetStateAction<Bookmark[]>>;
+  bookmarksArray: TBookmark[];
+  updateBookmarksArray: (item: TBookmark[]) => void;
 };
 
 const BookMarkAdd = ({
   closeAddModal,
   bookmarksArray,
-  setBookmarksArray,
+  updateBookmarksArray,
 }: TPropsAddModal) => {
   const [inputTitleValue, setInputTitleValue] = useState('제목을 입력하세요');
   const [inputUrlValue, setInputUrlValue] = useState('url을 입력하세요');
@@ -85,16 +85,15 @@ const BookMarkAdd = ({
             className='w-[58px] h-[34px] border border-[#747474] rounded-[6px] text-[14px] bg-[#747474] text-white'
             onClick={() => {
               console.log(bookmarksArray);
-              setBookmarksArray(bookmarksArray);
               const newBookmark = {
-                id: tempBookmarksArray.length + 1,
+                id: tempBookmarksArray[tempBookmarksArray.length - 1].id + 1,
                 title: inputTitleValue,
                 url: inputUrlValue,
                 checked: true,
               };
               // 기존 북마크 배열에 새 북마크를 추가
               const newBookmarksArray = [...tempBookmarksArray, newBookmark];
-              setBookmarksArray(newBookmarksArray);
+              updateBookmarksArray(newBookmarksArray);
 
               // 로컬 스토리지에 새 북마크 배열을 저장
               localStorage.setItem(

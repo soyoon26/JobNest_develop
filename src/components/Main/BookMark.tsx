@@ -39,7 +39,7 @@ const BookMark = () => {
       id: 5,
       title: '정부24',
       url: 'https://www.gov.kr/portal/',
-      checked: false,
+      checked: true,
     },
     {
       id: 6,
@@ -91,6 +91,10 @@ const BookMark = () => {
           : bookmarksArray
       )
     );
+  };
+
+  const updateBookmarksArray = (item: TBookmark[]) => {
+    setBookmarksArray(item);
   };
 
   const [manageModal, setManageModal] = useState(false);
@@ -147,7 +151,7 @@ const BookMark = () => {
           <BookMarkManageModal
             closeModal={closeModal}
             bookmarksArray={bookmarksArray}
-            setBookmarksArray={setBookmarksArray}
+            updateBookmarksArray={updateBookmarksArray}
             toggleCheckbox={toggleCheckbox}
           ></BookMarkManageModal>
         </div>
