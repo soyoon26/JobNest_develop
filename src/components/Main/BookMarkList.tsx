@@ -7,7 +7,7 @@ type TPropsList = {
 const BookMarkList = ({ bookmarksArray }: TPropsList) => {
   return (
     <>
-      {bookmarksArray?.map((val, idx) =>
+      {bookmarksArray.map((val, idx) =>
         //bookmarksArray의 checked가 true인 것만 나열
         val.checked ? (
           <div className='mb-[43px]' key={idx}>
