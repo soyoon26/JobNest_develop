@@ -2,6 +2,13 @@ import { useEffect, useState } from 'react';
 import BookMarkList from './BookMarkList';
 import BookMarkManageModal from './BookMarkManageModal';
 
+type TBookmark = {
+  id: number;
+  title: string;
+  url: string;
+  checked: boolean;
+};
+
 const BookMark = () => {
   const initialBookmarks = [
     {
@@ -77,8 +84,8 @@ const BookMark = () => {
 
   // 체크박스 상태를 변경하는 함수
   const toggleCheckbox = (id: number) => {
-    setBookmarksArray((prevBookmarksArray) =>
-      prevBookmarksArray.map((bookmarksArray) =>
+    setBookmarksArray((prevBookmarksArray: TBookmark[]) =>
+      prevBookmarksArray.map((bookmarksArray: TBookmark) =>
         bookmarksArray.id === id
           ? { ...bookmarksArray, checked: !bookmarksArray.checked } // 체크 상태를 반전시킴
           : bookmarksArray
