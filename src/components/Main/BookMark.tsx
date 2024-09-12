@@ -68,19 +68,33 @@ const BookMark = () => {
     },
   ];
 
-  // localStorage에서 데이터를 가져옴
-  const savedBookmarks = localStorage.getItem('Bookmark');
+  // // localStorage에서 데이터를 가져옴
+  // const savedBookmarks = localStorage.getItem('Bookmark');
 
+  // useEffect(() => {
+  //   if (!savedBookmarks) {
+  //     localStorage.setItem('Bookmark', JSON.stringify(initialBookmarks));
+  //   }
+  // }, []);
+
+  // // 데이터를 다시 객체 배열로 변환
+  // const tempBookmarksArray = savedBookmarks ? JSON.parse(savedBookmarks) : [];
+  // // 그걸 useState 형태로 저장
+  // const [bookmarksArray, setBookmarksArray] = useState(tempBookmarksArray);
+
+  // 초기값을 빈 배열로 설정
+  const [bookmarksArray, setBookmarksArray] = useState<TBookmark[]>([]);
   useEffect(() => {
-    if (!savedBookmarks) {
+    // 로컬 스토리지에서 북마크 데이터를 가져옴
+    const savedBookmarks = localStorage.getItem('Bookmark');
+    if (savedBookmarks) {
+      setBookmarksArray(JSON.parse(savedBookmarks)); // 로컬 스토리지의 데이터를 상태로 설정
+    } else {
+      // 로컬 스토리지에 데이터가 없으면 초기 북마크를 저장
       localStorage.setItem('Bookmark', JSON.stringify(initialBookmarks));
+      setBookmarksArray(initialBookmarks); // 상태를 초기 북마크로 설정
     }
-  }, []);
-
-  // 데이터를 다시 객체 배열로 변환
-  const tempBookmarksArray = savedBookmarks ? JSON.parse(savedBookmarks) : [];
-  // 그걸 useState 형태로 저장
-  const [bookmarksArray, setBookmarksArray] = useState(tempBookmarksArray);
+  }, []); // 컴포넌트가 마운트될 때만 실행
 
   // 체크박스 상태를 변경하는 함수
   const toggleCheckbox = (id: number) => {
@@ -92,6 +106,11 @@ const BookMark = () => {
       )
     );
   };
+
+  //즐겨찾기 목록 체크 여부 저장
+  useEffect(() => {
+    localStorage.setItem('Bookmark', JSON.stringify(bookmarksArray));
+  }, [bookmarksArray]);
 
   const updateBookmarksArray = (item: TBookmark[]) => {
     setBookmarksArray(item);
