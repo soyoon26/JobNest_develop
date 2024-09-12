@@ -1,7 +1,7 @@
 const ContractBtn = () => {
   return (
     <>
-      <h1>ContractBtn Component</h1>
+      <button></button>
     </>
   );
 };
