@@ -88,7 +88,7 @@ const Search: React.FC<SearchProps> = ({ onCreateDraft }) => {
   const [selectedPeriod, setSelectedPeriod] = useState<string>("");
   const [data, setData] = useState<Data[]>([]);
   const [filteredData, setFilteredData] = useState<Data[]>([]);
-  const [isSearchClicked, setIsSearchClicked] = useState<boolean>(false); // 검색 버튼 클릭 상태
+  const [isSearchClicked, setIsSearchClicked] = useState<boolean>(false);
 
   // 데이터
   const fetchData = async () => {
@@ -138,8 +138,8 @@ const Search: React.FC<SearchProps> = ({ onCreateDraft }) => {
   const handleSearch = () => {
     const today = new Date();
 
-    const startDateObj = startDate ? new Date(startDate) : null;
-    const endDateObj = endDate ? new Date(endDate) : null;
+    const startDateObj = startDate ? new Date(startDate) : today;
+    const endDateObj = endDate ? new Date(endDate) : today;
 
     console.log("Start Date Object:", startDateObj?.toDateString());
     console.log("End Date Object:", endDateObj?.toDateString());

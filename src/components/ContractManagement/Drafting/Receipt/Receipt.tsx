@@ -1,10 +1,15 @@
+import ContractBtn from "../Common/ContractBtn";
 import ReceiptDate from "./ReceiptDate";
 import ReceiptDropDown from "./ReceiptDropDown";
 
 const Receipt = () => {
   const type = ["계약금"];
   return (
-    <div className="px-10 mb-10 font-bold bg-white">
+    <div className="px-10 mb-10 font-bold bg-white border border-gray-300 ">
+      <div className="flex justify-end w-full gap-2 mt-10">
+        <ContractBtn />
+        <ContractBtn text="저장" color="#335995" textColor="white" />
+      </div>
       <div className="w-[1223px] mt-4 h-[1px] bg-gray-300 mb-10"></div>
       <div className="w-[1223px] text-center h-[66px] mb-5 rounded border border-[#CCCCCC] text-[45px] font-bold">
         영수증
