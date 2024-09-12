@@ -7,40 +7,28 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { useState } from 'react';
 import BookMarkAdd from './BookMarkAdd';
 
-type Bookmark = { id: number; title: string; url: string };
+type Bookmark = { id: number; title: string; url: string; checked: boolean };
 
 type TPropsManageModal = {
   closeModal: () => void;
   bookmarksArray: Bookmark[];
   setBookmarksArray: React.Dispatch<React.SetStateAction<Bookmark[]>>;
+  toggleCheckbox: (id: number) => void;
 };
 
 const BookMarkManageModal = ({
   closeModal,
   bookmarksArray,
   setBookmarksArray,
+  toggleCheckbox,
 }: TPropsManageModal) => {
-  // const [checked, setChecked] = useState(true);
-  // const handleCheckbox = () => {
-  //   setChecked(!checked);
-  // };
+  const [menuBar, setMenuBar] = useState<{ [key: number]: boolean }>({});
 
-  // 각 북마크의 체크 상태를 개별적으로 관리
-  const [checkedItems, setCheckedItems] = useState<{ [key: number]: boolean }>(
-    {}
-  );
-
-  const handleCheckbox = (id: number) => {
-    // 해당 ID의 체크 상태를 반전
-    setCheckedItems((prev) => ({
+  const clickMenuBar = (id: number) => {
+    setMenuBar((prev) => ({
       ...prev,
-      [id]: !prev[id], // 체크 상태를 반전
+      [id]: !prev[id],
     }));
-  };
-
-  const [menuBar, setMenuBar] = useState(false);
-  const clickMenuBar = () => {
-    setMenuBar(!menuBar);
   };
 
   const [addModal, setAddModal] = useState(false);
@@ -71,42 +59,52 @@ const BookMarkManageModal = ({
         <div className='overflow-y-scroll h-[460px]'>
           {bookmarksArray.map((val, idx) => (
             <div className='pt-[12px] pl-[20px] relative group' key={idx}>
-              {checkedItems[val.id] ? (
+              {val.checked ? (
                 <FontAwesomeIcon
                   icon={faSolidSquareCheck}
                   color='#636363'
                   className='mr-[11px] text-[23px] cursor-pointer'
-                  onClick={() => handleCheckbox(val.id)}
+                  onClick={() => {
+                    toggleCheckbox(val.id);
+                  }}
                 />
               ) : (
                 <FontAwesomeIcon
                   icon={faRegularSquareCheck}
                   color='#636363'
                   className='mr-[11px] text-[23px] cursor-pointer'
-                  onClick={() => handleCheckbox(val.id)}
+                  onClick={() => {
+                    toggleCheckbox(val.id);
+                  }}
                 />
               )}
               <span className='text-[#8894A0] text-[20px] cursor-default'>
-                {val.title}
+                <span
+                  onClick={() => {
+                    toggleCheckbox(val.id);
+                  }}
+                >
+                  {val.title}
+                </span>
                 <FontAwesomeIcon
                   className='absolute hidden cursor-pointer right-3 group-hover:inline-block'
                   color='#8894A0'
                   icon={faEllipsis}
-                  onClick={clickMenuBar}
+                  onClick={() => clickMenuBar(val.id)}
                 />
-                {menuBar ? (
-                  <span className='absolute flex flex-col right-10 top-3'>
-                    <button className='text-[14px] border border-black px-[18px] py-[6px] z-50 bg-white'>
-                      수정
-                    </button>
-                    <button className='text-[14px] border border-black px-[18px] py-[6px] z-50 bg-white'>
-                      삭제
-                    </button>
-                  </span>
-                ) : (
-                  <div></div>
-                )}
               </span>
+              {menuBar[val.id] ? (
+                <span className='absolute flex flex-col right-10 top-3 z-60'>
+                  <button className='text-[14px] border border-black px-[18px] py-[6px] z-50 bg-white'>
+                    수정
+                  </button>
+                  <button className='text-[14px] border border-black px-[18px] py-[6px] z-50 bg-white'>
+                    삭제
+                  </button>
+                </span>
+              ) : (
+                <div></div>
+              )}
             </div>
           ))}
           <p className='absolute bottom-[14px] left-[20px]'>
