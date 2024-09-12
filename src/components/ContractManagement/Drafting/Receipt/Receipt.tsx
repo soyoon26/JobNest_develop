@@ -1,4 +1,3 @@
-import React from "react";
 import ReceiptDate from "./ReceiptDate";
 import ReceiptDropDown from "./ReceiptDropDown";
 
