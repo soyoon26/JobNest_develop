@@ -1,12 +1,15 @@
 import { useEffect, useState } from 'react';
+import { useCallback } from 'react';
 import BookMarkList from './BookMarkList';
 import BookMarkManageModal from './BookMarkManageModal';
+import axios from 'axios';
 
 type TBookmark = {
   id: number;
   title: string;
   url: string;
   checked: boolean;
+  ogImage: string;
 };
 
 const BookMark = () => {
@@ -16,55 +19,70 @@ const BookMark = () => {
       title: '씨리얼',
       url: 'https://seereal.lh.or.kr/main.do',
       checked: true,
+      ogImage: '',
     },
     {
       id: 2,
       title: '부동산거래관리시스템',
       url: 'https://rtms.molit.go.kr/',
       checked: true,
+      ogImage: '',
     },
     {
       id: 3,
       title: '건축행정시스템(세움터)',
       url: 'https://www.eais.go.kr/',
       checked: true,
+      ogImage: '',
     },
     {
       id: 4,
       title: '토지이용계획열람',
       url: 'https://www.eum.go.kr/',
       checked: true,
+      ogImage: '',
     },
     {
       id: 5,
       title: '정부24',
       url: 'https://www.gov.kr/portal/',
       checked: true,
+      ogImage: '',
     },
     {
       id: 6,
       title: '인터넷등기소',
       url: 'http://www.iros.go.kr/',
       checked: true,
+      ogImage: '',
     },
     {
       id: 7,
       title: '부동산 공시가격 알리미',
       url: 'https://www.realtyprice.kr/',
       checked: true,
+      ogImage: '',
     },
     {
       id: 8,
       title: '통계지리정보 서비스',
       url: 'https://sgis.kostat.go.kr/',
       checked: true,
+      ogImage: '',
     },
-    { id: 9, title: '일사편리', url: 'https://www.kras.go.kr/', checked: true },
+    {
+      id: 9,
+      title: '일사편리',
+      url: 'https://www.kras.go.kr/',
+      checked: true,
+      ogImage: '',
+    },
     {
       id: 10,
       title: '부동산 계산기',
       url: 'https://www.eais.go.kr/',
       checked: true,
+      ogImage: '',
     },
   ];
 
@@ -134,6 +152,57 @@ const BookMark = () => {
       document.body.style.overflow = 'auto'; // 컴포넌트가 unmount될 때 cleanup
     };
   }, [manageModal]);
+
+  //ogImage 크롤링 flow
+  // 각 URL에 대해 og:image를 추출하는 함수
+  const fetchMetaData = async (bookmark: TBookmark) => {
+    const base_url = 'http://35.193.35.53'; // 대체할 base_url
+    const endpoint = '/crolls';
+    const full_url = `${base_url}${endpoint}`;
+
+    try {
+      const response = await axios.post(full_url, {
+        url: bookmark.url,
+      });
+
+      const htmlData = response.data.html;
+
+      // HTML에서 메타 데이터를 추출
+      const parser = new DOMParser();
+      const doc = parser.parseFromString(htmlData, 'text/html');
+
+      // og:image 추출
+      const ogImageTag = doc.querySelector('meta[property="og:image"]');
+      const ogImageUrl = ogImageTag ? ogImageTag.getAttribute('content') : null;
+
+      // 상태 업데이트
+      setBookmarksArray((prevBookmarks) =>
+        prevBookmarks.map((b) =>
+          b.id === bookmark.id
+            ? {
+                ...b, // 기존 필드 펼치기 (여기에도 ogImage가 포함됨)
+                ...(ogImageUrl && { ogImage: ogImageUrl }), // ogImageUrl이 존재할 때만 덮어쓰기
+              }
+            : b
+        )
+      );
+    } catch (err) {
+      console.error('메타 데이터를 가져오는 중 오류 발생:', err);
+    }
+  };
+
+  // 모든 북마크에 대해 메타 데이터를 가져오는 함수
+  const fetchAllMetaData = useCallback(async () => {
+    for (const bookmark of bookmarksArray) {
+      await fetchMetaData(bookmark);
+    }
+  }, [bookmarksArray]); // bookmarks가 변경될 때만 함수가 재정의
+
+  useEffect(() => {
+    if (bookmarksArray.length > 0) {
+      fetchAllMetaData(); // 모든 북마크에 대해 메타 데이터 가져오기
+    }
+  }, [bookmarksArray, fetchAllMetaData]);
 
   return (
     <div className='ml-[65px] mt-[50px] mr-[65px] max-w-[1440px]'>

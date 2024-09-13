@@ -1,6 +1,12 @@
 import { useState } from 'react';
 
-type TBookmark = { id: number; title: string; url: string; checked: boolean };
+type TBookmark = {
+  id: number;
+  title: string;
+  url: string;
+  checked: boolean;
+  ogImage: string;
+};
 
 type TPropsAddModal = {
   closeAddModal: () => void;
@@ -90,6 +96,7 @@ const BookMarkAdd = ({
                 title: inputTitleValue,
                 url: inputUrlValue,
                 checked: true,
+                ogImage: '',
               };
               // 기존 북마크 배열에 새 북마크를 추가
               const newBookmarksArray = [...tempBookmarksArray, newBookmark];

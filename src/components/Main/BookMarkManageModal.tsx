@@ -8,7 +8,13 @@ import { useState } from 'react';
 import BookMarkAdd from './BookMarkAdd';
 import BookMarkEdit from './BookMarkEdit';
 
-type TBookmark = { id: number; title: string; url: string; checked: boolean };
+type TBookmark = {
+  id: number;
+  title: string;
+  url: string;
+  checked: boolean;
+  ogImage: string;
+};
 
 type TPropsManageModal = {
   closeModal: () => void;

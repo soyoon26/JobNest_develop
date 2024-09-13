@@ -1,6 +1,12 @@
 import { useState } from 'react';
 
-type TBookmark = { id: number; title: string; url: string; checked: boolean };
+type TBookmark = {
+  id: number;
+  title: string;
+  url: string;
+  checked: boolean;
+  ogImage: string;
+};
 
 type TPropsAddModal = {
   nowBookmarkId: number;
