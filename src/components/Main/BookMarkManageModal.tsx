@@ -6,6 +6,7 @@ import { faSquareCheck as faRegularSquareCheck } from '@fortawesome/free-regular
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { useState } from 'react';
 import BookMarkAdd from './BookMarkAdd';
+import BookMarkEdit from './BookMarkEdit';
 
 type TBookmark = { id: number; title: string; url: string; checked: boolean };
 
@@ -30,7 +31,7 @@ const BookMarkManageModal = ({
     }));
     const element = document.getElementById('scrollbar');
     setTimeout(() => {
-      if (idx > 9) {
+      if (idx > 8) {
         element?.scrollTo({
           top: element.scrollHeight,
         });
@@ -45,6 +46,16 @@ const BookMarkManageModal = ({
   const closeAddModal = () => {
     setAddModal(false);
   };
+
+  const [editModal, setEditModal] = useState(false);
+  const handleEditModal = () => {
+    setEditModal(true);
+  };
+  const closeEditModal = () => {
+    setEditModal(false);
+  };
+
+  const [nowBookmarkId, setNowBookmarkId] = useState(0);
 
   return (
     <>
@@ -65,6 +76,7 @@ const BookMarkManageModal = ({
         </div>
         <div id='scrollbar' className='overflow-y-scroll h-[450px]'>
           {bookmarksArray.map((val, idx) => (
+            // 체크박스
             <div className='pt-[12px] pl-[20px] relative group' key={idx}>
               {val.checked ? (
                 <FontAwesomeIcon
@@ -85,6 +97,7 @@ const BookMarkManageModal = ({
                   }}
                 />
               )}
+              {/* 즐겨찾기 타이틀 */}
               <span className='text-[#8894A0] text-[20px] cursor-default'>
                 <span
                   onClick={() => {
@@ -94,6 +107,7 @@ const BookMarkManageModal = ({
                 >
                   {val.title}
                 </span>
+                {/* ...버튼 */}
                 <FontAwesomeIcon
                   className='absolute hidden cursor-pointer right-3 group-hover:inline-block'
                   color='#8894A0'
@@ -103,7 +117,14 @@ const BookMarkManageModal = ({
               </span>
               {menuBar[val.id] ? (
                 <span className='flex flex-col right-10 top-3 absolute z-60'>
-                  <button className='text-[14px] border border-black px-[18px] py-[6px] z-50 bg-white'>
+                  <button
+                    className='text-[14px] border border-black px-[18px] py-[6px] z-50 bg-white'
+                    onClick={() => {
+                      clickMenuBar(val.id, idx);
+                      handleEditModal();
+                      setNowBookmarkId(val.id);
+                    }}
+                  >
                     수정
                   </button>
                   <button className='text-[14px] border border-black px-[18px] py-[6px] z-50 bg-white'>
@@ -112,6 +133,16 @@ const BookMarkManageModal = ({
                 </span>
               ) : (
                 <div></div>
+              )}
+              {editModal ? (
+                <BookMarkEdit
+                  nowBookmarkId={nowBookmarkId}
+                  bookmarksArray={bookmarksArray}
+                  updateBookmarksArray={updateBookmarksArray}
+                  closeEditModal={closeEditModal}
+                />
+              ) : (
+                <></>
               )}
             </div>
           ))}

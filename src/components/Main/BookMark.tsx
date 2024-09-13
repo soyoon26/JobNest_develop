@@ -68,20 +68,6 @@ const BookMark = () => {
     },
   ];
 
-  // // localStorage에서 데이터를 가져옴
-  // const savedBookmarks = localStorage.getItem('Bookmark');
-
-  // useEffect(() => {
-  //   if (!savedBookmarks) {
-  //     localStorage.setItem('Bookmark', JSON.stringify(initialBookmarks));
-  //   }
-  // }, []);
-
-  // // 데이터를 다시 객체 배열로 변환
-  // const tempBookmarksArray = savedBookmarks ? JSON.parse(savedBookmarks) : [];
-  // // 그걸 useState 형태로 저장
-  // const [bookmarksArray, setBookmarksArray] = useState(tempBookmarksArray);
-
   // 초기값을 빈 배열로 설정
   const [bookmarksArray, setBookmarksArray] = useState<TBookmark[]>([]);
   useEffect(() => {
