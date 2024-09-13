@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import TopBtn from "./TopBtn";
 import Contract from "./Contract";
 import Receipt from "../Receipt/Receipt";
+import ConfirmationDocument from "../ConfirmationDocument";
 
 const TopVar: React.FC = () => {
   const [selectedButton, setSelectedButton] = useState<string>("계약서");
@@ -16,7 +17,7 @@ const TopVar: React.FC = () => {
       case "영수증":
         return <Receipt />;
       case "중개대상물 확인서":
-      // return <Empty />;
+        return <ConfirmationDocument />;
       default:
         return null;
     }
