@@ -57,6 +57,17 @@ const BookMarkManageModal = ({
 
   const [nowBookmarkId, setNowBookmarkId] = useState(0);
 
+  const deletBookmarksArray = (idx: number) => {
+    const tempBookmarksArray = bookmarksArray;
+    const newBookmarksArray = tempBookmarksArray.filter(
+      (bookmarksArray) => bookmarksArray.id !== idx
+    );
+    updateBookmarksArray(newBookmarksArray);
+
+    // 로컬 스토리지에 새 북마크 배열을 저장
+    localStorage.setItem('Bookmark', JSON.stringify(newBookmarksArray));
+  };
+
   return (
     <>
       <div
@@ -112,7 +123,10 @@ const BookMarkManageModal = ({
                   className='absolute hidden cursor-pointer right-3 group-hover:inline-block'
                   color='#8894A0'
                   icon={faEllipsis}
-                  onClick={() => clickMenuBar(val.id, idx)}
+                  onClick={() => {
+                    clickMenuBar(val.id, idx);
+                    setNowBookmarkId(val.id);
+                  }}
                 />
               </span>
               {menuBar[val.id] ? (
@@ -122,12 +136,17 @@ const BookMarkManageModal = ({
                     onClick={() => {
                       clickMenuBar(val.id, idx);
                       handleEditModal();
-                      setNowBookmarkId(val.id);
                     }}
                   >
                     수정
                   </button>
-                  <button className='text-[14px] border border-black px-[18px] py-[6px] z-50 bg-white'>
+                  <button
+                    className='text-[14px] border border-black px-[18px] py-[6px] z-50 bg-white'
+                    onClick={() => {
+                      clickMenuBar(val.id, idx);
+                      deletBookmarksArray(nowBookmarkId);
+                    }}
+                  >
                     삭제
                   </button>
                 </span>
