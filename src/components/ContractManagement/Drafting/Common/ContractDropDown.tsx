@@ -23,7 +23,7 @@ const ContractDropDown: React.FC<DropdownProps> = ({
   };
 
   return (
-    <div className={`relative mx-4 h-[30px]`} style={{ width }}>
+    <div className={`relative h-[30px]`} style={{ width }}>
       <button
         onClick={toggleDropdown}
         className="w-full h-full rounded border border-[#CCCCCC] bg-white text-[14px] flex items-center justify-between px-2"

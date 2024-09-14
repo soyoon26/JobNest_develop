@@ -16,11 +16,12 @@ const Contract = () => {
   );
   return (
     <div className="bg-white">
-      <div>
+      <div className="text-[15px] my-4 font-bold">
         {address && detailAddress ? `${address} / ${detailAddress}` : ""}
         {contractType && ` | 계약서 종류: ${contractType}`}
         {transactionType && ` | 거래유형: ${transactionType}`}
       </div>
+      <div className="w-[1223px] mt-4 h-[1px] bg-gray-300 mb-10"></div>
       <div className="w-[1223px] text-center h-[66px] rounded border border-gray text-[45px] font-bold">
         부동산(아파트) 매매 계약서
       </div>
