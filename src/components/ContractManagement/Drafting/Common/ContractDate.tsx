@@ -1,16 +1,15 @@
-import { useState } from "react";
+import { useState, useRef } from "react";
 import DatePicker from "react-datepicker";
 import { AiOutlineCalendar } from "react-icons/ai";
 import "react-datepicker/dist/react-datepicker.css";
 
 const ContractDate = () => {
-  const [date, setDate] = useState(new Date());
+  const [date, setDate] = useState<Date | null>(null);
+  const datePickerRef = useRef<DatePicker | null>(null);
+
   const handleIconClick = () => {
-    const inputElement = document.querySelector<HTMLInputElement>(
-      ".react-datepicker-wrapper input"
-    );
-    if (inputElement) {
-      inputElement.focus();
+    if (datePickerRef.current) {
+      datePickerRef.current.setOpen(true);
     }
   };
 
@@ -18,19 +17,16 @@ const ContractDate = () => {
     <div className="w-[182px] mx-2 relative">
       <div className="relative">
         <DatePicker
+          ref={datePickerRef}
           selected={date}
-          onChange={(selectedDate) => {
-            if (selectedDate) {
-              setDate(selectedDate);
-            }
-          }}
+          onChange={(selectedDate) => setDate(selectedDate)}
           dateFormat="yyyy.MM.dd"
-          className="w-full h-[32px] border focus:ring-0 text-[12px] pl-3 pr-10"
+          placeholderText="YYYY.MM.DD"
+          className="w-full h-[32px] border border-gray-300 rounded focus:ring-0 text-[12px] pl-3 pr-10"
           popperPlacement="bottom-start"
-          onFocus={(e) => e.target.blur()}
         />
         <AiOutlineCalendar
-          className="absolute text-gray-500 transform -translate-y-1/2 cursor-pointer right-2 top-1/2"
+          className="absolute transform -translate-y-1/2 cursor-pointer right-2 top-1/2"
           onClick={handleIconClick}
         />
       </div>
