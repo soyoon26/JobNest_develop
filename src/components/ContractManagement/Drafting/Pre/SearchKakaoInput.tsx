@@ -1,7 +1,11 @@
 import React, { useState } from "react";
 import { FaSearch } from "react-icons/fa";
 
-const SearchKakaoInput: React.FC = () => {
+interface SearchKakaoInputProps {
+  onChange: (value: string) => void;
+}
+
+const SearchKakaoInput: React.FC<SearchKakaoInputProps> = ({ onChange }) => {
   const [address, setAddress] = useState<string>("");
 
   const openAddressSearch = () => {
@@ -13,8 +17,15 @@ const SearchKakaoInput: React.FC = () => {
         }
 
         setAddress(fullAddress);
+        onChange(fullAddress);
       },
     }).open();
+  };
+
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const newAddress = e.target.value;
+    setAddress(newAddress);
+    onChange(newAddress);
   };
 
   return (
@@ -22,7 +33,7 @@ const SearchKakaoInput: React.FC = () => {
       <input
         type="text"
         value={address}
-        onChange={(e) => setAddress(e.target.value)}
+        onChange={handleInputChange}
         placeholder="주소를 입력해주세요"
         className="w-full h-full px-3 py-1.5 text-xs text-[#6F6F6F] border border-[#6F6F6F] rounded-md pr-10"
       />

@@ -1,26 +1,34 @@
 import React, { useState } from "react";
 import { FaChevronDown } from "react-icons/fa";
+
 interface DropdownProps {
   items: string[];
+  width?: string;
 }
 
-const ContractDropDown: React.FC<DropdownProps> = ({ items }) => {
+const ContractDropDown: React.FC<DropdownProps> = ({
+  items,
+  width = "1196px",
+}) => {
+  const [selectedItem, setSelectedItem] = useState<string | null>(
+    items.length > 0 ? items[0] : null
+  );
   const [isOpen, setIsOpen] = useState(false);
-  const [selectedItem, setSelectedItem] = useState<string | null>(null);
 
   const toggleDropdown = () => setIsOpen(!isOpen);
+
   const handleItemClick = (item: string) => {
     setSelectedItem(item);
     setIsOpen(false);
   };
 
   return (
-    <div className="relative w-[600px] mx-4 h-[30px]">
+    <div className={`relative h-[30px]`} style={{ width }}>
       <button
         onClick={toggleDropdown}
-        className="w-full h-full rounded border border-[#CCCCCC] bg-white  text-[14px] flex items-center justify-between px-2"
+        className="w-full h-full rounded border border-[#CCCCCC] bg-white text-[14px] flex items-center justify-between px-2"
       >
-        <span>{selectedItem || "계약금"}</span>
+        <span>{selectedItem}</span>
         <FaChevronDown className="text-[#6F6F6F] text-sm" />
       </button>
       {isOpen && (

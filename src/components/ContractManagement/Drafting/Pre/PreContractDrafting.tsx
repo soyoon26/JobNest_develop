@@ -1,13 +1,36 @@
+import { useDispatch } from "react-redux";
+import {
+  setContractType,
+  setTransactionType,
+  setAddress,
+  setDetailAddress,
+  resetContract,
+} from "../../../../redux/contractSlice";
 import { useNavigate } from "react-router-dom";
 import DraftBtn from "./DraftBtn";
 import DraftDropdown from "./DraftDropDown";
 import SearchInput from "./SearchInput";
 import SearchKakaoInput from "./SearchKakaoInput";
+import { useState } from "react";
+
 interface DraftContractProps {
   onCancel: () => void;
 }
+
 const DraftContract: React.FC<DraftContractProps> = ({ onCancel }) => {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
+
+  const [selectedContractType, setSelectedContractType] = useState<
+    string | null
+  >(null);
+  const [selectedTransactionType, setSelectedTransactionType] = useState<
+    string | null
+  >(null);
+  const [selectedAddress, setSelectedAddress] = useState<string>("");
+  const [selectedDetailAddress, setSelectedDetailAddress] =
+    useState<string>("");
+
   const contractType = [
     "아파트",
     "주상복합",
@@ -40,10 +63,45 @@ const DraftContract: React.FC<DraftContractProps> = ({ onCancel }) => {
     "상가권리금",
     "권리양도양수",
   ];
+
   const transactionType = ["매매", "전세", "월세", "연세"];
+
+  const handleContractTypeChange = (type: string) => {
+    setSelectedContractType(type);
+  };
+
+  const handleTransactionTypeChange = (type: string) => {
+    setSelectedTransactionType(type);
+  };
+
+  const handleAddressChange = (address: string) => {
+    setSelectedAddress(address);
+  };
+
+  const handleDetailAddressChange = (detailAddress: string) => {
+    setSelectedDetailAddress(detailAddress);
+  };
+
   const handleDraftClick = () => {
+    if (
+      !selectedContractType ||
+      !selectedTransactionType ||
+      !selectedAddress ||
+      !selectedDetailAddress
+    ) {
+      alert("모든 필드를 입력해주세요.");
+      dispatch(resetContract());
+      return;
+    }
+
+    dispatch(setContractType(selectedContractType));
+    dispatch(setTransactionType(selectedTransactionType));
+    dispatch(setAddress(selectedAddress));
+    dispatch(setDetailAddress(selectedDetailAddress));
+
     navigate("/contractDrafting");
   };
+
   return (
     <div className="bg-white w-[584px] h-[364px] flex my-16 flex-col items-center justify-center rounded-lg">
       <div className="w-[477px]">
@@ -52,17 +110,23 @@ const DraftContract: React.FC<DraftContractProps> = ({ onCancel }) => {
 
         <div className="flex justify-between mt-4">
           <div className="flex items-center">
-            <div className=" mr-4 text-[13px] font-bold">계약서 종류</div>
-            <DraftDropdown items={contractType} />
+            <div className="mr-4 text-[13px] font-bold">계약서 종류</div>
+            <DraftDropdown
+              items={contractType}
+              onChange={handleContractTypeChange}
+            />
           </div>
           <div className="flex items-center">
-            <div className=" mr-4 text-[13px] font-bold">거래 유형</div>
-            <DraftDropdown items={transactionType} />
+            <div className="mr-4 text-[13px] font-bold">거래 유형</div>
+            <DraftDropdown
+              items={transactionType}
+              onChange={handleTransactionTypeChange}
+            />
           </div>
         </div>
         <div className="text-[13px] font-bold my-4">주소 입력</div>
-        <SearchKakaoInput />
-        <SearchInput />
+        <SearchKakaoInput onChange={handleAddressChange} />
+        <SearchInput onChange={handleDetailAddressChange} />
         <div className="flex items-center justify-center gap-2 mt-7">
           <DraftBtn onClick={onCancel} />
           <DraftBtn
@@ -77,4 +141,5 @@ const DraftContract: React.FC<DraftContractProps> = ({ onCancel }) => {
     </div>
   );
 };
+
 export default DraftContract;
