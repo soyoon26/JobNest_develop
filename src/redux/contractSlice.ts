@@ -18,10 +18,10 @@ const contractSlice = createSlice({
   name: "contract",
   initialState,
   reducers: {
-    setContractType(state, action: PayloadAction<string>) {
+    setContractType(state, action: PayloadAction<string | null>) {
       state.contractType = action.payload;
     },
-    setTransactionType(state, action: PayloadAction<string>) {
+    setTransactionType(state, action: PayloadAction<string | null>) {
       state.transactionType = action.payload;
     },
     setAddress(state, action: PayloadAction<string>) {
@@ -29,6 +29,12 @@ const contractSlice = createSlice({
     },
     setDetailAddress(state, action: PayloadAction<string>) {
       state.detailAddress = action.payload;
+    },
+    resetContract(state) {
+      state.contractType = null;
+      state.transactionType = null;
+      state.address = "";
+      state.detailAddress = "";
     },
   },
 });
@@ -38,6 +44,6 @@ export const {
   setTransactionType,
   setAddress,
   setDetailAddress,
+  resetContract,
 } = contractSlice.actions;
-
 export default contractSlice.reducer;

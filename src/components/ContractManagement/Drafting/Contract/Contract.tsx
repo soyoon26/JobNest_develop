@@ -1,11 +1,26 @@
 import ContractContent from "./ContractContent";
 import LegalProvision from "./LegalProvision";
 import RealEstate from "./RealEstate";
-
+import { RootState } from "../../../../redux/store";
+import { useSelector } from "react-redux";
 const Contract = () => {
+  const contractType = useSelector(
+    (state: RootState) => state.contract.contractType
+  );
+  const transactionType = useSelector(
+    (state: RootState) => state.contract.transactionType
+  );
+  const address = useSelector((state: RootState) => state.contract.address);
+  const detailAddress = useSelector(
+    (state: RootState) => state.contract.detailAddress
+  );
   return (
     <div className="bg-white">
-      <div></div>
+      <div>
+        {address && detailAddress ? `${address} / ${detailAddress}` : ""}
+        {contractType && ` | 계약서 종류: ${contractType}`}
+        {transactionType && ` | 거래유형: ${transactionType}`}
+      </div>
       <div className="w-[1223px] text-center h-[66px] rounded border border-gray text-[45px] font-bold">
         부동산(아파트) 매매 계약서
       </div>
