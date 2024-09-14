@@ -3,6 +3,8 @@ import LegalProvision from "./LegalProvision";
 import RealEstate from "./RealEstate";
 import { RootState } from "../../../../redux/store";
 import { useSelector } from "react-redux";
+import B from "./B";
+import ConfirmationSection from "./ConfirmationSection";
 const Contract = () => {
   const contractType = useSelector(
     (state: RootState) => state.contract.contractType
@@ -32,6 +34,8 @@ const Contract = () => {
       <RealEstate />
       <ContractContent />
       <LegalProvision />
+      <B />
+      <ConfirmationSection />
     </div>
   );
 };
