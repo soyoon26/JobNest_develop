@@ -28,7 +28,7 @@ const B: React.FC = () => {
           </li>
           <li>
             <input className="w-[175px] border mr-1 border-gray-300 rounded-md" />
-            <span>은행</span> 체크최고액 금
+            <span>은행</span> 채권최고액 금
             <input className="w-[175px] border mx-1 border-gray-300 rounded-md" />
             <span>
               원 상태의 계약으로 잔금일에 매도인이 상환하고 말소하기로 하며,
