@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import Spinner from "./Spinner";
 
 import {
   useTable,
@@ -28,6 +29,7 @@ type Data = {
 
 type SearchResultsProps = {
   filteredData: Data[];
+  isLoading: boolean;
 };
 
 const formatDate = (dateString: string): string => {
@@ -43,7 +45,10 @@ const formatNumber = (number: number | undefined): string => {
   return number.toLocaleString();
 };
 
-const SearchResults: React.FC<SearchResultsProps> = ({ filteredData }) => {
+const SearchResults: React.FC<SearchResultsProps> = ({
+  filteredData,
+  isLoading,
+}) => {
   const [data, setData] = useState<Data[]>(filteredData);
 
   useEffect(() => {
@@ -227,32 +232,42 @@ const SearchResults: React.FC<SearchResultsProps> = ({ filteredData }) => {
               </tr>
             ))}
           </thead>
-          <tbody>
-            {rows
-              .slice((currentPage - 1) * pageSize, currentPage * pageSize)
-              .map((row) => {
-                prepareRow(row);
-                return (
-                  <tr {...row.getRowProps()}>
-                    {row.cells.map((cell) => (
-                      <td
-                        {...cell.getCellProps()}
-                        className={`text-[12px] text-center font-bold ${
-                          cell.column.id === "location"
-                            ? "break-words max-w-[200px]"
-                            : "whitespace-nowrap"
-                        }`}
-                        style={{ padding: "10px 5px" }}
-                      >
-                        {cell.render("Cell")}
-                      </td>
-                    ))}
-                  </tr>
-                );
-              })}
-          </tbody>
+          {isLoading ? (
+            <tbody>
+              <tr>
+                <td colSpan={columns.length} className="py-4 text-center">
+                  <Spinner />
+                </td>
+              </tr>
+            </tbody>
+          ) : (
+            <tbody>
+              {rows
+                .slice((currentPage - 1) * pageSize, currentPage * pageSize)
+                .map((row) => {
+                  prepareRow(row);
+                  return (
+                    <tr {...row.getRowProps()}>
+                      {row.cells.map((cell) => (
+                        <td
+                          {...cell.getCellProps()}
+                          className={`text-[12px] text-center font-bold ${
+                            cell.column.id === "location"
+                              ? "break-words max-w-[200px]"
+                              : "whitespace-nowrap"
+                          }`}
+                          style={{ padding: "10px 5px" }}
+                        >
+                          {cell.render("Cell")}
+                        </td>
+                      ))}
+                    </tr>
+                  );
+                })}
+            </tbody>
+          )}
         </table>
-        {data.length === 0 && <WarningIcon />}
+        {data.length === 0 && !isLoading && <WarningIcon />}
         {data.length > 0 && (
           <div className="flex items-center justify-center p-2 pb-8 mt-4 space-x-2 ">
             <button

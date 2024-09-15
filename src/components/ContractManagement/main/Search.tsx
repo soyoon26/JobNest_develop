@@ -89,11 +89,17 @@ const Search: React.FC<SearchProps> = ({ onCreateDraft }) => {
   const [data, setData] = useState<Data[]>([]);
   const [filteredData, setFilteredData] = useState<Data[]>([]);
   const [isSearchClicked, setIsSearchClicked] = useState<boolean>(false);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
 
   // 데이터
   const fetchData = async () => {
+    setIsLoading(true);
     try {
-      const response = await axios.get("/contract-list");
+      const response = await axios.get("http://35.193.35.53/contract-list", {
+        headers: {
+          "Referrer-Policy": "no-referrer",
+        },
+      });
 
       const fetchedData =
         response.data?.result.map((item: any) => ({
@@ -111,14 +117,16 @@ const Search: React.FC<SearchProps> = ({ onCreateDraft }) => {
           공동중개업소: item.partner_realtor,
           계약서번호: item.contract_num,
         })) ?? [];
-
+      console.log(fetchData, "확인");
       setData(fetchedData);
       setFilteredData(fetchedData);
     } catch (err: any) {
       console.error("데이터를 가져오는 데 실패했습니다.", err);
+      setIsLoading(false);
+    } finally {
+      setIsLoading(false);
     }
   };
-
   useEffect(() => {
     fetchData();
   }, []);
@@ -137,9 +145,8 @@ const Search: React.FC<SearchProps> = ({ onCreateDraft }) => {
 
   const handleSearch = () => {
     const today = new Date();
-
-    const startDateObj = startDate ? new Date(startDate) : today;
-    const endDateObj = endDate ? new Date(endDate) : today;
+    const startDateObj = startDate ? new Date(startDate) : null;
+    const endDateObj = endDate ? new Date(endDate) : null;
 
     console.log("Start Date Object:", startDateObj?.toDateString());
     console.log("End Date Object:", endDateObj?.toDateString());
@@ -165,16 +172,18 @@ const Search: React.FC<SearchProps> = ({ onCreateDraft }) => {
         (selectedBrokerageType === "공동중개" && item.공동중개업소 !== null) ||
         (selectedBrokerageType === "단독중개" && item.공동중개업소 === null);
 
-      // 날짜
       const contractDate = new Date(item.계약일);
-
-      const isDateInRange =
-        startDateObj &&
-        endDateObj &&
-        startDateObj.toDateString() === endDateObj.toDateString()
-          ? contractDate.toDateString() === startDateObj.toDateString()
-          : (!startDateObj || contractDate >= startDateObj) &&
-            (!endDateObj || contractDate <= endDateObj);
+      let isDateInRange = true;
+      // 초기 검색도 필터링하기
+      if (startDateObj && endDateObj) {
+        if (startDateObj.toDateString() === endDateObj.toDateString()) {
+          isDateInRange =
+            contractDate.toDateString() === startDateObj.toDateString();
+        } else {
+          isDateInRange =
+            contractDate >= startDateObj && contractDate <= endDateObj;
+        }
+      }
 
       return (
         isContractTypeMatch &&
@@ -273,7 +282,9 @@ const Search: React.FC<SearchProps> = ({ onCreateDraft }) => {
           </div>
         </h1>
       </div>
-      {isSearchClicked && <SearchResults filteredData={filteredData} />}
+      {isSearchClicked && (
+        <SearchResults filteredData={filteredData} isLoading={isLoading} />
+      )}
     </div>
   );
 };
