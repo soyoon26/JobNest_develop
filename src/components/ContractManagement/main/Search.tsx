@@ -145,9 +145,8 @@ const Search: React.FC<SearchProps> = ({ onCreateDraft }) => {
 
   const handleSearch = () => {
     const today = new Date();
-
-    const startDateObj = startDate ? new Date(startDate) : today;
-    const endDateObj = endDate ? new Date(endDate) : today;
+    const startDateObj = startDate ? new Date(startDate) : null;
+    const endDateObj = endDate ? new Date(endDate) : null;
 
     console.log("Start Date Object:", startDateObj?.toDateString());
     console.log("End Date Object:", endDateObj?.toDateString());
@@ -173,16 +172,18 @@ const Search: React.FC<SearchProps> = ({ onCreateDraft }) => {
         (selectedBrokerageType === "공동중개" && item.공동중개업소 !== null) ||
         (selectedBrokerageType === "단독중개" && item.공동중개업소 === null);
 
-      // 날짜
       const contractDate = new Date(item.계약일);
-
-      const isDateInRange =
-        startDateObj &&
-        endDateObj &&
-        startDateObj.toDateString() === endDateObj.toDateString()
-          ? contractDate.toDateString() === startDateObj.toDateString()
-          : (!startDateObj || contractDate >= startDateObj) &&
-            (!endDateObj || contractDate <= endDateObj);
+      let isDateInRange = true;
+      // 초기 검색도 필터링하기
+      if (startDateObj && endDateObj) {
+        if (startDateObj.toDateString() === endDateObj.toDateString()) {
+          isDateInRange =
+            contractDate.toDateString() === startDateObj.toDateString();
+        } else {
+          isDateInRange =
+            contractDate >= startDateObj && contractDate <= endDateObj;
+        }
+      }
 
       return (
         isContractTypeMatch &&
