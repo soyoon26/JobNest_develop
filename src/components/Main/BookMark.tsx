@@ -24,7 +24,7 @@ const BookMark = () => {
     {
       id: 2,
       title: '부동산거래관리시스템',
-      url: 'https://rtms.molit.go.kr/',
+      url: 'https://irts.molit.go.kr/',
       checked: true,
       ogImage: '',
     },
@@ -38,7 +38,7 @@ const BookMark = () => {
     {
       id: 4,
       title: '토지이용계획열람',
-      url: 'https://www.eum.go.kr/',
+      url: 'https://www.eum.go.kr/web/ar/lu/luLandDet.jsp',
       checked: true,
       ogImage: '',
     },
@@ -52,14 +52,14 @@ const BookMark = () => {
     {
       id: 6,
       title: '인터넷등기소',
-      url: 'http://www.iros.go.kr/',
+      url: 'https://www.iros.go.kr/',
       checked: true,
       ogImage: '',
     },
     {
       id: 7,
       title: '부동산 공시가격 알리미',
-      url: 'https://www.realtyprice.kr/',
+      url: 'https://www.realtyprice.kr/notice/main/mainBody.htm',
       checked: true,
       ogImage: '',
     },
@@ -80,7 +80,7 @@ const BookMark = () => {
     {
       id: 10,
       title: '부동산 계산기',
-      url: 'https://www.eais.go.kr/',
+      url: 'https://xn--989a00af8jnslv3dba.com/',
       checked: true,
       ogImage: '',
     },
@@ -153,10 +153,11 @@ const BookMark = () => {
     };
   }, [manageModal]);
 
-  //ogImage 크롤링 flow
+  // ogImage 크롤링 flow
   // 각 URL에 대해 og:image를 추출하는 함수
+  const [hasFetchedMetaData, setHasFetchedMetaData] = useState(false);
   const fetchMetaData = async (bookmark: TBookmark) => {
-    const base_url = 'http://35.193.35.53'; // 대체할 base_url
+    const base_url = import.meta.env.VITE_BASE_URL; // .env 파일에서 base_url 가져오기
     const endpoint = '/crolls';
     const full_url = `${base_url}${endpoint}`;
 
@@ -164,12 +165,13 @@ const BookMark = () => {
       const response = await axios.post(full_url, {
         url: bookmark.url,
       });
-
-      const htmlData = response.data.html;
+      const htmlData = response.data.result;
 
       // HTML에서 메타 데이터를 추출
       const parser = new DOMParser();
       const doc = parser.parseFromString(htmlData, 'text/html');
+
+      console.log(bookmark.url);
 
       // og:image 추출
       const ogImageTag = doc.querySelector('meta[property="og:image"]');
@@ -181,7 +183,11 @@ const BookMark = () => {
           b.id === bookmark.id
             ? {
                 ...b, // 기존 필드 펼치기 (여기에도 ogImage가 포함됨)
-                ...(ogImageUrl && { ogImage: ogImageUrl }), // ogImageUrl이 존재할 때만 덮어쓰기
+                ogImage:
+                  b.ogImage ||
+                  (ogImageUrl && /^https?:\/\//.test(ogImageUrl)
+                    ? ogImageUrl
+                    : 'local image'),
               }
             : b
         )
@@ -194,15 +200,19 @@ const BookMark = () => {
   // 모든 북마크에 대해 메타 데이터를 가져오는 함수
   const fetchAllMetaData = useCallback(async () => {
     for (const bookmark of bookmarksArray) {
-      await fetchMetaData(bookmark);
+      if (!bookmark.ogImage) {
+        await fetchMetaData(bookmark);
+      }
     }
-  }, [bookmarksArray]); // bookmarks가 변경될 때만 함수가 재정의
+    setHasFetchedMetaData(true); // 메타 데이터 가져오기 완료 상태 설정
+  }, [bookmarksArray]);
 
   useEffect(() => {
     if (bookmarksArray.length > 0) {
-      fetchAllMetaData(); // 모든 북마크에 대해 메타 데이터 가져오기
+      console.log('이미지 가져오기 실행');
+      fetchAllMetaData();
     }
-  }, [bookmarksArray, fetchAllMetaData]);
+  }, [bookmarksArray, hasFetchedMetaData, fetchAllMetaData]);
 
   return (
     <div className='ml-[65px] mt-[50px] mr-[65px] max-w-[1440px]'>
