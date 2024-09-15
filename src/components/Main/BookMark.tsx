@@ -33,14 +33,14 @@ const BookMark = () => {
       title: '건축행정시스템(세움터)',
       url: 'https://www.eais.go.kr/',
       checked: true,
-      ogImage: '',
+      ogImage: 'default',
     },
     {
       id: 4,
       title: '토지이용계획열람',
       url: 'https://www.eum.go.kr/web/ar/lu/luLandDet.jsp',
       checked: true,
-      ogImage: '',
+      ogImage: 'https://www.eum.go.kr/web/favicon.ico',
     },
     {
       id: 5,
@@ -157,11 +157,12 @@ const BookMark = () => {
   // 각 URL에 대해 og:image를 추출하는 함수
   const [hasFetchedMetaData, setHasFetchedMetaData] = useState(false);
   const fetchMetaData = async (bookmark: TBookmark) => {
-    const base_url = import.meta.env.VITE_BASE_URL; // .env 파일에서 base_url 가져오기
+    const base_url = import.meta.env.VITE_BASE_URL;
     const endpoint = '/crolls';
     const full_url = `${base_url}${endpoint}`;
 
     try {
+      // if (bookmark.url === '') {
       const response = await axios.post(full_url, {
         url: bookmark.url,
       });
@@ -171,36 +172,67 @@ const BookMark = () => {
       const parser = new DOMParser();
       const doc = parser.parseFromString(htmlData, 'text/html');
 
-      console.log(bookmark.url);
-
       // og:image 추출
+      let ogImageUrl = null;
       const ogImageTag = doc.querySelector('meta[property="og:image"]');
-      const ogImageUrl = ogImageTag ? ogImageTag.getAttribute('content') : null;
+      if (ogImageTag) {
+        ogImageUrl = ogImageTag.getAttribute('content');
 
+        // ogImageUrl이 상대 경로인 경우 절대 경로로 변경
+        if (ogImageUrl && !/^(https?:)?\/\//.test(ogImageUrl)) {
+          const url = new URL(bookmark.url);
+          ogImageUrl =
+            url.origin +
+            (ogImageUrl.startsWith('/') ? ogImageUrl : '/' + ogImageUrl);
+        }
+      }
+
+      // og:image가 없는 경우 favicon 추출
+      let faviconUrl = '';
+      if (!ogImageUrl) {
+        const faviconTag = doc.querySelector(
+          'link[rel="icon"], link[rel="shortcut icon"]'
+        );
+        faviconUrl = faviconTag ? faviconTag.getAttribute('href') : '';
+
+        // faviconUrl이 상대 경로인 경우 절대 경로로 변경
+        if (faviconUrl && !/^(https?:)?\/\//.test(faviconUrl)) {
+          const url = new URL(bookmark.url);
+          faviconUrl =
+            url.origin +
+            (faviconUrl.startsWith('/') ? faviconUrl : '/' + faviconUrl);
+        }
+      }
+
+      console.log(ogImageUrl || faviconUrl);
       // 상태 업데이트
       setBookmarksArray((prevBookmarks) =>
         prevBookmarks.map((b) =>
           b.id === bookmark.id
             ? {
-                ...b, // 기존 필드 펼치기 (여기에도 ogImage가 포함됨)
+                ...b,
                 ogImage:
-                  b.ogImage ||
-                  (ogImageUrl && /^https?:\/\//.test(ogImageUrl)
-                    ? ogImageUrl
-                    : 'local image'),
+                  (b.ogImage === '' &&
+                    (ogImageUrl || faviconUrl) &&
+                    /^(https?:)?\/\//.test(ogImageUrl || faviconUrl) &&
+                    ogImageUrl) ||
+                  faviconUrl,
+                // ? ogImageUrl || faviconUrl
+                // : ,
               }
             : b
         )
       );
+      // }
     } catch (err) {
       console.error('메타 데이터를 가져오는 중 오류 발생:', err);
     }
   };
-
   // 모든 북마크에 대해 메타 데이터를 가져오는 함수
   const fetchAllMetaData = useCallback(async () => {
     for (const bookmark of bookmarksArray) {
       if (!bookmark.ogImage) {
+        console.log('fetchMetaData 실행');
         await fetchMetaData(bookmark);
       }
     }
@@ -208,8 +240,8 @@ const BookMark = () => {
   }, [bookmarksArray]);
 
   useEffect(() => {
-    if (bookmarksArray.length > 0) {
-      console.log('이미지 가져오기 실행');
+    if (bookmarksArray.length > 0 && !hasFetchedMetaData) {
+      console.log('fetchAllMetaData 실행');
       fetchAllMetaData();
     }
   }, [bookmarksArray, hasFetchedMetaData, fetchAllMetaData]);
