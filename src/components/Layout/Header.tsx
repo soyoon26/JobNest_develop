@@ -22,7 +22,12 @@ const Header = () => {
             <li className='font-medium text-[18px]'>
               <Link to='/contractManagement'>계약 관리</Link>
             </li>
-            <li className='font-medium text-[18px]'>등기/대장 발급</li>
+            <li
+              className='font-medium text-[18px] cursor-pointer'
+              onClick={() => navigate('/RegistrationIssuanceView')}
+            >
+              등기/대장 발급
+            </li>
           </ul>
           <span className='text-[#8894A0] ml-[88px]'>010-0000-0000</span>
           <button className='bg-[#347fff] w-[130px] h-[42px] ml-[50px] font-medium mr-[41px] text-white'>
