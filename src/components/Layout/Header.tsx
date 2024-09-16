@@ -24,7 +24,7 @@ const Header = () => {
             </li>
             <li
               className='font-medium text-[18px] cursor-pointer'
-              onClick={() => navigate('/RegistrationIssuanceView')}
+              onClick={() => navigate('/registrationIssuance')}
             >
               등기/대장 발급
             </li>

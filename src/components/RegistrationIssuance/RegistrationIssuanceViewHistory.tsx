@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
-const RegistrationIssuanceMain = () => {
+const RegistrationViewHistory = () => {
   const navigate = useNavigate();
   const [inputAddress, setInputAddress] = useState('');
 
@@ -18,20 +18,17 @@ const RegistrationIssuanceMain = () => {
       <div className='pl-[65px] pt-[21px] w-full flex justify-between'>
         <div className='pt-[29px]'>
           <span className='text-[35px] mb-[46px] font-extrabold'>
-            등기/대장 열람
-          </span>
-          <span className='text-[15px] ml-[30px] mb-[46px] font-bold'>
-            동시에 여러 개의 등기 또는 대장을 발급받을 수 있어요.
+            등기/대장 열람내역
           </span>
         </div>
         <span>
           <button
             className='bg-[#347fff] w-[130px] h-[42px] mr-[24px] font-medium text-white'
             onClick={() => {
-              navigate('/registrationIssuance/viewHistory');
+              navigate(-1);
             }}
           >
-            열람내역
+            뒤로가기
           </button>
         </span>
       </div>
@@ -75,4 +72,4 @@ const RegistrationIssuanceMain = () => {
     </>
   );
 };
-export default RegistrationIssuanceMain;
+export default RegistrationViewHistory;

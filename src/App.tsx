@@ -2,7 +2,8 @@ import { Route, Routes } from 'react-router-dom';
 import { Layout } from './Layout';
 import AppRouter from './AppRouter';
 import MainView from './views/MainView';
-import RegistrationIssuanceView from './views/RegistrationIssuanceView';
+import RegistrationIssuanceMainView from './views/RegistrationIssuanceMainView';
+import RegistrationIssuanceViewHistroyView from './views/RegistrationIssuanceViewHistroyView';
 
 const App = () => {
   return (
@@ -11,8 +12,12 @@ const App = () => {
         <Route index element={<MainView />} />
         <Route path='*' element={<AppRouter />} />
         <Route
-          path='/RegistrationIssuanceView'
-          element={<RegistrationIssuanceView />}
+          path='/registrationIssuance'
+          element={<RegistrationIssuanceMainView />}
+        />
+        <Route
+          path='/registrationIssuance/viewHistory'
+          element={<RegistrationIssuanceViewHistroyView />}
         />
       </Route>
     </Routes>
