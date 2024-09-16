@@ -1,4 +1,16 @@
+import { useState } from 'react';
+
 const RegistrationIssuanceMain = () => {
+  const [inputAddress, setInputAddress] = useState('');
+
+  const handleInputAddress = (val: string) => {
+    setInputAddress(val);
+  };
+
+  const clearInput = () => {
+    setInputAddress('');
+  };
+
   return (
     <>
       <div className='pl-[65px] pt-[21px] w-full flex justify-between'>
@@ -16,10 +28,10 @@ const RegistrationIssuanceMain = () => {
           </button>
         </span>
       </div>
-      <div className='pl-[94px] pt-[73px]'>
+      <div className='pl-[94px] pt-[73px] relative'>
         <span className='pr-[20px]'>
           <select
-            className='text-[#6f6f6f] w-[100px] h-[50px] border border-[#cccccc] text-[14x] pl-[7px] py-[1px]'
+            className='text-[#6f6f6f] cursor-pointer w-[100px] h-[40px] border border-[#cccccc] text-[14x] pl-[7px] py-[1px]'
             name='doc'
             id='type'
           >
@@ -28,14 +40,26 @@ const RegistrationIssuanceMain = () => {
             <option value='대장'>대장</option>
           </select>
         </span>
-        <span>
+        <span className='relative'>
           <input
-            type='search'
+            type='text'
             placeholder='주소를 입력해주세요.'
-            className='w-[1000px] h-[40px] border border-[#cccccc] pl-[15px]'
+            value={inputAddress}
+            className='w-[1000px] h-[40px] border border-[#cccccc] pl-[15px] pr-[30px]'
+            onChange={(e) => {
+              handleInputAddress(e.target.value);
+            }}
           />
+          {inputAddress && (
+            <button
+              onClick={clearInput}
+              className='absolute right-[15px] top-[50%] transform -translate-y-1/2 text-gray-500'
+            >
+              ×
+            </button>
+          )}
         </span>
-        <span className='pl-[12px]'>
+        <span className='pl-[12px] relative top-[-2px]'>
           <button className='text-[11px] w-[48px] h-[40px] bg-[#347fff] text-white rounded'>
             검색
           </button>
