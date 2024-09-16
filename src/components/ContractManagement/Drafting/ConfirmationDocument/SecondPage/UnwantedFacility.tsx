@@ -42,7 +42,6 @@ const UnwantedFacility: React.FC = () => {
           value={facilityDetail}
           onChange={(e) => setFacilityDetail(e.target.value)}
           className="flex-1 border-g h-[30px]"
-          placeholder="종류 및 위치 입력"
         />
         <span>)</span>
       </div>

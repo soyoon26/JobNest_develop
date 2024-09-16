@@ -1,8 +1,8 @@
 import React, { useState, useRef } from "react";
-import ThirdPage from "./ThirdPage";
-import LsatPage from "./LsatPage";
-import FirstPage from "./FirstPage/FirstPage";
-import SecondPage from "./SecondPage/SecondPage";
+import ThirdPage from "./ThirdPage/index";
+import LsatPage from "./LastPage/index";
+import FirstPage from "./FirstPage/index";
+import SecondPage from "./SecondPage/index";
 
 const ConfirmationDocument: React.FC = () => {
   const [currentPage, setCurrentPage] = useState<number>(1);
