@@ -2,8 +2,8 @@ import { Route, Routes } from 'react-router-dom';
 import { Layout } from './Layout';
 import AppRouter from './AppRouter';
 import MainView from './views/MainView';
-import RegistrationIssuanceMainView from './views/RegistrationIssuanceMainView';
-import RegistrationIssuanceViewHistroyView from './views/RegistrationIssuanceViewHistroyView';
+import RegistrationIssuanceMainView from './views/RegistrationIssuance/RegistrationIssuanceMainView';
+import RegistrationIssuanceViewHistroyView from './views/RegistrationIssuance/RegistrationIssuanceViewHistroyView';
 
 const App = () => {
   return (

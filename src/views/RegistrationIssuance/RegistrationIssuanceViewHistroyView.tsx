@@ -1,4 +1,4 @@
-import RegistrationIssuanceViewHistory from '../components/RegistrationIssuance/RegistrationIssuanceViewHistory';
+import RegistrationIssuanceViewHistory from '../../components/RegistrationIssuance/RegistrationIssuanceViewHistory';
 
 const RegistrationIssuanceViewHistroyView = () => {
   return (
