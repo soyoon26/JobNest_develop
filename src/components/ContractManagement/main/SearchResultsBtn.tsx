@@ -11,7 +11,6 @@ const SearchResultsBtn: React.FC<SearchResultBtnProps> = ({
   text,
   textColor,
   borderColor,
-
   width,
 
   onClick,

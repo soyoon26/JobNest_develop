@@ -248,7 +248,7 @@ const BookMark = () => {
 
   return (
     <div className='ml-[65px] mt-[50px] mr-[65px] max-w-[1440px]'>
-      <p className='text-[40px] mb-[46px] font-extrabold'>즐겨찾기</p>
+      <p className='text-[30px] mb-[46px] font-extrabold'>즐겨찾기</p>
 
       <div className='grid grid-cols-7 gap-[30px]'>
         <BookMarkList bookmarksArray={bookmarksArray} />

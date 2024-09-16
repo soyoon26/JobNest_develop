@@ -8,7 +8,7 @@ import {
 const LeftMenu = () => {
   return (
     <>
-      <div className='w-[310px] bg-[#f8f8f8] p-6'>
+      <div className='w-[310px] h-screen bg-[#f8f8f8] p-6'>
         <div className='mt-[50px]'>
           <div className='flex items-center mb-5'>
             <FontAwesomeIcon icon={faFileLines} />
