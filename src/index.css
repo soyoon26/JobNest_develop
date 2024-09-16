@@ -37,3 +37,36 @@ body {
 ::-webkit-scrollbar-thumb:hover {
   background: #555; /* 핸들의 호버 색상 */
 }
+
+.border-g {
+  @apply flex items-center border border-gray-300;
+}
+
+.border-br {
+  @apply border-r border-black;
+}
+.border-bl {
+  @apply border-l border-black;
+}
+.border-bb {
+  @apply border-b border-black;
+}
+.border-bt {
+  @apply border-t border-black;
+}
+
+.border-by {
+  @apply border-black border-y;
+}
+
+.border-32 {
+  @apply flex items-center border border-gray-300 rounded-md h-[32px];
+}
+
+.items {
+  @apply flex items-center;
+}
+
+.items-j {
+  @apply flex items-center justify-center;
+}
