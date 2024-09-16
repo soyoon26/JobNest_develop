@@ -1,7 +1,7 @@
 import React, { useState, useRef } from "react";
 import ThirdPage from "./ThirdPage";
 import LsatPage from "./LsatPage";
-import FirstPage from "./FirstPage";
+import FirstPage from "./FirstPage/FirstPage";
 import SecondPage from "./SecondPage";
 
 const ConfirmationDocument: React.FC = () => {
