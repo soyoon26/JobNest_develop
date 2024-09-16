@@ -55,6 +55,10 @@ body {
   @apply border-t border-black;
 }
 
+.border-by {
+  @apply border-black border-y;
+}
+
 .border-32 {
   @apply flex items-center border border-gray-300 rounded-md h-[32px];
 }

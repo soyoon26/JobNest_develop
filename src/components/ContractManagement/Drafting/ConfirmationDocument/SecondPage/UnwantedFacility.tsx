@@ -5,7 +5,7 @@ const UnwantedFacility: React.FC = () => {
   const [facilityDetail, setFacilityDetail] = useState<string>("");
 
   return (
-    <div className=" text-[13px] items h-[50px] font-bold border-y border-black w-[1163px]">
+    <div className="my-2 text-[13px] items h-[50px] font-bold border-by  w-[1163px]">
       <div className="items-j h-full text-center border-br w-[150px]">
         ⑦ 비선호시설 <br />
         (1km 이내)
@@ -36,7 +36,6 @@ const UnwantedFacility: React.FC = () => {
           있음 (종류 및 위치:
         </label>
 
-        {/* 조건부 입력 필드 */}
         <input
           type="text"
           disabled={selectedOption !== "있음"}
