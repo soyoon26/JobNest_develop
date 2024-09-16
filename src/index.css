@@ -42,6 +42,19 @@ body {
   @apply flex items-center border border-gray-300;
 }
 
+.border-br {
+  @apply border-r border-black;
+}
+.border-bl {
+  @apply border-l border-black;
+}
+.border-bb {
+  @apply border-b border-black;
+}
+.border-bt {
+  @apply border-t border-black;
+}
+
 .border-32 {
   @apply flex items-center border border-gray-300 rounded-md h-[32px];
 }
