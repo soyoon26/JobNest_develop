@@ -17,10 +17,7 @@ const ContractContent = () => {
         <FormRow label="매매대금">
           <div className="flex items-center h-[43px]">
             <span className="px-2">金</span>
-            <input
-              type="text"
-              className="rounded w-[458px] border h-[32px] border-gray-300"
-            />
+            <input type="text" className=" w-[458px] border-32" />
             <span className="ml-2">원정(</span>
             <input className="w-[564px] h-[32px] border mx-1 border-gray-300 bg-[#F8F8F9]" />
             <span>)</span>
@@ -30,10 +27,7 @@ const ContractContent = () => {
         <FormRow label="계약금">
           <div className="flex items-center h-[43px]">
             <span className="px-2">金</span>
-            <input
-              type="text"
-              className="rounded w-[458px] border h-[32px] border-gray-300"
-            />
+            <input type="text" className=" w-[458px] border-32" />
             <span className="ml-2">원정 은 계약 시에 지급하고 영수함.</span>
             <div className="flex items-center ml-2 space-x-2">
               <div className="bg-[#E5E6EB] border-x flex justify-center items-center w-[115px] h-[43px] border-gray-300">
@@ -51,10 +45,7 @@ const ContractContent = () => {
         <FormRow label="융자금">
           <div className="flex items-center h-[43px]">
             <span className="px-2">金</span>
-            <input
-              type="text"
-              className="rounded w-[458px] border h-[32px] border-gray-300"
-            />
+            <input type="text" className=" w-[458px] border-32" />
             <span className="mx-2">원정 은</span>
             <ContractDropDown items={loanAmount} width="563px" />
           </div>
@@ -63,10 +54,7 @@ const ContractContent = () => {
         <FormRow label="현 임대 보증금">
           <div className="flex items-center h-[43px]">
             <span className="px-2">金</span>
-            <input
-              type="text"
-              className="rounded w-[458px] border h-[32px] border-gray-300"
-            />
+            <input type="text" className=" w-[458px] border-32" />
             <span className="mx-2">원정 은</span>
             <ContractDropDown items={leaseDeposit} width="563px" />
           </div>
@@ -76,20 +64,14 @@ const ContractContent = () => {
           <div className="flex flex-col ">
             <div className="flex items-center h-[43px]">
               <span className="px-2">金</span>
-              <input
-                type="text"
-                className="rounded w-[458px] border h-[32px] border-gray-300"
-              />
+              <input type="text" className=" w-[458px] border-32" />
               <span className="ml-2">원정 은</span>
               <ContractDate />
               <span>에 지급하며,</span>
             </div>
             <div className="flex items-center border-t border-gray-300 h-[43px]">
               <span className="px-2">金</span>
-              <input
-                type="text"
-                className="rounded w-[458px] border h-[32px] border-gray-300"
-              />
+              <input type="text" className="w-[458px] border-32" />
               <span className="ml-2">원정 은</span>
               <ContractDate />
               <span>에 지급한다.</span>
@@ -100,10 +82,7 @@ const ContractContent = () => {
         <FormRow label="잔금">
           <div className="flex items-center h-[43px]">
             <span className="px-2">金</span>
-            <input
-              type="text"
-              className="rounded w-[458px] border h-[32px] border-gray-300"
-            />
+            <input type="text" className=" w-[458px] border-32" />
             <span className="ml-2">원정 은</span>
             <ContractDate />
             <span>에 지급한다.</span>

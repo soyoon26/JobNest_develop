@@ -1,5 +1,5 @@
 import { useState } from "react";
-import Search from "../components/ContractManagement/main/Search";
+import Search from "../components/ContractManagement/Search/Search";
 import PreContractDrafting from "../components/ContractManagement/Drafting/Pre/PreContractDrafting";
 
 const ContractManagement = () => {

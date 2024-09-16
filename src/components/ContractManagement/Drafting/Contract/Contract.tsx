@@ -5,6 +5,7 @@ import { RootState } from "../../../../redux/store";
 import { useSelector } from "react-redux";
 import B from "./B";
 import ConfirmationSection from "./ConfirmationSection";
+import Agency from "./Agency";
 const Contract = () => {
   const contractType = useSelector(
     (state: RootState) => state.contract.contractType
@@ -36,6 +37,7 @@ const Contract = () => {
       <LegalProvision />
       <B />
       <ConfirmationSection />
+      <Agency />
     </div>
   );
 };
