@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 
 interface GoogleCalendarButtonProps {
-  toggleCalendar: (isVisible: boolean) => void;  
+  toggleCalendar: (isVisible: boolean) => void;  // Props to toggle calendar visibility
 }
 
 const GoogleCalendarButton: React.FC<GoogleCalendarButtonProps> = ({ toggleCalendar }) => {
@@ -10,17 +10,18 @@ const GoogleCalendarButton: React.FC<GoogleCalendarButtonProps> = ({ toggleCalen
   const handleClick = () => {
     const newVisibility = !isCalendarVisible;
     setIsCalendarVisible(newVisibility);
-    toggleCalendar(newVisibility);
+    toggleCalendar(newVisibility);  // Trigger the parent handler to toggle calendar
   };
 
   return (
     <button
       onClick={handleClick}
-      className={`fixed bottom-5 right-5 w-[140px] h-[40px] font-semibold rounded-md transition-colors duration-300 ${
+      className={`fixed bottom-[50px] right-[20px] w-[140px] h-[40px] font-semibold rounded-md transition-colors duration-300 ${
         isCalendarVisible
-          ? 'bg-[#0066FF] text-white'
-          : 'bg-white text-[#0066FF] border-2 border-[#0066FF]'
+          ? 'bg-[#347FFF] text-white'
+          : 'bg-white text-[#347FFF] border-2 border-[#347FFF]'
       }`}
+      style={{ zIndex: 1000 }}
     >
       {isCalendarVisible ? '구글 달력 숨기기' : '구글 달력 보기'}
     </button>

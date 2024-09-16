@@ -1,3 +1,4 @@
+//npm install gapi-script @fullcalendar/react @fullcalendar/daygrid @fullcalendar/interaction @fullcalendar/timegrid
 import React, { useEffect, useState } from 'react';
 import { gapi } from 'gapi-script';  // Google API 사용
 import FullCalendar from '@fullcalendar/react';
@@ -128,7 +129,7 @@ const FullCalendarComponent: React.FC<FullCalendarComponentProps> = ({ isVisible
           eventClick={handleEventClick}
           eventDrop={(eventInfo) => handleEventSave({ title: eventInfo.event.title, start: eventInfo.event.startStr, end: eventInfo.event.endStr })}
         />
-      )}
+      )}  
 
       {/* 알림 모달 */}
       {alertMessage && <ModalAlert message={alertMessage} onClose={() => setAlertMessage(null)} />}
@@ -138,5 +139,5 @@ const FullCalendarComponent: React.FC<FullCalendarComponentProps> = ({ isVisible
     </div>
   );
 };
-
+ 
 export default FullCalendarComponent;
