@@ -15,16 +15,16 @@ const GoogleCalendarButton: React.FC<GoogleCalendarButtonProps> = ({ toggleCalen
 
   return (
     <button
-      onClick={handleClick}
-      className={`fixed bottom-[50px] right-[20px] w-[140px] h-[40px] font-semibold rounded-md transition-colors duration-300 ${
-        isCalendarVisible
-          ? 'bg-[#347FFF] text-white'
-          : 'bg-white text-[#347FFF] border-2 border-[#347FFF]'
-      }`}
-      style={{ zIndex: 1000 }}
-    >
-      {isCalendarVisible ? '구글 달력 숨기기' : '구글 달력 보기'}
-    </button>
+  onClick={handleClick}
+  className={`fixed bottom-[50px] right-[20px] w-[140px] h-[40px] font-semibold rounded-md transition-colors duration-300 ${
+    isCalendarVisible
+      ? 'bg-[#347FFF] text-white'
+      : 'bg-white text-[#347FFF] border-2 border-[#347FFF]'
+  }`}
+  style={{ zIndex: 5000, transform: 'scale(1.00)' }}  // z-index 5000으로 설정
+>
+  {isCalendarVisible ? '구글 달력 숨기기' : '구글 달력 보기'}
+</button>
   );
 };
 

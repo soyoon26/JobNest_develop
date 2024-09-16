@@ -1,6 +1,5 @@
-//npm install gapi-script @fullcalendar/react @fullcalendar/daygrid @fullcalendar/interaction @fullcalendar/timegrid
 import React, { useEffect, useState } from 'react';
-import { gapi } from 'gapi-script';  // Google API 사용
+import { gapi } from 'gapi-script';
 import FullCalendar from '@fullcalendar/react';
 import dayGridPlugin from '@fullcalendar/daygrid';
 import interactionPlugin from '@fullcalendar/interaction';
@@ -22,7 +21,9 @@ interface NotificationState {
 
 // FullCalendarComponent Props 타입 정의
 interface FullCalendarComponentProps {
-  isVisible: boolean;  // isVisible prop 추가
+  isVisible: boolean;  // 달력 가시성 prop
+  handleAlert: (message: string) => void;  // 알림 핸들러
+  handleEventNotification: (message: string, type: 'success' | 'error') => void;  // 이벤트 성공/실패 알림 핸들러
 }
 
 const CLIENT_ID = 'YOUR_GOOGLE_CLIENT_ID';
@@ -30,7 +31,7 @@ const API_KEY = 'YOUR_GOOGLE_API_KEY';
 const CALENDAR_ID = 'primary'; 
 const SCOPES = 'https://www.googleapis.com/auth/calendar';
 
-const FullCalendarComponent: React.FC<FullCalendarComponentProps> = ({ isVisible }) => {
+const FullCalendarComponent: React.FC<FullCalendarComponentProps> = ({ isVisible, handleAlert, handleEventNotification }) => {
   const [events, setEvents] = useState<{ title: string; start: string; end: string }[]>([]);
   const [alertMessage, setAlertMessage] = useState<string | null>(null);
   const [notification, setNotification] = useState<NotificationState | null>(null);
@@ -73,6 +74,7 @@ const FullCalendarComponent: React.FC<FullCalendarComponentProps> = ({ isVisible
   // 날짜 클릭 시 새로운 이벤트 생성
   const handleDateClick = (arg: { dateStr: string }) => {
     setAlertMessage(`New event on ${arg.dateStr}`);
+    handleAlert(`New event on ${arg.dateStr}`);  // 부모 컴포넌트로 알림 전달
   };
 
   // Google Calendar에 새 이벤트 저장
@@ -86,15 +88,18 @@ const FullCalendarComponent: React.FC<FullCalendarComponentProps> = ({ isVisible
       },
     }).then(() => {
       setNotification({ message: 'Event successfully saved!', type: 'success' });
+      handleEventNotification('Event successfully saved!', 'success');  // 성공 알림 부모 컴포넌트로 전달
       loadEvents();  // 새로 생성된 이벤트를 불러오기
     }).catch(() => {
       setNotification({ message: 'Failed to save event!', type: 'error' });
+      handleEventNotification('Failed to save event!', 'error');  // 실패 알림 부모 컴포넌트로 전달
     });
   };
 
   // 이벤트 클릭 시 처리
   const handleEventClick = (eventClickInfo: any) => {
     setAlertMessage(`Event: ${eventClickInfo.event.title}`);
+    handleAlert(`Event: ${eventClickInfo.event.title}`);  // 부모 컴포넌트로 알림 전달
   };
 
   // 캘린더 보이기/숨기기 상태 토글

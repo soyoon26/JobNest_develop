@@ -1,7 +1,15 @@
 import React, { useState } from 'react';
 
-const TodayMemo: React.FC = () => {
+interface TodayMemoProps {
+  onSave: () => void;  // onSave prop 추가
+}
+
+const TodayMemo: React.FC<TodayMemoProps> = ({ onSave }) => {
   const [memo, setMemo] = useState('');
+
+  const handleSaveClick = () => {
+    onSave();  // 저장 버튼 클릭 시 부모로부터 받은 onSave 호출
+  };
 
   return (
     <div className="memo-container p-4 bg-gray-100 rounded-lg shadow-md">
@@ -12,7 +20,7 @@ const TodayMemo: React.FC = () => {
         onChange={(e) => setMemo(e.target.value)}
         placeholder="오늘의 할 일을 작성하세요."
       />
-      <button className="mt-2 bg-blue-500 text-white px-4 py-2 rounded-md">
+      <button className="mt-2 bg-blue-500 text-white px-4 py-2 rounded-md" onClick={handleSaveClick}>
         저장
       </button>
     </div>
