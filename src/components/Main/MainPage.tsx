@@ -153,29 +153,6 @@ const BookMark = () => {
     };
   }, [manageModal]);
 
-  const getLoginToken = async () => {
-    try {
-      const response = await axios.get(
-        'https://api.safehomes.co.kr/realtors/api/token'
-      );
-
-      if (response.status === 200 && response.data.message === 'success') {
-        const token = response.data.cookie;
-
-        // 예: 토큰을 로컬 스토리지에 저장
-        localStorage.setItem('authToken', token);
-
-        console.log('Token received:', token);
-      }
-    } catch (error) {
-      console.error('Error fetching the token:', error);
-    }
-  };
-
-  useEffect(() => {
-    getLoginToken();
-  }, []);
-
   // 각 URL에 대해 og:image를 추출하는 함수
   const [hasFetchedMetaData, setHasFetchedMetaData] = useState(false);
   const fetchMetaData = async (bookmark: TBookmark) => {
