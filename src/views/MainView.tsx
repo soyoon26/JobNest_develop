@@ -1,9 +1,9 @@
-import BookMark from '../components/Main/BookMark';
+import MainPage from '../components/Main/MainPage';
 
 const MainView = () => {
   return (
     <>
-      <BookMark />
+      <MainPage />
     </>
   );
 };

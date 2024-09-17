@@ -42,7 +42,7 @@ const RegistrationIssuanceMain = () => {
             name='doc'
             id='type'
           >
-            <option value='등기+대장'>등기+대장</option>
+            <option value='등기+대장'>전체</option>
             <option value='등기'>등기</option>
             <option value='대장'>대장</option>
           </select>
