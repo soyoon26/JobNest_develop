@@ -1,7 +1,33 @@
+import axios from 'axios';
+import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 
 const Header = () => {
   const navigate = useNavigate();
+  const [login, setLogin] = useState(false);
+
+  //로그인 토큰 받아오기
+  const getLoginToken = async () => {
+    try {
+      const response = await axios.get(
+        'https://api.safehomes.co.kr/realtors/api/token'
+      );
+
+      if (response.status === 200 && response.data.message === 'success') {
+        const token = response.data.cookie;
+
+        // 예: 토큰을 로컬 스토리지에 저장
+        localStorage.setItem('authToken', token);
+        setLogin(true);
+      }
+    } catch (error) {
+      console.error('Error fetching the token:', error);
+    }
+  };
+
+  const handleLogin = () => {
+    setLogin(false);
+  };
 
   const clickLogo = () => {
     navigate('/');
@@ -29,10 +55,26 @@ const Header = () => {
               등기/대장 발급
             </li>
           </ul>
-          <span className='text-[#8894A0] ml-[88px]'>010-0000-0000</span>
-          <button className='bg-[#347fff] w-[130px] h-[42px] ml-[50px] font-medium mr-[41px] text-white'>
-            로그아웃
-          </button>
+          {login ? (
+            <>
+              <span className='text-[#8894A0] ml-[88px]'>
+                박지우님 환영합니다!
+              </span>
+              <button
+                className='bg-[#347fff] w-[130px] h-[42px] ml-[50px] font-medium mr-[41px] text-white'
+                onClick={handleLogin}
+              >
+                로그아웃
+              </button>
+            </>
+          ) : (
+            <button
+              className='bg-[#347fff] w-[130px] h-[42px] ml-[50px] font-medium mr-[41px] text-white'
+              onClick={getLoginToken}
+            >
+              로그인
+            </button>
+          )}
         </div>
       </div>
     </>

@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useCallback } from 'react';
-import BookMarkList from './BookMarkList';
-import BookMarkManageModal from './BookMarkManageModal';
+import BookMarkList from './bookmark/BookMarkList';
+import BookMarkManageModal from './bookmark/BookMarkManageModal';
 import axios from 'axios';
 
 type TBookmark = {
@@ -153,7 +153,6 @@ const BookMark = () => {
     };
   }, [manageModal]);
 
-  // ogImage 크롤링 flow
   // 각 URL에 대해 og:image를 추출하는 함수
   const [hasFetchedMetaData, setHasFetchedMetaData] = useState(false);
   const fetchMetaData = async (bookmark: TBookmark) => {
