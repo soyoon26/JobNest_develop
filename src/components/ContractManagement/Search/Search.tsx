@@ -119,7 +119,6 @@ const Search: React.FC<SearchProps> = ({ onCreateDraft }) => {
         })) ?? [];
 
       setData(fetchedData);
-      setFilteredData(fetchedData);
     } catch (err: any) {
       console.error("데이터를 가져오는 데 실패했습니다.", err);
       setIsLoading(false);
@@ -145,8 +144,8 @@ const Search: React.FC<SearchProps> = ({ onCreateDraft }) => {
 
   const handleSearch = () => {
     const today = new Date();
-    const startDateObj = startDate ? new Date(startDate) : null;
-    const endDateObj = endDate ? new Date(endDate) : null;
+    const startDateObj = startDate ? new Date(startDate) : today;
+    const endDateObj = endDate ? new Date(endDate) : today;
 
     console.log("Start Date Object:", startDateObj?.toDateString());
     console.log("End Date Object:", endDateObj?.toDateString());
