@@ -1,12 +1,12 @@
 import axios from 'axios';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 
 const Header = () => {
   const navigate = useNavigate();
   const [login, setLogin] = useState(false);
 
-  //로그인 토큰 받아오기
+  // 로그인 토큰 받아오기
   const getLoginToken = async () => {
     try {
       const response = await axios.get(
@@ -16,7 +16,7 @@ const Header = () => {
       if (response.status === 200 && response.data.message === 'success') {
         const token = response.data.cookie;
 
-        // 예: 토큰을 로컬 스토리지에 저장
+        // 토큰을 로컬 스토리지에 저장
         localStorage.setItem('authToken', token);
         setLogin(true);
       }
@@ -25,9 +25,20 @@ const Header = () => {
     }
   };
 
+  // 로그아웃 처리
   const handleLogin = () => {
+    localStorage.removeItem('authToken'); // 로컬 스토리지에서 토큰 삭제
     setLogin(false);
   };
+
+  // 페이지가 로드될 때 로컬 스토리지에서 토큰 확인
+  useEffect(() => {
+    const token = localStorage.getItem('authToken');
+    if (token) {
+      // 토큰이 있으면 로그인 상태로 설정
+      setLogin(true);
+    }
+  }, []);
 
   const clickLogo = () => {
     navigate('/');
@@ -80,4 +91,5 @@ const Header = () => {
     </>
   );
 };
+
 export default Header;
