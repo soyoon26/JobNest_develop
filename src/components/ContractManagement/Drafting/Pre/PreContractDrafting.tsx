@@ -2,15 +2,13 @@ import { useDispatch } from "react-redux";
 import {
   setContractType,
   setTransactionType,
-  setAddress,
   setDetailAddress,
   resetContract,
 } from "../../../../redux/contractSlice";
 import { useNavigate } from "react-router-dom";
 import DraftBtn from "./DraftBtn";
 import DraftDropdown from "./DraftDropDown";
-import SearchInput from "./SearchInput";
-import SearchKakaoInput from "./SearchKakaoInput";
+import SearchInput from "./SearchInput"; // SearchInput 컴포넌트 불러오기
 import { useState } from "react";
 
 interface DraftContractProps {
@@ -27,7 +25,6 @@ const DraftContract: React.FC<DraftContractProps> = ({ onCancel }) => {
   const [selectedTransactionType, setSelectedTransactionType] = useState<
     string | null
   >(null);
-  const [selectedAddress, setSelectedAddress] = useState<string>("");
   const [selectedDetailAddress, setSelectedDetailAddress] =
     useState<string>("");
 
@@ -74,19 +71,10 @@ const DraftContract: React.FC<DraftContractProps> = ({ onCancel }) => {
     setSelectedTransactionType(type);
   };
 
-  const handleAddressChange = (address: string) => {
-    setSelectedAddress(address);
-  };
-
-  const handleDetailAddressChange = (detailAddress: string) => {
-    setSelectedDetailAddress(detailAddress);
-  };
-
   const handleDraftClick = () => {
     if (
       !selectedContractType ||
       !selectedTransactionType ||
-      !selectedAddress ||
       !selectedDetailAddress
     ) {
       alert("모든 필드를 입력해주세요.");
@@ -96,8 +84,7 @@ const DraftContract: React.FC<DraftContractProps> = ({ onCancel }) => {
 
     dispatch(setContractType(selectedContractType));
     dispatch(setTransactionType(selectedTransactionType));
-    dispatch(setAddress(selectedAddress));
-    dispatch(setDetailAddress(selectedDetailAddress));
+    dispatch(setDetailAddress(selectedDetailAddress)); // 선택된 상세 주소 Redux에 저장
 
     navigate("/contractDrafting");
   };
@@ -107,7 +94,6 @@ const DraftContract: React.FC<DraftContractProps> = ({ onCancel }) => {
       <div className="w-[477px]">
         <span className="text-[23px] font-bold">계약서 작성</span>
         <div className="mt-4 text-[15px] font-bold">계약서 선택</div>
-
         <div className="flex justify-between mt-4">
           <div className="flex items-center">
             <div className="mr-4 text-[13px] font-bold">계약서 종류</div>
@@ -124,9 +110,12 @@ const DraftContract: React.FC<DraftContractProps> = ({ onCancel }) => {
             />
           </div>
         </div>
-        <div className="text-[13px] font-bold my-4">주소 입력</div>
-        <SearchKakaoInput onChange={handleAddressChange} />
-        <SearchInput onChange={handleDetailAddressChange} />
+        <div className="text-[13px] font-bold my-4">상세 주소 입력</div>
+        <SearchInput
+          value={selectedDetailAddress} // 선택된 주소 값 전달
+          onChange={setSelectedDetailAddress} // 선택된 주소를 상태로 업데이트
+        />
+
         <div className="flex items-center justify-center gap-2 mt-7">
           <DraftBtn onClick={onCancel} />
           <DraftBtn

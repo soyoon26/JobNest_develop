@@ -117,7 +117,7 @@ const Search: React.FC<SearchProps> = ({ onCreateDraft }) => {
           공동중개업소: item.partner_realtor,
           계약서번호: item.contract_num,
         })) ?? [];
-      console.log(fetchData, "확인");
+
       setData(fetchedData);
       setFilteredData(fetchedData);
     } catch (err: any) {

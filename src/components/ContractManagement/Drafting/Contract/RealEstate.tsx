@@ -36,23 +36,28 @@ const RealEstate = () => {
     "잡종지",
   ];
   const buildingStructure = ["직접입력"];
-  const address = useSelector((state: RootState) => state.contract.address);
+
+  // 리덕스에서 detailAddress 사용
   const detailAddress = useSelector(
     (state: RootState) => state.contract.detailAddress
   );
 
-  const dong =
-    detailAddress?.split(" ").find((part) => part.endsWith("동")) || "";
-  const ho =
-    detailAddress?.split(" ").find((part) => part.endsWith("호")) || "";
+  // [] 부분을 제외하고 추출
+  const addressWithoutBracket = detailAddress?.split("[")[0].trim() || "";
 
-  let locationAddress = address;
+  // 동과 호 추출
+  const dong =
+    addressWithoutBracket.split(" ").find((part) => part.endsWith("동")) || "";
+  const ho =
+    addressWithoutBracket.split(" ").find((part) => part.endsWith("호")) || "";
+
+  // 주소에서 동과 호를 제외한 나머지 주소
+  let locationAddress = addressWithoutBracket;
   if (dong) {
-    locationAddress += ` ${detailAddress.split(dong)[0].trim()}`;
-  } else if (ho) {
-    locationAddress += ` ${detailAddress.split(ho)[0].trim()}`;
-  } else {
-    locationAddress += ` ${detailAddress}`;
+    locationAddress = locationAddress.replace(dong, "").trim();
+  }
+  if (ho) {
+    locationAddress = locationAddress.replace(ho, "").trim();
   }
 
   return (
@@ -68,15 +73,16 @@ const RealEstate = () => {
           있습니다.
         </span>
       </div>
+
+      {/* 소재지 */}
       <div className="flex">
-        {/* 소재지 */}
-        <div className=" h-[42px] w-[114px] flex items-center pl-4 text-center bg-[#E5E6EB] border border-gray-300">
+        <div className="h-[42px] w-[114px] flex items-center pl-4 text-center bg-[#E5E6EB] border border-gray-300">
           소재지
         </div>
         <div className="w-[1113px] text-[12px] gap-1 items-center flex border border-gray-300 h-[42px]">
           <input
             type="text"
-            value={locationAddress}
+            value={locationAddress} // 동, 호 제외한 주소
             readOnly
             className="w-[798px] ml-1 pl-2 rounded h-[32px] bg-[#F0F0F3] border border-gray-300 "
           />
@@ -84,7 +90,7 @@ const RealEstate = () => {
             <div className="flex items-center border w-[144px] h-[32px] bg-[#F0F0F3] border-gray-300 rounded-md">
               <input
                 type="text"
-                value={dong.replace("동", "").trim()}
+                value={dong.replace("동", "").trim()} // 동만 표시
                 readOnly
                 className="w-4/5 pl-2 bg-[#F0F0F3] text-left focus:outline-none"
               />
@@ -93,7 +99,8 @@ const RealEstate = () => {
             <div className="flex items-center bg-[#F0F0F3] border w-[144px] h-[32px] border-gray-300 rounded-md">
               <input
                 type="text"
-                value={ho.replace("호", "").trim()}
+                value={ho.replace("호", "").trim()} // 호만 표시
+                readOnly
                 className="w-4/5 pl-2 bg-[#F0F0F3] text-left border-none focus:outline-none"
               />
               <span>호</span>
