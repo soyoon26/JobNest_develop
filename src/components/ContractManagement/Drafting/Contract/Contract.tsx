@@ -16,7 +16,7 @@ const Contract = () => {
   const transactionType = useSelector(
     (state: RootState) => state.contract.transactionType
   );
-  const address = useSelector((state: RootState) => state.contract.address);
+
   const detailAddress = useSelector(
     (state: RootState) => state.contract.detailAddress
   );
@@ -24,11 +24,11 @@ const Contract = () => {
     <div className="flex flex-col items-center p-2 bg-white border border-gray-300 rounded ">
       <div className="flex mt-24 items-j">
         <div className="text-[15px] w-[1000px] my-4 font-bold">
-          {address && detailAddress ? `${address} / ${detailAddress}` : ""}
+          {detailAddress ? `${detailAddress}` : ""}
           {contractType && ` | 계약서 종류: ${contractType}`}
           {transactionType && ` | 거래유형: ${transactionType}`}
         </div>
-        <div className="flex justify-end w-full gap-2">
+        <div className="flex justify-end gap-2">
           <ContractBtn />
           <ContractBtn text="저장" color="#335995" textColor="white" />
         </div>
