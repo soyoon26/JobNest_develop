@@ -2,7 +2,7 @@ import { useState } from "react";
 import Search from "../components/ContractManagement/Search/Search";
 import PreContractDrafting from "../components/ContractManagement/Drafting/Pre/PreContractDrafting";
 
-const ContractManagement = () => {
+const ContractManagementView = () => {
   const [isDraftVisible, setIsDraftVisible] = useState(false);
   const handleShowDraft = () => {
     setIsDraftVisible(true);
@@ -21,4 +21,4 @@ const ContractManagement = () => {
     </div>
   );
 };
-export default ContractManagement;
+export default ContractManagementView;

@@ -1,24 +1,31 @@
-import { Route, Routes } from 'react-router-dom';
-import { Layout } from './Layout';
-import AppRouter from './AppRouter';
-import MainView from './views/MainView';
-import RegistrationIssuanceMainView from './views/RegistrationIssuance/RegistrationIssuanceMainView';
-import RegistrationIssuanceViewHistroyView from './views/RegistrationIssuance/RegistrationIssuanceViewHistroyView';
+import { Route, Routes } from "react-router-dom";
+import { Layout } from "./Layout";
+
+import MainView from "./views/MainView";
+import RegistrationIssuanceMainView from "./views/RegistrationIssuance/RegistrationIssuanceMainView";
+import RegistrationIssuanceViewHistroyView from "./views/RegistrationIssuance/RegistrationIssuanceViewHistroyView";
+import ContractDraftingView from "./views/ContractDraftingView";
+import ContractManagementView from "./views/ContractManagementView";
 
 const App = () => {
   return (
     <Routes>
-      <Route path='/' element={<Layout />}>
+      <Route path="/" element={<Layout />}>
         <Route index element={<MainView />} />
-        <Route path='*' element={<AppRouter />} />
+
         <Route
-          path='/registrationIssuance'
+          path="/registrationIssuance"
           element={<RegistrationIssuanceMainView />}
         />
         <Route
-          path='/registrationIssuance/viewHistory'
+          path="/registrationIssuance/viewHistory"
           element={<RegistrationIssuanceViewHistroyView />}
         />
+        <Route
+          path="/contractManagement"
+          element={<ContractManagementView />}
+        />
+        <Route path="/contractDrafting" element={<ContractDraftingView />} />
       </Route>
     </Routes>
   );
