@@ -6,6 +6,8 @@ import { useSelector } from "react-redux";
 import B from "./B";
 import ConfirmationSection from "./ConfirmationSection";
 import Agency from "./Agency";
+import SellerForm from "./TransactionForm";
+import TransactionForm from "./TransactionForm";
 const Contract = () => {
   const contractType = useSelector(
     (state: RootState) => state.contract.contractType
@@ -37,6 +39,8 @@ const Contract = () => {
       <LegalProvision />
       <B />
       <ConfirmationSection />
+      <TransactionForm formType="매도인" />
+      <TransactionForm formType="매수인" />
       <Agency />
     </div>
   );
