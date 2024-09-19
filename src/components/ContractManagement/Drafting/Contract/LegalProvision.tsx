@@ -32,7 +32,17 @@ const LegalProvision = () => {
     },
     {
       no: 9,
-      content: `[중개대상물확인·설명서 교부 등] 개업공인중개사는 중개대상물확인·설명서를 작성하고, 업무보증관계증서 (공제증서 등) 사본을 첨부하여 거래당사자 쌍방에게 교부한다. \n (교부일자                년           월           일)`,
+      content: `<div classname="flex flex-col">
+      [중개대상물확인·설명서 교부 등] 개업공인중개사는 중개대상물확인·설명서를 작성하고, 업무보증관계증서 (공제증서 등) 사본을 첨부하여 거래당사자 쌍방에게 교부한다.
+      <br/> (교부일자        <input
+      type="text"
+      className="w-[30px] ml-1 border-32"
+      />   년    <input
+      type="text"
+      className="w-[30px] ml-1 border-32"
+      /> 월 <input type="text" className="w-8 ml-1" />  일)
+      </div>
+      `,
     },
   ];
 
@@ -43,9 +53,10 @@ const LegalProvision = () => {
           <span className="flex font-bold w-[45px] h-[72px] items-center justify-center text-center">
             제{item.no}조
           </span>
-          <div className="flex w-[1170px] items-center pl-4 h-[72px] text-[14px] border border-gray ">
-            {item.content}
-          </div>
+          <div
+            className="flex w-[1170px] items-center pl-4 h-[72px] text-[14px] border border-gray"
+            dangerouslySetInnerHTML={{ __html: item.content }}
+          />
         </div>
       ))}
     </>
