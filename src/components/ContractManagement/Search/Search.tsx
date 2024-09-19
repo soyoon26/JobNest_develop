@@ -95,7 +95,7 @@ const Search: React.FC<SearchProps> = ({ onCreateDraft }) => {
   const fetchData = async () => {
     setIsLoading(true);
     try {
-      const response = await axios.get("http://35.193.35.53/contract-list", {
+      const response = await axios.get("https://test-dm.store/contract-list", {
         headers: {
           "Referrer-Policy": "no-referrer",
         },
