@@ -198,6 +198,10 @@ const RealEstate = () => {
           </div>
         </div>
       </div>
+      <div className="flex mt-10 items">
+        <input type="text" className="w-[169px] ml-1 mr-2 border-32" />
+        원정 은 계약 시에 지급하고 영수함.
+      </div>
     </div>
   );
 };

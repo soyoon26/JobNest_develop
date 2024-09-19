@@ -58,6 +58,25 @@ body {
 .border-by {
   @apply border-black border-y;
 }
+.border-gright {
+  @apply border-r border-gray-300;
+}
+.border-gl {
+  @apply border-l border-gray-300;
+}
+.border-gb {
+  @apply border-b border-gray-300;
+}
+.border-gt {
+  @apply border-t border-gray-300;
+}
+
+.border-gy {
+  @apply border-gray-300 border-y;
+}
+.border-gx {
+  @apply border-gray-300 border-x;
+}
 
 .border-32 {
   @apply flex items-center border border-gray-300 rounded-md h-[32px];
