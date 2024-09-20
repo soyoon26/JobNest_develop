@@ -11,7 +11,7 @@ const UnwantedFacility: React.FC = () => {
         (1km 이내)
       </div>
 
-      <div className="flex items-center w-full">
+      <div className="flex items-center ">
         <label className="flex items-center mr-4">
           <input
             type="radio"
@@ -19,7 +19,7 @@ const UnwantedFacility: React.FC = () => {
             value="없음"
             checked={selectedOption === "없음"}
             onChange={() => setSelectedOption("없음")}
-            className="ml-2 mr-2"
+            className="ml-2 mr-2 "
           />
           없음
         </label>
@@ -41,7 +41,7 @@ const UnwantedFacility: React.FC = () => {
           disabled={selectedOption !== "있음"}
           value={facilityDetail}
           onChange={(e) => setFacilityDetail(e.target.value)}
-          className="flex-1 border-g h-[30px]"
+          className="flex-1 border-g h-[30px] w-[800px]"
         />
         <span>)</span>
       </div>
