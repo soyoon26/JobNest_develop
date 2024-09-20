@@ -94,7 +94,7 @@ const Search: React.FC<SearchProps> = ({ onCreateDraft }) => {
   // 데이터
   const fetchData = async () => {
     setIsLoading(true);
-    const url = `${import.meta.env.VITE_BASE_URL}/juso/search`;
+    const url = `${import.meta.env.VITE_BASE_URL}/contract-list`;
     try {
       const response = await axios.get(url, {
         headers: {

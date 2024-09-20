@@ -5,7 +5,7 @@ const HowToWrite = () => {
         작성방법(주거용 건축물)
       </div>
       <div className="p-4">
-        <pre className="whitespace-pre-wrap text-[20px]">
+        <div className="whitespace-pre-wrap text-[20px]">
           <span className="font-bold">&lt;작성일반&gt;</span>
           {"\n"}
           1. “[ ]”있는 항목은 해당하는 “[ ]”안에 √로 표시합니다.
@@ -128,7 +128,7 @@ const HowToWrite = () => {
           16. 공동중개 시 참여한 개업공인중개사(소속공인중개사를 포함합니다)는
           모두 서명·날인해야 하며, 2명을 넘는 경우에는 별지로 작성하여
           첨부합니다
-        </pre>
+        </div>
       </div>
     </div>
   );
