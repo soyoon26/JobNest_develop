@@ -1,6 +1,4 @@
-import React from "react";
-
-const TaxInfo = () => {
+const Tax = () => {
   return (
     <div className="my-2 text-[13px] items h-[81px] font-bold border-by  w-[1163px]">
       <div className="items-j h-full text-center border-br w-[150px]">
@@ -43,4 +41,4 @@ const TaxInfo = () => {
   );
 };
 
-export default TaxInfo;
+export default Tax;
