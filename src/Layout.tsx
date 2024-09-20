@@ -8,7 +8,7 @@ export const Layout = () => {
       <Header />
       <main className='flex'>
         <LeftMenu />
-        <div className='border-dashed border-4px border-gray-150 border-2 w-full m-[56px]'>
+        <div className='border-dashed border-4px border-gray-150 border-2 w-full m-[56px] relative'>
           <Outlet />
         </div>
       </main>
