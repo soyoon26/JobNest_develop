@@ -45,7 +45,7 @@ const ToDoApp = () => {
     } else {
       setIsLoggedIn(false);
     }
-  }, []);
+  }, [token]); // Added token as a dependency to recheck if token changes
 
   // 날짜 자동 업데이트 로직
   useEffect(() => {
@@ -53,13 +53,16 @@ const ToDoApp = () => {
       const todayDate = getTodayDate();
       if (todayDate !== currentDate) {
         setCurrentDate(todayDate);
-        setSelectedCategory("past"); // 현재 날짜가 바뀌면 "지난 내역"으로 변경
+        if (selectedCategory === "today") {
+          // Automatically switch to "past" only if currently viewing "today"
+          setSelectedCategory("past");
+        }
       }
     };
 
     const intervalId = setInterval(checkTime, 60000); // 1분마다 체크
     return () => clearInterval(intervalId); // 클린업
-  }, [currentDate]);
+  }, [currentDate, selectedCategory]); // Add selectedCategory to check before switching
 
   const addTodo = () => {
     if (newTodo.trim()) {
