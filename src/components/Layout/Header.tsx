@@ -1,10 +1,26 @@
 import axios from 'axios';
-import { useState, useEffect } from 'react';
+import { useEffect } from 'react';
+import { useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { Link, useNavigate } from 'react-router-dom';
+import { login, logout } from '../../redux/loginSlice';
+import { RootState } from '../../redux/store';
 
 const Header = () => {
   const navigate = useNavigate();
-  const [login, setLogin] = useState(false);
+
+  // Redux 상태에서 login 상태 가져오기
+  const loginState = useSelector((state: RootState) => state.auth.login);
+  const dispatch = useDispatch();
+
+  // 로그인 상태를 토글하는 함수
+  const handleLogin = (value: boolean) => {
+    if (value) {
+      dispatch(login());
+    } else {
+      dispatch(logout());
+    }
+  };
 
   // 로그인 토큰 받아오기
   const getLoginToken = async () => {
@@ -18,7 +34,7 @@ const Header = () => {
 
         // 토큰을 로컬 스토리지에 저장
         localStorage.setItem('authToken', token);
-        setLogin(true);
+        handleLogin(true);
       }
     } catch (error) {
       console.error('Error fetching the token:', error);
@@ -28,7 +44,7 @@ const Header = () => {
   // 로그아웃 처리
   const handleLogout = () => {
     localStorage.removeItem('authToken'); // 로컬 스토리지에서 토큰 삭제
-    setLogin(false);
+    handleLogin(false);
   };
 
   // 페이지가 로드될 때 로컬 스토리지에서 토큰 확인
@@ -36,7 +52,7 @@ const Header = () => {
     const token = localStorage.getItem('authToken');
     if (token) {
       // 토큰이 있으면 로그인 상태로 설정
-      setLogin(true);
+      handleLogin(true);
     }
   }, []);
 
@@ -66,7 +82,7 @@ const Header = () => {
               등기/대장 발급
             </li>
           </ul>
-          {login ? (
+          {loginState ? (
             <>
               <span className='text-[#8894A0] ml-[88px]'>
                 박지우님 환영합니다!

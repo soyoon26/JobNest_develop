@@ -1,4 +1,8 @@
 import React, { useState, useEffect } from 'react';
+import { useSelector } from 'react-redux';
+import { login, logout } from '../../redux/loginSlice';
+import { useDispatch } from 'react-redux';
+import { RootState } from '../../redux/store';
 
 // 할 일 항목 타입
 type TodoItem = {
@@ -24,15 +28,28 @@ const ToDoApp = () => {
   const [selectedCategory, setSelectedCategory] = useState<'today' | 'past'>(
     'today'
   );
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  // const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [token, setToken] = useState<string | null>(null);
   const [currentDate, setCurrentDate] = useState<string>(getTodayDate());
+
+  // Redux 상태에서 login 상태 가져오기
+  const loginState = useSelector((state: RootState) => state.auth.login);
+  const dispatch = useDispatch();
+
+  // 로그인 상태를 토글하는 함수
+  const handleLogin = (value: boolean) => {
+    if (value) {
+      dispatch(login());
+    } else {
+      dispatch(logout());
+    }
+  };
 
   useEffect(() => {
     const storedToken = localStorage.getItem('authToken');
     if (storedToken) {
       setToken(storedToken);
-      setIsLoggedIn(true);
+      handleLogin(true);
 
       const savedTodos = localStorage.getItem(`todos_${storedToken}`);
       const savedNextId = localStorage.getItem(`nextId_${storedToken}`);
@@ -45,7 +62,7 @@ const ToDoApp = () => {
         setNextId(JSON.parse(savedNextId));
       }
     } else {
-      setIsLoggedIn(false);
+      handleLogin(false);
     }
   }, [token]); // Added token as a dependency to recheck if token changes
 
@@ -147,7 +164,7 @@ const ToDoApp = () => {
                 id={`todo-${todo.id}`}
                 checked={todo.isCompleted}
                 onChange={() => toggleTodo(todo.id)}
-                className='mr-2 accent-[#636363]'
+                className='mr-2 accent-[#636363] h-[20px] w-[20px]'
               />
               {editTodoId === todo.id ? (
                 <input
@@ -184,16 +201,16 @@ const ToDoApp = () => {
                 />
               </button>
               {menuOpenId === todo.id && (
-                <div className='absolute top-[-1px] right-10 mt-2 py-2 bg-white w-[58px] border rounded shadow-lg'>
+                <div className='absolute top-[-1px] right-10 bg-white w-[58px] border rounded shadow-lg z-50'>
                   <button
                     onClick={() => handleEditClick(todo.id, todo.text)}
-                    className='block w-full text-left px-4 py-1 text-black hover:bg-gray-100 text-sm'
+                    className='block w-full text-left px-4 py-2 text-black hover:bg-gray-100 text-sm'
                   >
                     수정
                   </button>
                   <button
                     onClick={() => removeTodo(todo.id)}
-                    className='block w-full text-left px-4 py-1 text-black hover:bg-gray-100 text-sm'
+                    className='block w-full text-left px-4 py-2 text-black hover:bg-gray-100 text-sm'
                   >
                     삭제
                   </button>
@@ -208,7 +225,7 @@ const ToDoApp = () => {
 
   return (
     <>
-      {isLoggedIn && (
+      {loginState && (
         <>
           <div>
             {showToDoList && (

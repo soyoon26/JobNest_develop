@@ -1,9 +1,11 @@
-import { configureStore } from "@reduxjs/toolkit";
-import contractReducer from "./contractSlice";
+import { configureStore } from '@reduxjs/toolkit';
+import contractReducer from './contractSlice';
+import loginReducer from './loginSlice';
 
 const store = configureStore({
   reducer: {
     contract: contractReducer,
+    auth: loginReducer,
   },
 });
 
