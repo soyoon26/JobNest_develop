@@ -8,19 +8,18 @@ interface SearchInputProps {
 }
 
 const SearchInput: React.FC<SearchInputProps> = ({ value, onChange }) => {
-  const [searchTerm, setSearchTerm] = useState<string>("");
   const [results, setResults] = useState<string[]>([]);
   const [showDropdown, setShowDropdown] = useState<boolean>(false);
 
   const fetchData = async () => {
-    if (searchTerm) {
+    if (value) {
       try {
         const url = `${import.meta.env.VITE_BASE_URL}/juso/search`;
 
         const response = await axios.post(
           url,
           {
-            juso: searchTerm,
+            juso: value,
             page_no: 5,
           },
           {
@@ -51,8 +50,8 @@ const SearchInput: React.FC<SearchInputProps> = ({ value, onChange }) => {
       <div className="relative mt-2 w-[477px] h-[26px]">
         <input
           type="text"
-          value={searchTerm}
-          onChange={(e) => setSearchTerm(e.target.value)}
+          value={value}
+          onChange={(e) => onChange(e.target.value)}
           placeholder="상세주소를 입력해주세요"
           className="w-full h-full px-3 py-1.5 text-xs text-[#6F6F6F] border border-[#6F6F6F] rounded-md pr-10"
           onKeyDown={(e) => {
@@ -75,7 +74,6 @@ const SearchInput: React.FC<SearchInputProps> = ({ value, onChange }) => {
               className="px-3 py-1 text-sm text-[#6F6F6F] hover:bg-gray-100 cursor-pointer"
               onClick={() => {
                 onChange(result);
-                setSearchTerm(result);
                 setShowDropdown(false);
               }}
             >
