@@ -147,7 +147,7 @@ const ToDoApp = () => {
                 id={`todo-${todo.id}`}
                 checked={todo.isCompleted}
                 onChange={() => toggleTodo(todo.id)}
-                className='mr-2'
+                className='mr-2 bg-gray-600'
               />
               {editTodoId === todo.id ? (
                 <input
@@ -205,65 +205,71 @@ const ToDoApp = () => {
     <>
       {isLoggedIn && (
         <>
-          <button
-            className='px-4 py-2 bg-blue-500 text-white rounded-lg shadow-md hover:bg-blue-600'
-            onClick={() => setShowToDoList(!showToDoList)}
-          >
-            오늘 할 일 메모
-          </button>
-
-          {showToDoList && (
-            <div className='fixed bottom-16 right-5 bg-white rounded-lg shadow-lg w-72 p-4'>
-              <div className='mb-4'>
-                <select
-                  value={selectedCategory}
-                  onChange={(e) =>
-                    setSelectedCategory(e.target.value as 'today' | 'past')
-                  }
-                  className='border rounded-lg w-full px-2 py-1'
-                >
-                  <option value='today'>오늘의 할 일</option>
-                  <option value='past'>지난 내역</option>
-                </select>
-              </div>
-
-              {selectedCategory === 'today' && (
-                <>
-                  {filteredTodos.length === 0 ? (
-                    <p className='text-gray-500'>
-                      할 일이 없습니다. 추가해보세요!
-                    </p>
-                  ) : (
-                    renderTodoList(filteredTodos)
-                  )}
-                  <input
-                    type='text'
-                    value={newTodo}
-                    onChange={(e) => setNewTodo(e.target.value)}
-                    onKeyPress={handleKeyPress}
-                    placeholder='새로운 할 일 작성'
-                    className='w-full border rounded-lg px-2 py-1 mb-2'
-                  />
-                  <button
-                    onClick={addTodo}
-                    className='w-full bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600'
+          <div>
+            {showToDoList && (
+              <div className='bg-white rounded-lg shadow-lg w-72 p-4'>
+                <div className='mb-4'>
+                  <select
+                    value={selectedCategory}
+                    onChange={(e) =>
+                      setSelectedCategory(e.target.value as 'today' | 'past')
+                    }
+                    className='border rounded-md w-[70px] px-2 py-1'
                   >
-                    추가
-                  </button>
-                </>
-              )}
+                    <option value='today'>오늘</option>
+                    <option value='past'>지난 내역</option>
+                  </select>
+                </div>
 
-              {selectedCategory === 'past' && (
-                <>
-                  {filteredTodos.length === 0 ? (
-                    <p className='text-gray-500'>지난 내역이 없습니다.</p>
-                  ) : (
-                    renderTodoList(filteredTodos)
-                  )}
-                </>
-              )}
-            </div>
-          )}
+                {selectedCategory === 'today' && (
+                  <div>
+                    {filteredTodos.length === 0 ? (
+                      <>
+                        <p className='text-gray-500'>
+                          할 일이 없습니다. 추가해보세요!
+                        </p>
+                        <br />
+                      </>
+                    ) : (
+                      renderTodoList(filteredTodos)
+                    )}
+                    <input
+                      type='text'
+                      value={newTodo}
+                      onChange={(e) => setNewTodo(e.target.value)}
+                      onKeyPress={handleKeyPress}
+                      placeholder='새로운 할 일 작성'
+                      className='w-full border rounded-lg px-2 py-1 mb-2'
+                    />
+                    <button
+                      onClick={addTodo}
+                      className='w-full bg-[#347fff] text-white px-4 py-2 rounded-md hover:bg-[#347fff] text-[15px] font-extrabold'
+                    >
+                      추가
+                    </button>
+                  </div>
+                )}
+
+                {selectedCategory === 'past' && (
+                  <>
+                    {filteredTodos.length === 0 ? (
+                      <p className='text-gray-500'>지난 내역이 없습니다.</p>
+                    ) : (
+                      renderTodoList(filteredTodos)
+                    )}
+                  </>
+                )}
+              </div>
+            )}
+          </div>
+          <span>
+            <button
+              className='px-4 py-2 bg-[#347fff] text-white w-[136px] h-[42px]  rounded-md shadow-md text-[15px] font-extrabold'
+              onClick={() => setShowToDoList(!showToDoList)}
+            >
+              오늘 할 일 메모
+            </button>
+          </span>
         </>
       )}
     </>
