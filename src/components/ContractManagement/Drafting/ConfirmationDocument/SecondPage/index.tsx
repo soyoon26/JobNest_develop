@@ -5,8 +5,8 @@ import UnwantedFacility from "./UnwantedFacility";
 const SecondPage = () => {
   return (
     <>
-      <ExpectedTransactionAmount />
       <UnwantedFacility />
+      <ExpectedTransactionAmount />
       <Tax />
     </>
   );
