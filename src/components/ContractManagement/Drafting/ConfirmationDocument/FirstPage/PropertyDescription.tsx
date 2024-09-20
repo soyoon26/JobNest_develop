@@ -1,5 +1,5 @@
 import React from "react";
-import { FaExclamationCircle } from "react-icons/fa";
+// import { FaExclamationCircle } from "react-icons/fa";
 
 const PropertyDescription: React.FC = () => {
   return (
