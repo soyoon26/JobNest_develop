@@ -26,7 +26,7 @@ const Header = () => {
   };
 
   // 로그아웃 처리
-  const handleLogin = () => {
+  const handleLogout = () => {
     localStorage.removeItem('authToken'); // 로컬 스토리지에서 토큰 삭제
     setLogin(false);
   };
@@ -73,7 +73,7 @@ const Header = () => {
               </span>
               <button
                 className='bg-[#347fff] w-[130px] h-[42px] ml-[50px] font-medium mr-[41px] text-white'
-                onClick={handleLogin}
+                onClick={handleLogout}
               >
                 로그아웃
               </button>
