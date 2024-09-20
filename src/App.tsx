@@ -6,28 +6,33 @@ import RegistrationIssuanceMainView from "./views/RegistrationIssuance/Registrat
 import RegistrationIssuanceViewHistroyView from "./views/RegistrationIssuance/RegistrationIssuanceViewHistroyView";
 import ContractDraftingView from "./views/ContractDraftingView";
 import ContractManagementView from "./views/ContractManagementView";
+import ToDoApp from "./components/Main/ToDoApp";
 
 const App = () => {
   return (
-    <Routes>
-      <Route path="/" element={<Layout />}>
-        <Route index element={<MainView />} />
+    <>
+      <Routes>
+        <Route path="/" element={<Layout />}>
+          <Route index element={<MainView />} />
 
-        <Route
-          path="/registrationIssuance"
-          element={<RegistrationIssuanceMainView />}
-        />
-        <Route
-          path="/registrationIssuance/viewHistory"
-          element={<RegistrationIssuanceViewHistroyView />}
-        />
-        <Route
-          path="/contractManagement"
-          element={<ContractManagementView />}
-        />
-        <Route path="/contractDrafting" element={<ContractDraftingView />} />
-      </Route>
-    </Routes>
+          <Route
+            path="/registrationIssuance"
+            element={<RegistrationIssuanceMainView />}
+          />
+          <Route
+            path="/registrationIssuance/viewHistory"
+            element={<RegistrationIssuanceViewHistroyView />}
+          />
+          <Route
+            path="/contractManagement"
+            element={<ContractManagementView />}
+          />
+          <Route path="/contractDrafting" element={<ContractDraftingView />} />
+        </Route>
+      </Routes> 
+      <ToDoApp />
+    </>
+
   );
 };
 export default App;
