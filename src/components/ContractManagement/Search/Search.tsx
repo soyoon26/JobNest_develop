@@ -94,8 +94,9 @@ const Search: React.FC<SearchProps> = ({ onCreateDraft }) => {
   // 데이터
   const fetchData = async () => {
     setIsLoading(true);
+    const url = `${import.meta.env.VITE_BASE_URL}/juso/search`;
     try {
-      const response = await axios.get("https://test-dm.store/contract-list", {
+      const response = await axios.get(url, {
         headers: {
           "Referrer-Policy": "no-referrer",
         },

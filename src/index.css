@@ -58,6 +58,11 @@ body {
 .border-by {
   @apply border-black border-y;
 }
+
+.border-bx {
+  @apply border-black border-x;
+}
+
 .border-gright {
   @apply border-r border-gray-300;
 }
