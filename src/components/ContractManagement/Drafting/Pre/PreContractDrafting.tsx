@@ -8,7 +8,7 @@ import {
 import { useNavigate } from "react-router-dom";
 import DraftBtn from "./DraftBtn";
 import DraftDropdown from "./DraftDropDown";
-import SearchInput from "./SearchInput"; // SearchInput 컴포넌트 불러오기
+import SearchInput from "./SearchInput";
 import { useState } from "react";
 
 interface DraftContractProps {
@@ -84,7 +84,7 @@ const DraftContract: React.FC<DraftContractProps> = ({ onCancel }) => {
 
     dispatch(setContractType(selectedContractType));
     dispatch(setTransactionType(selectedTransactionType));
-    dispatch(setDetailAddress(selectedDetailAddress)); // 선택된 상세 주소 Redux에 저장
+    dispatch(setDetailAddress(selectedDetailAddress));
 
     navigate("/contractDrafting");
   };
@@ -112,8 +112,8 @@ const DraftContract: React.FC<DraftContractProps> = ({ onCancel }) => {
         </div>
         <div className="text-[13px] font-bold my-4">상세 주소 입력</div>
         <SearchInput
-          value={selectedDetailAddress} // 선택된 주소 값 전달
-          onChange={setSelectedDetailAddress} // 선택된 주소를 상태로 업데이트
+          value={selectedDetailAddress}
+          onChange={setSelectedDetailAddress}
         />
 
         <div className="flex items-center justify-center gap-2 mt-7">
