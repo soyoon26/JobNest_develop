@@ -25,12 +25,11 @@ const FlashNotification: React.FC<FlashNotificationProps> = ({ visible, onClose 
 
   return (
     <div
-  className="fixed bottom-[10px] right-[20px] p-2 bg-gray-500 rounded-md shadow-lg"
-
->
-  <p className="text-[#ffffff]">스마트폰에 설치되어 있는 구글 달력과 연동되어 있어요. 일정을 확인해보세요!</p>
-</div>
-
+      className="fixed bottom-[100px] right-[20px] p-3 bg-gray-500 rounded-md shadow-lg"
+      style={{ zIndex: 2000, transform: 'scale(1.00)' }}  // z-index가 2000으로 설정됨
+    >
+      <p className="text-[#ffffff]">스마트폰에 설치되어 있는 구글 달력과 연동되어 있어요. 일정을 확인해보세요!</p>
+    </div>
   );
 };
 
