@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 
 interface GoogleCalendarButtonProps {
   toggleCalendar: (isVisible: boolean) => void;
-  isLoggedIn: boolean;  // Prop to ensure login status
+  isLoggedIn: boolean;  // Prop to check if the user is logged in
 }
 
 const GoogleCalendarButton: React.FC<GoogleCalendarButtonProps> = ({ toggleCalendar, isLoggedIn }) => {
@@ -14,7 +14,7 @@ const GoogleCalendarButton: React.FC<GoogleCalendarButtonProps> = ({ toggleCalen
       setIsCalendarVisible(newVisibility);
       toggleCalendar(newVisibility);
     } else {
-      alert('로그인 후 구글 달력에 접근 가능합니다.'); // Login prompt message
+      alert('로그인 후 구글 달력에 접근 가능합니다.'); // Display login prompt if not logged in
     }
   };
 
@@ -26,7 +26,7 @@ const GoogleCalendarButton: React.FC<GoogleCalendarButtonProps> = ({ toggleCalen
       }`}
       style={{ zIndex: 9999, transform: 'scale(1.00)' }}
     >
-      {isCalendarVisible ? '구글 달력 숨기기' : '구글 달력 보기'}
+      {isCalendarVisible ? '구글 달력' : '구글 달력'} 
     </button>
   );
 };

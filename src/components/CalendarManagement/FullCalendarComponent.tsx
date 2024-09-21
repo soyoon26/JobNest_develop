@@ -23,7 +23,7 @@ interface FullCalendarComponentProps {
   isVisible: boolean;
   handleAlert: (message: string) => void;
   handleEventNotification: (message: string, type: 'success' | 'error') => void;
-  onEventSave: (eventData: { title: string; start: string; end: string }) => void;  // Required prop for saving events
+  onEventSave: (eventData: { title: string; start: string; end: string }) => void;
 }
 
 const CLIENT_ID = '843336558883-t6882gjo6vco7pf0ikbr3tlrku7f9kgu.apps.googleusercontent.com';

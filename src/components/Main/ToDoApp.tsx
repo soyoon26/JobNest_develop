@@ -303,7 +303,7 @@ const ToDoApp: React.FC<ToDoAppProps> = ({ onSave }) => {
           </div>
           <div className='flex justify-end mt-[20px]'>
             <button
-              className='px-4 py-2 bg-[#347fff] text-white w-[136px] h-[42px] rounded-md shadow-md text-[15px] font-extrabold'
+              className='px-2 py-2 bg-[#347fff] text-white w-[136px] h-[42px] rounded-md shadow-md text-[15px] font-extrabold'
               onClick={() => setShowToDoList(!showToDoList)}
             >
               오늘 할 일 메모
