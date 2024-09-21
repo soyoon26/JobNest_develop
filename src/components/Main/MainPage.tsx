@@ -248,13 +248,15 @@ const BookMark = () => {
 
   return (
     <div className='ml-[65px] mt-[50px] mr-[65px] max-w-[1440px]'>
-      <p className='text-[35px] mb-[46px] font-extrabold'>즐겨찾기</p>
+      <p className='text-[35px] mb-[46px] font-extrabold select-none'>
+        즐겨찾기
+      </p>
 
       <div className='grid grid-cols-7 gap-[30px]'>
         <BookMarkList bookmarksArray={bookmarksArray} />
         <div className='border-dash flex justify-center items-center w-[180px] h-[180px] mb-[12px] bg-[#f8f8f8]'>
           <button
-            className='bg-[#347fff] text-white px-[20px] py-[12px] rounded-[10px]'
+            className='bg-[#347fff] text-white px-[20px] py-[12px] rounded-[10px] select-none'
             onClick={handleBookMark}
           >
             관리하기
@@ -272,7 +274,7 @@ const BookMark = () => {
           ></BookMarkManageModal>
         </div>
       )}
-      <div className='absolute right-9 bottom-5'>
+      <div className='absolute right-9 bottom-5 select-none'>
         <ToDoApp />
       </div>
     </div>

@@ -1,9 +1,26 @@
+import axios from 'axios';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { faSquareCheck as faSolidSquareCheck } from '@fortawesome/free-solid-svg-icons';
+import { faSquareCheck as faRegularSquareCheck } from '@fortawesome/free-regular-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+
+type TBuildingData = {
+  unique: string;
+  kind: string;
+  address: string;
+};
+
+type TApiResponse = {
+  result: TBuildingData[];
+  last_page: string;
+  status: number;
+};
 
 const RegistrationIssuanceMain = () => {
   const navigate = useNavigate();
   const [inputAddress, setInputAddress] = useState('');
+  const [pageCount, setPageCount] = useState(0);
 
   const handleInputAddress = (val: string) => {
     setInputAddress(val);
@@ -13,14 +30,64 @@ const RegistrationIssuanceMain = () => {
     setInputAddress('');
   };
 
+  const [data, setData] = useState<TBuildingData[]>([]);
+
+  // 검색을 위한 요청 함수 (axios 사용)
+  const fetchSearchData = async (juso: string, pageNo: number) => {
+    const base_url = import.meta.env.VITE_BASE_URL;
+    const endpoint = '/juso/search';
+    const full_url = `${base_url}${endpoint}`;
+    try {
+      const response = await axios.post(full_url, {
+        juso: juso,
+        page_no: pageNo,
+      });
+
+      const json: TApiResponse = response.data;
+
+      if (json.status === 200) {
+        setData(json.result);
+        setPageCount(Number(json.last_page));
+      } else {
+        console.error('API 요청이 실패했습니다.');
+      }
+    } catch (error) {
+      console.error('API 요청 중 오류 발생:', error);
+    }
+  };
+
+  const pageRendering = (pageCount: number) => {
+    const pages = []; // 반환할 JSX 요소들을 저장할 배열
+
+    for (let i = 0; i < pageCount; i++) {
+      pages.push(
+        <span key={i}>
+          <button
+            className='inline-block px-2'
+            onClick={() => fetchSearchData(inputAddress, i + 1)}
+          >
+            {i + 1}
+          </button>
+        </span>
+      );
+    }
+
+    return <>{pages}</>; // 배열을 JSX 형태로 반환
+  };
+
+  const [allCheck, setAllCheck] = useState(false);
+  const toggleCheckbox = () => {
+    setAllCheck(!allCheck);
+  };
+
   return (
-    <>
+    <div className=''>
       <div className='pl-[65px] pt-[21px] w-full flex justify-between'>
         <div className='pt-[29px]'>
-          <span className='text-[35px] mb-[46px] font-extrabold'>
+          <span className='text-[35px] mb-[46px] font-extrabold select-none'>
             등기/대장 열람
           </span>
-          <span className='text-[15px] ml-[30px] mb-[46px] font-bold'>
+          <span className='text-[15px] ml-[30px] mb-[46px] font-bold select-none'>
             동시에 여러 개의 등기 또는 대장을 발급받을 수 있어요.
           </span>
         </div>
@@ -67,12 +134,72 @@ const RegistrationIssuanceMain = () => {
           )}
         </span>
         <span className='pl-[12px] relative top-[-2px]'>
-          <button className='text-[11px] w-[48px] h-[40px] bg-[#347fff] text-white rounded'>
+          <button
+            className='text-[11px] w-[48px] h-[40px] bg-[#347fff] text-white rounded'
+            onClick={() => {
+              fetchSearchData(inputAddress, 1);
+            }}
+          >
             검색
           </button>
         </span>
       </div>
-    </>
+
+      {/* 받아온 데이터들 출력 */}
+      <div className='relative'>
+        {/* 전체선택 체크박스 */}
+        {data.length > 0 && allCheck ? (
+          <div className='flex justify-center items-center absolute left-[94px] top-[80px]'>
+            <FontAwesomeIcon
+              icon={faSolidSquareCheck}
+              color='#636363'
+              className='mr-[8px] text-[23px] cursor-pointer'
+              onClick={() => {
+                toggleCheckbox();
+              }}
+            />
+            <span
+              onClick={() => {
+                toggleCheckbox();
+              }}
+              className='cursor-pointer select-none'
+            >
+              전체 선택
+            </span>
+          </div>
+        ) : (
+          <div className='flex justify-center items-center absolute left-[94px] top-[80px]'>
+            <FontAwesomeIcon
+              icon={faRegularSquareCheck}
+              color='#636363'
+              className='mr-[8px] text-[23px] cursor-pointer'
+              onClick={() => {
+                toggleCheckbox();
+              }}
+            />
+            <span
+              onClick={() => {
+                toggleCheckbox();
+              }}
+              className='cursor-pointer select-none'
+            >
+              전체 선택
+            </span>
+          </div>
+        )}
+        {data?.map((item) => (
+          <div key={item.unique} className='text-[12px] pb-5'>
+            <p>유니크 ID: {item.unique}</p>
+            <p>종류: {item.kind}</p>
+            <p>주소: {item.address}</p>
+            <p>lastPage : {pageCount}</p>
+          </div>
+        ))}
+      </div>
+
+      {/* 페이지 네이션 파트 */}
+      <div className='relative'>{pageRendering(pageCount)}</div>
+    </div>
   );
 };
 export default RegistrationIssuanceMain;

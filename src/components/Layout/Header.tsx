@@ -64,19 +64,19 @@ const Header = () => {
     <>
       <div className='h-[100px] flex items-center bg-[#fff] border-b border-[#ededed]'>
         <div
-          className='text-[40px] w-[164px] h-[50px] flex items-center justify-center ml-[40px] font-black text-[#347fff] cursor-pointer'
+          className='text-[40px] w-[164px] h-[50px] flex items-center justify-center ml-[40px] font-black text-[#347fff] cursor-pointer select-none'
           onClick={clickLogo}
         >
           JobNest
         </div>
         <div className='flex items-center ml-auto'>
           <ul className='flex gap-[38px]'>
-            <li className='font-medium text-[18px]'>매물 관리</li>
-            <li className='font-medium text-[18px]'>
+            <li className='font-medium text-[18px] select-none'>매물 관리</li>
+            <li className='font-medium text-[18px] select-none'>
               <Link to='/contractManagement'>계약 관리</Link>
             </li>
             <li
-              className='font-medium text-[18px] cursor-pointer'
+              className='font-medium text-[18px] cursor-pointer select-none'
               onClick={() => navigate('/registrationIssuance')}
             >
               등기/대장 발급
@@ -84,11 +84,11 @@ const Header = () => {
           </ul>
           {loginState ? (
             <>
-              <span className='text-[#8894A0] ml-[88px]'>
+              <span className='text-[#8894A0] ml-[88px] select-none'>
                 박지우님 환영합니다!
               </span>
               <button
-                className='bg-[#347fff] w-[130px] h-[42px] ml-[50px] font-medium mr-[41px] text-white'
+                className='bg-[#347fff] w-[130px] h-[42px] ml-[50px] font-medium mr-[41px] text-white select-none'
                 onClick={handleLogout}
               >
                 로그아웃
@@ -96,7 +96,7 @@ const Header = () => {
             </>
           ) : (
             <button
-              className='bg-[#347fff] w-[130px] h-[42px] ml-[50px] font-medium mr-[41px] text-white'
+              className='bg-[#347fff] w-[130px] h-[42px] ml-[50px] font-medium mr-[41px] text-white select-none'
               onClick={getLoginToken}
             >
               로그인

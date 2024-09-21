@@ -82,16 +82,16 @@ const BookMarkManageModal = ({
       >
         <div className='border border-b-1 p-3 mb-[5px]'>
           <button
-            className='absolute top-4 right-4 text-black text-[14px] font-medium'
+            className='absolute top-4 right-4 text-black text-[14px] font-medium select-none'
             onClick={closeModal}
           >
             닫기
           </button>
-          <span className='text-black text-[20px] font-medium ml-[6px] my-[9px] cursor-default'>
+          <span className='text-black text-[20px] font-medium ml-[6px] my-[9px] cursor-default select-none'>
             즐겨찾기 관리
           </span>
         </div>
-        <div id='scrollbar' className='overflow-y-scroll h-[450px]'>
+        <div id='scrollbar' className='overflow-y-scroll h-[450px] select-none'>
           {bookmarksArray.map((val, idx) => (
             // 체크박스
             <div className='pt-[12px] pl-[20px] relative group' key={idx}>

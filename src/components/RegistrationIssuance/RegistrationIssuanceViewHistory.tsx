@@ -2,18 +2,6 @@ import axios from 'axios';
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
-type TBuildingData = {
-  unique: string;
-  kind: string;
-  address: string;
-};
-
-type TApiResponse = {
-  result: TBuildingData[];
-  last_page: string;
-  status: number;
-};
-
 const RegistrationViewHistory = () => {
   const navigate = useNavigate();
   const [inputAddress, setInputAddress] = useState('');
@@ -25,33 +13,6 @@ const RegistrationViewHistory = () => {
   const clearInput = () => {
     setInputAddress('');
   };
-
-  const [data, setData] = useState<TBuildingData[]>([]);
-
-  // 검색을 위한 요청 함수 (axios 사용)
-  const fetchData = async (juso: string, pageNo: number) => {
-    try {
-      const response = await axios.post('/juso/search', {
-        juso: juso,
-        page_no: pageNo,
-      });
-
-      const json: TApiResponse = response.data;
-
-      if (json.status === 200) {
-        setData(json.result);
-      } else {
-        console.error('API 요청이 실패했습니다.');
-      }
-    } catch (error) {
-      console.error('API 요청 중 오류 발생:', error);
-    }
-  };
-
-  useEffect(() => {
-    // 예시: 특정 주소와 페이지 번호로 데이터 가져오기
-    fetchData('궁동 401-2', 5);
-  }, []);
 
   return (
     <>
