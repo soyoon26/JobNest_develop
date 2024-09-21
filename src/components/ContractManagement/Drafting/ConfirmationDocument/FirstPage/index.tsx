@@ -1,3 +1,4 @@
+import LeaseConfirmationItems from "./LeaseConfirmationItems";
 import Notes from "./Notes";
 import PropertyDescription from "./PropertyDescription";
 import PropertyRights from "./PropertyRights";
@@ -14,6 +15,7 @@ const FirstPage = () => {
       <Notes />
       <PropertyDescription />
       <PropertyRights />
+      <LeaseConfirmationItems />
       <TenantConfirmation />
     </>
   );
