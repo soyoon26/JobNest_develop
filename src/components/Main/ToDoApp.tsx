@@ -1,8 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import { useSelector } from 'react-redux';
+import { gapi } from 'gapi-script'; // Import gapi for Google Calendar
 import { login, logout } from '../../redux/loginSlice';
 import { useDispatch } from 'react-redux';
 import { RootState } from '../../redux/store';
+import ModalAlert from '../CalendarManagement/ModalAlert'; // Import ModalAlert
 
 // 할 일 항목 타입
 type TodoItem = {
@@ -12,12 +14,16 @@ type TodoItem = {
   date: string;
 };
 
+interface ToDoAppProps {
+  onSave?: (todo: TodoItem) => void; // Optional onSave prop
+}
+
 const getTodayDate = () => {
   const today = new Date();
   return today.toISOString().split('T')[0];
 };
 
-const ToDoApp = () => {
+const ToDoApp: React.FC<ToDoAppProps> = ({ onSave }) => {
   const [showToDoList, setShowToDoList] = useState(false);
   const [todos, setTodos] = useState<TodoItem[]>([]);
   const [newTodo, setNewTodo] = useState('');
@@ -25,13 +31,11 @@ const ToDoApp = () => {
   const [editTodoId, setEditTodoId] = useState<number | null>(null);
   const [editText, setEditText] = useState('');
   const [menuOpenId, setMenuOpenId] = useState<number | null>(null);
-  const [selectedCategory, setSelectedCategory] = useState<'today' | 'past'>(
-    'today'
-  );
-  // const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [selectedCategory, setSelectedCategory] = useState<'today' | 'past'>('today');
   const [token, setToken] = useState<string | null>(null);
   const [currentDate, setCurrentDate] = useState<string>(getTodayDate());
-
+  const [alertMessage, setAlertMessage] = useState<string | null>(null); // Alert for task sync status
+  
   // Redux 상태에서 login 상태 가져오기
   const loginState = useSelector((state: RootState) => state.auth.login);
   const dispatch = useDispatch();
@@ -64,7 +68,7 @@ const ToDoApp = () => {
     } else {
       handleLogin(false);
     }
-  }, [token]); // Added token as a dependency to recheck if token changes
+  }, [token]);
 
   // 날짜 자동 업데이트 로직
   useEffect(() => {
@@ -73,15 +77,14 @@ const ToDoApp = () => {
       if (todayDate !== currentDate) {
         setCurrentDate(todayDate);
         if (selectedCategory === 'today') {
-          // Automatically switch to "past" only if currently viewing "today"
           setSelectedCategory('past');
         }
       }
     };
 
-    const intervalId = setInterval(checkTime, 60000); // 1분마다 체크
-    return () => clearInterval(intervalId); // 클린업
-  }, [currentDate, selectedCategory]); // Add selectedCategory to check before switching
+    const intervalId = setInterval(checkTime, 60000);
+    return () => clearInterval(intervalId);
+  }, [currentDate, selectedCategory]);
 
   const addTodo = () => {
     if (newTodo.trim()) {
@@ -94,10 +97,29 @@ const ToDoApp = () => {
       const updatedTodos = [...todos, newTodoItem];
       setTodos(updatedTodos);
       setNewTodo('');
-
       setNextId(nextId + 1);
 
+      // Trigger the onSave function when a new todo is added
+      if (onSave) {
+        onSave(newTodoItem);
+      }
+
+      // Save task to Google Calendar
       if (token) {
+        gapi.client.calendar.events.insert({
+          calendarId: 'primary',
+          resource: {
+            summary: newTodoItem.text,
+            start: { date: newTodoItem.date },
+            end: { date: newTodoItem.date },
+          },
+        }).then(() => {
+          setAlertMessage('할 일이 구글 달력에 연동되었습니다.'); // Success message
+        }).catch(() => {
+          setAlertMessage('구글 달력에 할 일을 추가하는데 실패했습니다.'); // Error message
+        });
+
+        // Save to localStorage
         localStorage.setItem(`todos_${token}`, JSON.stringify(updatedTodos));
         localStorage.setItem(`nextId_${token}`, JSON.stringify(nextId + 1));
       }
@@ -194,11 +216,7 @@ const ToDoApp = () => {
                 }
                 className='text-gray-500 hover:text-gray-700 p-2'
               >
-                <img
-                  src='src\assets\images\menubar.png'
-                  alt='메뉴바'
-                  className='hidden group-hover:block'
-                />
+                ...
               </button>
               {menuOpenId === todo.id && (
                 <div className='absolute top-[-1px] right-10 bg-white w-[58px] border rounded shadow-lg z-50'>
@@ -292,6 +310,11 @@ const ToDoApp = () => {
             </button>
           </div>
         </>
+      )}
+
+      {/* ModalAlert for Google Calendar sync status */}
+      {alertMessage && (
+        <ModalAlert message={alertMessage} onClose={() => setAlertMessage(null)} />
       )}
     </>
   );

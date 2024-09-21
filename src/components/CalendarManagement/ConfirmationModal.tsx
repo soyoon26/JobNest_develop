@@ -66,16 +66,18 @@ const styles = {
     padding: '10px 20px',
     borderRadius: '5px',
     border: 'none',
-    backgroundColor: '#28a745',  // 초록색 확인 버튼
+    backgroundColor: '#347fff',  // Blue confirmation button
     color: 'white',
+    fontWeight: 'bold',  // Bold font for buttons
     cursor: 'pointer',
   },
   cancelButton: {
     padding: '10px 20px',
     borderRadius: '5px',
     border: 'none',
-    backgroundColor: '#dc3545',  // 빨간색 취소 버튼
+    backgroundColor: '#dc3545',  // Red cancel button
     color: 'white',
+    fontWeight: 'bold',  // Bold font for buttons
     cursor: 'pointer',
   },
 };

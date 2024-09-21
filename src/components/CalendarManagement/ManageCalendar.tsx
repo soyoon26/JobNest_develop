@@ -1,34 +1,107 @@
-import React, { useState } from 'react';
-import GoogleCalendarAuth from './GoogleCalendarAuth';
-import FullCalendarComponent from './FullCalendarComponent';
+import { useState } from 'react';
+import GoogleCalendarAuth from './GoogleCalendarAuth'; 
+import FullCalendarComponent from './FullCalendarComponent'; 
 import GoogleCalendarButton from './GoogleCalendarButton';
+import TodayMemo from '../Main/ToDoApp'; 
+import FlashNotification from './FlashNotification';
+import ModalAlert from './ModalAlert';
 
 const ManageCalendar = () => {
-  const [isAuthenticated, setIsAuthenticated] = useState(false);  // 로그인 상태
-  const [isCalendarVisible, setIsCalendarVisible] = useState(true);  // 달력 표시 여부
+  const [isAuthenticated, setIsAuthenticated] = useState(false);  // Track if the user is logged in
+  const [isCalendarVisible, setIsCalendarVisible] = useState(true);
+  const [isMemoVisible, setIsMemoVisible] = useState(true);
+  const [isFirstMemoSaved, setIsFirstMemoSaved] = useState(false);
+  const [showNotification, setShowNotification] = useState(true);
+  const [alertMessage, setAlertMessage] = useState<string | null>(null);
+  const [notification, setNotification] = useState<{ message: string; type: 'success' | 'error' } | null>(null);
 
-  // 로그인 성공 시 호출되는 함수
+  // Handle successful login for Google Calendar
   const handleLoginSuccess = () => {
-    setIsAuthenticated(true);  // 로그인 성공 시 상태 업데이트
+    setIsAuthenticated(true);
+    setShowNotification(false);
   };
 
-  // 달력 보임/숨김 상태 토글 함수
-  const toggleCalendarVisibility = (isVisible: boolean) => {  // boolean 타입 명시
-    setIsCalendarVisible(isVisible);  // 달력 상태 업데이트
+  // Handle saving of a memo
+  const handleMemoSave = () => {
+    if (!isFirstMemoSaved) {
+      setIsFirstMemoSaved(true);
+    }
+  };
+
+  // Toggle calendar visibility
+  const toggleCalendarVisibility = (isVisible: boolean) => {
+    setIsCalendarVisible(isVisible);
+    setIsMemoVisible(!isVisible); // Hide memo when the calendar is visible
+  };
+
+  // Handle alert messages
+  const handleAlert = (message: string) => {
+    setAlertMessage(message);
+  };
+
+  // Handle event notification messages
+  const handleEventNotification = (message: string, type: 'success' | 'error') => {
+    setNotification({ message, type });
+  };
+
+  // Handle event saving
+  const handleEventSave = (eventData: { title: string; start: string; end: string }) => {
+    console.log('Event data saved:', eventData);
+    // Here you can trigger other logic such as API calls or Google Calendar saves
   };
 
   return (
-    <div>
-      {/* 로그인되지 않은 경우 Google 인증 컴포넌트 표시 */}
+    <div className="p-6 bg-white rounded-lg shadow-lg">
+      {/* Google Calendar authentication */}
       {!isAuthenticated ? (
         <GoogleCalendarAuth onSuccess={handleLoginSuccess} />
       ) : (
         <>
-          {/* 로그인 후 달력 보임/숨김 상태에 따라 FullCalendarComponent 표시 */}
-          <FullCalendarComponent isVisible={isCalendarVisible} />
-          
-          {/* GoogleCalendarButton으로 달력 상태 토글 */}
-          <GoogleCalendarButton toggleCalendar={toggleCalendarVisibility} />
+          {/* Memo visibility */}
+          {isMemoVisible && (
+            <div className="mb-4">
+              <TodayMemo onSave={handleMemoSave} /> {/* Pass handleMemoSave */}
+            </div>
+          )}
+
+          {/* Calendar visibility */}
+          {isCalendarVisible && (
+            <div className="mb-4">
+              <FullCalendarComponent
+                isVisible={isCalendarVisible}
+                handleAlert={handleAlert}
+                handleEventNotification={handleEventNotification}
+                onEventSave={handleEventSave} // Pass handleEventSave
+              />
+            </div>
+          )}
+
+          {/* Toggle button for Calendar */}
+          <GoogleCalendarButton 
+            isLoggedIn={isAuthenticated}  // Pass isAuthenticated as isLoggedIn
+            toggleCalendar={toggleCalendarVisibility} 
+          />
+
+          {/* Show notification after the first memo is saved */}
+          {isFirstMemoSaved && showNotification && (
+            <FlashNotification visible={showNotification} onClose={() => setShowNotification(false)} />
+          )}
+
+          {/* Alert modal */}
+          {alertMessage && (
+            <ModalAlert message={alertMessage} onClose={() => setAlertMessage(null)} />
+          )}
+
+          {/* Notification for event success or failure */}
+          {notification && (
+            <div
+              className={`p-3 mb-4 rounded-lg shadow-md text-white ${
+                notification.type === 'success' ? 'bg-green-500' : 'bg-red-500'
+              }`}
+            >
+              {notification.message}
+            </div>
+          )}
         </>
       )}
     </div>

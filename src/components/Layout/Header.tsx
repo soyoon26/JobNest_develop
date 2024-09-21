@@ -25,21 +25,24 @@ const Header = () => {
   // 로그인 토큰 받아오기
   const getLoginToken = async () => {
     try {
-      const response = await axios.get(
-        'https://api.safehomes.co.kr/realtors/api/token'
-      );
-
+      const response = await axios.get('https://api.safehomes.co.kr/realtors/api/token');
+      console.log('API Response:', response); // API 응답 로그
+      
       if (response.status === 200 && response.data.message === 'success') {
         const token = response.data.cookie;
-
+        console.log('Received Token:', token); // 토큰 확인
+  
         // 토큰을 로컬 스토리지에 저장
         localStorage.setItem('authToken', token);
         handleLogin(true);
+      } else {
+        console.error('API 요청 실패: 응답 상태가 성공이 아님');
       }
     } catch (error) {
-      console.error('Error fetching the token:', error);
+      console.error('API 요청 에러:', error); // 에러 처리
     }
   };
+  
 
   // 로그아웃 처리
   const handleLogout = () => {
