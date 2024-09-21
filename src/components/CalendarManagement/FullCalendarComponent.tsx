@@ -8,7 +8,6 @@ import listPlugin from '@fullcalendar/list';
 import ModalAlert from './ModalAlert';
 import Notification from '../Notification/Notification'
 
-
 interface CalendarEvent {
   summary: string;
   start: { dateTime?: string; date?: string };
@@ -21,7 +20,10 @@ interface NotificationState {
 }
 
 interface FullCalendarComponentProps {
-  isVisible: boolean;  // isVisible prop 추가
+  isVisible: boolean;
+  handleAlert: (message: string) => void;
+  handleEventNotification: (message: string, type: 'success' | 'error') => void;
+  onEventSave: (eventData: { title: string; start: string; end: string }) => void;  // Required prop for saving events
 }
 
 const CLIENT_ID = '843336558883-t6882gjo6vco7pf0ikbr3tlrku7f9kgu.apps.googleusercontent.com';
@@ -29,7 +31,12 @@ const API_KEY = 'AIzaSyDlbRl04r8yOjxcmDRZqD9IS6Jo6qgjkn8';
 const CALENDAR_ID = 'primary';
 const SCOPES = 'https://www.googleapis.com/auth/calendar';
 
-const FullCalendarComponent: React.FC<FullCalendarComponentProps> = ({ isVisible }) => {
+const FullCalendarComponent: React.FC<FullCalendarComponentProps> = ({
+  isVisible,
+  handleAlert,
+  handleEventNotification,
+  onEventSave,
+}) => {
   const [events, setEvents] = useState<{ title: string; start: string; end: string }[]>([]);
   const [alertMessage, setAlertMessage] = useState<string | null>(null);
   const [notification, setNotification] = useState<NotificationState | null>(null);
@@ -72,33 +79,36 @@ const FullCalendarComponent: React.FC<FullCalendarComponentProps> = ({ isVisible
 
   // 날짜 클릭 시 새로운 이벤트 생성
   const handleDateClick = (arg: { dateStr: string }) => {
-    setAlertMessage(`New event on ${arg.dateStr}`);
-  };
+    const title = prompt('Enter event title');
+    if (title) {
+      const start = arg.dateStr;
+      const end = arg.dateStr;
+      
+      // Save event using the external handler
+      onEventSave({ title, start, end });
 
-  // Google Calendar에 새 이벤트 저장
-  const handleEventSave = (eventData: { title: string; start: string; end: string }) => {
-    gapi.client.calendar.events.insert({
-      calendarId: CALENDAR_ID,
-      resource: {
-        summary: eventData.title,
-        start: { dateTime: eventData.start },
-        end: { dateTime: eventData.end },
-      },
-    }).then(() => {
-      setNotification({ message: 'Event successfully saved!', type: 'success' });
-      loadEvents();  // 새로 생성된 이벤트를 불러오기
-    }).catch(() => {
-      setNotification({ message: 'Failed to save event!', type: 'error' });
-    });
+      // Optionally, save directly to Google Calendar here
+      gapi.client.calendar.events.insert({
+        calendarId: CALENDAR_ID,
+        resource: {
+          summary: title,
+          start: { dateTime: start },
+          end: { dateTime: end },
+        },
+      }).then(() => {
+        setNotification({ message: 'Event successfully saved!', type: 'success' });
+        handleEventNotification('Event successfully saved!', 'success');
+        loadEvents();
+      }).catch(() => {
+        setNotification({ message: 'Failed to save event!', type: 'error' });
+        handleEventNotification('Failed to save event!', 'error');
+      });
+    }
   };
 
   const handleEventClick = (eventClickInfo: any) => {
     setAlertMessage(`Event: ${eventClickInfo.event.title}`);
-  };
-
-  // 캘린더 보이기/숨기기 상태 토글
-  const toggleCalendarVisibility = () => {
-    setIsCalendarVisible(!isCalendarVisible);
+    handleAlert(`Event: ${eventClickInfo.event.title}`);
   };
 
   if (!isVisible) {
@@ -106,30 +116,34 @@ const FullCalendarComponent: React.FC<FullCalendarComponentProps> = ({ isVisible
   }
 
   return (
-    <div className="calendar-container">
-      <h2>Google Calendar Events</h2>
-
-      {/* 구글 달력 보이기/숨기기 버튼 */}
-      <button
-        className="border-2 bg-white w-[140px] font-semibold h-[36px] border-[#335995] text-[#335995] rounded-md"
-        onClick={toggleCalendarVisibility}
-      >
-        {isCalendarVisible ? '구글 달력 숨기기' : '구글 달력 보기'}
-      </button>
-
-      {/* 캘린더 보이기/숨기기 상태에 따른 캘린더 렌더링 */}
-      {isCalendarVisible && (
-        <FullCalendar
-          plugins={[dayGridPlugin, timeGridPlugin, interactionPlugin]}
-          initialView="dayGridMonth"
-          events={events}
-          dateClick={handleDateClick}
-          eventClick={handleEventClick}
-          eventDrop={(eventInfo) => handleEventSave({ title: eventInfo.event.title, start: eventInfo.event.startStr, end: eventInfo.event.endStr })}
-        />
-      )}
-
-      {/* 알림 모달 */}
+    <div className="calendar-container p-6 rounded-lg shadow-lg bg-white">
+      <FullCalendar
+        plugins={[dayGridPlugin, timeGridPlugin, interactionPlugin, listPlugin]}
+        initialView="dayGridMonth"
+        headerToolbar={{
+          left: 'prev,next today',
+          center: 'title',
+          right: 'dayGridMonth,timeGridWeek,timeGridDay,listWeek',
+        }}
+        buttonText={{
+          today: 'Today',
+          month: 'Month',
+          week: 'Week',
+          day: 'Day',
+          list: 'List',
+        }}
+        events={events}
+        dateClick={handleDateClick}
+        eventClick={handleEventClick}
+        height="auto"
+        dayMaxEventRows={true}
+        navLinks={true}
+        editable={true}
+        selectable={true}
+        themeSystem="bootstrap"
+        eventColor="#347fff"
+      />
+      {/* Modal for alerts */}
       {alertMessage && <ModalAlert message={alertMessage} onClose={() => setAlertMessage(null)} />}
       {/* Notifications */}
       {notification && <Notification message={notification.message} type={notification.type} />}
