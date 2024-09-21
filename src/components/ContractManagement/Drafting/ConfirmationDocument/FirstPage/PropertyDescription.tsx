@@ -174,7 +174,7 @@ const PropertyDescription: React.FC = () => {
                 </div>
                 <div className="w-[299px] items pl-4 border-bb">
                   <ContractRadio
-                    name="availability"
+                    name="yesOrNo"
                     options={[{ label: "없음" }, { label: "있음" }]}
                   />
                 </div>
@@ -193,7 +193,7 @@ const PropertyDescription: React.FC = () => {
                 </div>
                 <div className="w-[299px] items pl-4">
                   <ContractRadio
-                    name="availability"
+                    name="legal"
                     options={[{ label: "위법" }, { label: "적법" }]}
                   />
                 </div>

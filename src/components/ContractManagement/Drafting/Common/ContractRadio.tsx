@@ -15,7 +15,7 @@ const ContractRadio: React.FC<ContractRadioProps> = ({ options, name }) => {
             name={name}
             className="text-gray-600 form-radio"
           />
-          <span className="font-bold text-black">{option.label}</span>
+          <span className="text-black ">{option.label}</span>
         </label>
       ))}
     </div>
