@@ -81,7 +81,7 @@ const RegistrationIssuanceMain = () => {
   };
 
   return (
-    <div className=''>
+    <div>
       <div className='pl-[65px] pt-[21px] w-full flex justify-between'>
         <div className='pt-[29px]'>
           <span className='text-[35px] mb-[46px] font-extrabold select-none'>
@@ -135,7 +135,7 @@ const RegistrationIssuanceMain = () => {
         </span>
         <span className='pl-[12px] relative top-[-2px]'>
           <button
-            className='text-[11px] w-[48px] h-[40px] bg-[#347fff] text-white rounded'
+            className='text-[14px] w-[48px] h-[40px] bg-[#347fff] text-white rounded font-normal'
             onClick={() => {
               fetchSearchData(inputAddress, 1);
             }}
@@ -146,59 +146,67 @@ const RegistrationIssuanceMain = () => {
       </div>
 
       {/* 받아온 데이터들 출력 */}
-      <div className='relative'>
+      <div className='relative border border-black'>
         {/* 전체선택 체크박스 */}
-        {data.length > 0 && allCheck ? (
-          <div className='flex justify-center items-center absolute left-[94px] top-[80px]'>
-            <FontAwesomeIcon
-              icon={faSolidSquareCheck}
-              color='#636363'
-              className='mr-[8px] text-[23px] cursor-pointer'
-              onClick={() => {
-                toggleCheckbox();
-              }}
-            />
-            <span
-              onClick={() => {
-                toggleCheckbox();
-              }}
-              className='cursor-pointer select-none'
-            >
-              전체 선택
-            </span>
+        {data.length > 0 ? (
+          <div className='justify-center items-center absolute left-[94px] top-[50px]'>
+            {allCheck ? (
+              <div>
+                <FontAwesomeIcon
+                  icon={faSolidSquareCheck}
+                  color='#636363'
+                  className='mr-[8px] text-[23px] cursor-pointer'
+                  onClick={() => {
+                    toggleCheckbox();
+                  }}
+                />
+                <span
+                  onClick={() => {
+                    toggleCheckbox();
+                  }}
+                  className='cursor-pointer select-none'
+                >
+                  전체 선택
+                </span>
+              </div>
+            ) : (
+              <div>
+                <FontAwesomeIcon
+                  icon={faRegularSquareCheck}
+                  color='#636363'
+                  className='mr-[8px] text-[23px] cursor-pointer'
+                  onClick={() => {
+                    toggleCheckbox();
+                  }}
+                />
+                <span
+                  onClick={() => {
+                    toggleCheckbox();
+                  }}
+                  className='cursor-pointer select-none'
+                >
+                  전체 선택
+                </span>
+              </div>
+            )}
           </div>
         ) : (
-          <div className='flex justify-center items-center absolute left-[94px] top-[80px]'>
-            <FontAwesomeIcon
-              icon={faRegularSquareCheck}
-              color='#636363'
-              className='mr-[8px] text-[23px] cursor-pointer'
-              onClick={() => {
-                toggleCheckbox();
-              }}
-            />
-            <span
-              onClick={() => {
-                toggleCheckbox();
-              }}
-              className='cursor-pointer select-none'
-            >
-              전체 선택
-            </span>
-          </div>
+          <></>
         )}
-        {data?.map((item) => (
-          <div key={item.unique} className='text-[12px] pb-5'>
-            <p>유니크 ID: {item.unique}</p>
-            <p>종류: {item.kind}</p>
-            <p>주소: {item.address}</p>
-            <p>lastPage : {pageCount}</p>
-          </div>
-        ))}
+        <div className='absolute left-[94px] top-[100px]'>
+          {data?.map((item) => (
+            <div key={item.unique} className='pb-4'>
+              <p className='text-[16px] border border-[#6f6f6f] p-[12px] w-full'>
+                {item.address}
+              </p>
+            </div>
+          ))}
+        </div>
+        {/* 페이지 네이션 파트 */}
+        <div className='absolute left-[94px] top-[750px]'>
+          {pageRendering(pageCount)}
+        </div>
       </div>
-
-      {/* 페이지 네이션 파트 */}
-      <div className='relative'>{pageRendering(pageCount)}</div>
     </div>
   );
 };
