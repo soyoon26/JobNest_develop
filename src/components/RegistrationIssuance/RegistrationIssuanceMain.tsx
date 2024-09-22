@@ -56,23 +56,58 @@ const RegistrationIssuanceMain = () => {
     }
   };
 
+  const [currentPage, setCurrentPage] = useState(1); // 현재 페이지 상태 관리
+  const [currentPageGroup, setCurrentPageGroup] = useState(0); // 현재 페이지 그룹 관리
+  const pagesPerGroup = 5; // 한 그룹에 표시할 페이지 수
+
+  const handlePageClick = (pageNumber: number) => {
+    setCurrentPage(pageNumber); // 클릭한 페이지 번호를 상태로 설정
+    fetchSearchData(inputAddress, pageNumber); // 페이지 번호에 따라 데이터 가져오기
+  };
+
   const pageRendering = (pageCount: number) => {
     const pages = []; // 반환할 JSX 요소들을 저장할 배열
+    const startPage = currentPageGroup * pagesPerGroup; // 현재 페이지 그룹에서 시작할 페이지
+    const endPage = Math.min(startPage + pagesPerGroup, pageCount); // 페이지 그룹 내 끝 페이지
 
-    for (let i = 0; i < pageCount; i++) {
+    for (let i = startPage; i < endPage; i++) {
+      const pageNumber = i + 1;
       pages.push(
         <span key={i}>
           <button
-            className='m-2 rounded-full px-[8.5px] text-[15px] text-gray-400 font-bold hover:text-gray-700'
-            onClick={() => fetchSearchData(inputAddress, i + 1)}
+            className={`m-2 rounded-full px-[10px] py-[2.2px] text-[15px] ${
+              currentPage === pageNumber
+                ? 'bg-[#347fff] text-white' // 현재 페이지일 때 스타일
+                : 'text-gray-400 hover:text-gray-900'
+            }`}
+            onClick={() => {
+              handlePageClick(i + 1);
+            }}
           >
-            {i + 1}
+            {pageNumber}
           </button>
         </span>
       );
     }
 
     return <>{pages}</>; // 배열을 JSX 형태로 반환
+  };
+
+  // 이전 페이지 그룹으로 이동
+  const handlePreviousGroup = () => {
+    if (currentPageGroup > 0) {
+      setCurrentPageGroup(currentPageGroup - 1);
+      setCurrentPage(currentPageGroup * pagesPerGroup); // 페이지 그룹의 첫 번째 페이지로 이동
+    }
+  };
+
+  // 다음 페이지 그룹으로 이동
+  const handleNextGroup = () => {
+    const totalPageGroups = Math.ceil(pageCount / pagesPerGroup);
+    if (currentPageGroup < totalPageGroups - 1) {
+      setCurrentPageGroup(currentPageGroup + 1);
+      setCurrentPage((currentPageGroup + 1) * pagesPerGroup + 1); // 다음 페이지 그룹의 첫 번째 페이지로 이동
+    }
   };
 
   const [allCheck, setAllCheck] = useState(false);
@@ -203,8 +238,26 @@ const RegistrationIssuanceMain = () => {
           <div className=''>
             {data?.map((item) => (
               <div key={item.unique} className='pb-2'>
-                <span>{filterOption}</span>
-                <p className='text-[15px] border border-[#6f6f6f] p-[14px] select-none'>
+                <p className='text-[15px] text-[#6f6f6f] border border-[#8894A0] p-[10px] select-none flex items-center'>
+                  {allCheck ? (
+                    <label className='pr-[15px] pl-[5px] pt-[6px] cursor-pointer'>
+                      <input
+                        type='checkbox'
+                        className='accent-[#636363] h-[17px] w-[17px] cursor-pointer'
+                        checked
+                      />
+                    </label>
+                  ) : (
+                    <label className='pr-[15px] pl-[5px] pt-[6px] cursor-pointer'>
+                      <input
+                        type='checkbox'
+                        className='accent-[#636363] h-[17px] w-[17px] cursor-pointer'
+                      />
+                    </label>
+                  )}
+                  <span className='text-black rounded-[20px] mr-[22px] border border-[#ccccc] py-[6px] px-4'>
+                    {filterOption}
+                  </span>
                   {item.address}
                 </p>
               </div>
@@ -214,8 +267,10 @@ const RegistrationIssuanceMain = () => {
               {data.length > 0 ? (
                 <>
                   <span
-                    className='bg-gray-100 rounded-full px-1 mr-2 cursor-pointer'
-                    // onClick={}
+                    className={`bg-gray-100 rounded-full px-1 mr-2 cursor-pointer ${
+                      currentPageGroup === 0 ? 'opacity-50' : ''
+                    }`}
+                    onClick={handlePreviousGroup}
                   >
                     ←
                   </span>
@@ -223,8 +278,12 @@ const RegistrationIssuanceMain = () => {
                     {pageRendering(pageCount)}
                   </div>
                   <span
-                    className='bg-gray-100 rounded-full px-1 ml-2 cursor-pointer'
-                    // onClick={}
+                    className={`bg-gray-100 rounded-full px-1 ml-2 cursor-pointer ${
+                      (currentPageGroup + 1) * pagesPerGroup >= pageCount
+                        ? 'opacity-50'
+                        : ''
+                    }`}
+                    onClick={handleNextGroup}
                   >
                     →
                   </span>
