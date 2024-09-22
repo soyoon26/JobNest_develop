@@ -31,7 +31,7 @@ const EnvironmentInformation = () => {
         </div>
       </div>
       <div className="w-[1197px] border-by flex text-[14px] my-4">
-        <div className="items-j w-[150px] h-[40px]  border-br text-center">
+        <div className="items-j w-[133px] h-[40px]  border-br text-center">
           ⑭ 현장안내
         </div>
 

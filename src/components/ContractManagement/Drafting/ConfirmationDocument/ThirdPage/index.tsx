@@ -1,3 +1,4 @@
+import ConditionOfInternalExternalFacilities from "./ConditionOfInternalExternalFacilities";
 import EnvironmentInformation from "./EnvironmentInformation";
 import PropertyRights from "./PropertyRights";
 import WallpaperCondition from "./WallpaperCondition";
@@ -9,6 +10,7 @@ const ThirdPage = () => {
         2. 개업공인중개사 세부 확인사항
       </span>
       <PropertyRights />
+      <ConditionOfInternalExternalFacilities />
       <WallpaperCondition />
       <EnvironmentInformation />
       <ul className="pl-5 list-disc">
