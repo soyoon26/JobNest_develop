@@ -38,6 +38,19 @@ const RegistrationIssuanceMain = () => {
 
   const [data, setData] = useState<TBuildingData[]>([]);
 
+  // 각 항목의 체크 상태를 관리하는 상태
+  const [checkedItems, setCheckedItems] = useState<{ [key: string]: boolean }>(
+    {}
+  );
+
+  // 개별 체크박스의 상태를 토글하는 함수
+  const handleCheckboxChange = (unique: string) => {
+    setCheckedItems((prevState) => ({
+      ...prevState,
+      [unique]: !prevState[unique], // 해당 항목의 상태를 토글
+    }));
+  };
+
   // 검색을 위한 요청 함수 (axios 사용)
   const fetchSearchData = async (juso: string, pageNo: number) => {
     const base_url = import.meta.env.VITE_BASE_URL;
@@ -72,6 +85,7 @@ const RegistrationIssuanceMain = () => {
   const [currentPageGroup, setCurrentPageGroup] = useState(0); // 현재 페이지 그룹 관리
   const pagesPerGroup = 5; // 한 그룹에 표시할 페이지 수
 
+  // 선택한 페이지로 이동
   const handlePageClick = (pageNumber: number) => {
     setCurrentPage(pageNumber); // 클릭한 페이지 번호를 상태로 설정
     fetchSearchData(inputAddress, pageNumber); // 페이지 번호에 따라 데이터 가져오기
@@ -125,6 +139,13 @@ const RegistrationIssuanceMain = () => {
   const [allCheck, setAllCheck] = useState(false);
   const toggleCheckbox = () => {
     setAllCheck(!allCheck);
+
+    // 전체 선택 또는 해제 시 모든 체크박스를 업데이트
+    const updatedCheckedItems: { [key: string]: boolean } = {};
+    data.forEach((item) => {
+      updatedCheckedItems[item.unique] = !allCheck; // 전체 선택 시 true, 해제 시 false
+    });
+    setCheckedItems(updatedCheckedItems);
   };
 
   const [filterOption, setFilterOption] = useState('전체');
@@ -213,7 +234,7 @@ const RegistrationIssuanceMain = () => {
                 <div className='flex items-center mb-[10px]'>
                   <FontAwesomeIcon
                     icon={faSolidSquareCheck}
-                    color='#636363'
+                    color='#347fff'
                     className='mr-[8px] text-[23px] cursor-pointer'
                     onClick={() => {
                       toggleCheckbox();
@@ -256,24 +277,23 @@ const RegistrationIssuanceMain = () => {
           <div className=''>
             {data.length > 0 && !loading
               ? data?.map((item) => (
-                  <div key={item.unique} className='pb-2'>
+                  <div
+                    key={item.unique}
+                    className={`mb-2 border ${
+                      checkedItems[item.unique]
+                        ? 'border-[#347fff] border-[1.5px]'
+                        : 'border-[#8894A0]'
+                    }`}
+                  >
                     <p className='text-[15px] text-[#6f6f6f] border border-[#8894A0] p-[10px] select-none flex items-center'>
-                      {allCheck ? (
-                        <label className='pr-[15px] pl-[5px] pt-[6px] cursor-pointer'>
-                          <input
-                            type='checkbox'
-                            className='accent-[#636363] h-[17px] w-[17px] cursor-pointer'
-                            checked
-                          />
-                        </label>
-                      ) : (
-                        <label className='pr-[15px] pl-[5px] pt-[6px] cursor-pointer'>
-                          <input
-                            type='checkbox'
-                            className='accent-[#636363] h-[17px] w-[17px] cursor-pointer'
-                          />
-                        </label>
-                      )}
+                      <label className='pr-[15px] pl-[5px] pt-[6px] cursor-pointer'>
+                        <input
+                          type='checkbox'
+                          className='accent-[#347fff] h-[17px] w-[17px] cursor-pointer'
+                          checked={!!checkedItems[item.unique]} // 체크 상태에 따라 체크박스가 체크됨
+                          onChange={() => handleCheckboxChange(item.unique)} // 체크박스를 클릭하면 상태 변경
+                        />
+                      </label>
                       <span className='text-black rounded-[20px] mr-[22px] border border-[#ccccc] py-[6px] px-4'>
                         {filterOption}
                       </span>
