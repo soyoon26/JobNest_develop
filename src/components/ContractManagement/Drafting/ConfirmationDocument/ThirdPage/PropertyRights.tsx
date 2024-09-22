@@ -1,6 +1,6 @@
 const PropertyRights = () => {
   return (
-    <div className="w-[1197px] border-by">
+    <div className="w-[1197px] mt-4 border-by">
       <span>⑩ 실제 권리관계 또는 공시되지 않은 물건의 권리 사항</span>
       <div className="items-j">
         <div className="w-[1190px] mt-4 mb-2 py-2 border border-gray rounded">
