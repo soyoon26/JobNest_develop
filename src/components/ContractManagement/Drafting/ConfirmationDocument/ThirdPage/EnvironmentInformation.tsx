@@ -1,4 +1,6 @@
 import { useState } from "react";
+import ContractRadio from "../../Common/ContractRadio";
+import ContractRadioInputText from "../../Common/ContractRadioInputText";
 
 const EnvironmentInformation = () => {
   const [selectedGuide, setSelectedGuide] = useState<string>("");
@@ -22,11 +24,42 @@ const EnvironmentInformation = () => {
         <div className="flex flex-col w-full">
           <div className="flex h-[40px] border-bb w-full">
             <div className="items-j w-[150px] border-br">일조량</div>
+            <div className="pl-4 items">
+              <ContractRadioInputText
+                options={[
+                  { label: "풍부함", value: "many" },
+                  { label: "보통임", value: "soso" },
+                  { label: "불충분", value: "exists" },
+                ]}
+                inputLabel="이유 :"
+                inputWidth="530px"
+                unit=""
+              />
+            </div>
           </div>
           <div className="flex h-[40px]">
             <div className="items-j w-[150px] border-br">소음</div>
-            <div className="items-j w-[370px] border-br"></div>
+            <div className="items pl-4 w-[370px] border-br">
+              <ContractRadio
+                name="noise"
+                options={[
+                  { label: "아주작음" },
+                  { label: "보통임" },
+                  { label: "심한 편임" },
+                ]}
+              />
+            </div>
             <div className="items-j w-[150px] border-br">진동</div>
+            <div className="pl-4 items">
+              <ContractRadio
+                name="noise"
+                options={[
+                  { label: "아주작음" },
+                  { label: "보통임" },
+                  { label: "심한 편임" },
+                ]}
+              />
+            </div>
           </div>
         </div>
       </div>

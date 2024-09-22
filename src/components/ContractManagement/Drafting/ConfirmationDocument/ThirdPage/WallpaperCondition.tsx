@@ -1,3 +1,5 @@
+import ContractRadio from "../../Common/ContractRadio";
+
 const WallpaperCondition = () => {
   return (
     <>
@@ -23,7 +25,16 @@ const WallpaperCondition = () => {
           </div>
           <div className="flex h-[40px]">
             <div className="items-j w-[150px] border-br">도배</div>
-            <div className="items-j w-[370px] "></div>
+            <div className="items pl-4 w-[370px] ">
+              <ContractRadio
+                name="wallpaper"
+                options={[
+                  { label: "깨끗함" },
+                  { label: "보통임" },
+                  { label: "도배필요" },
+                ]}
+              />
+            </div>
           </div>
         </div>
       </div>
