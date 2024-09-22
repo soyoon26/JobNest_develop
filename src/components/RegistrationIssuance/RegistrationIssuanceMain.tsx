@@ -4,6 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import { faSquareCheck as faSolidSquareCheck } from '@fortawesome/free-solid-svg-icons';
 import { faSquareCheck as faRegularSquareCheck } from '@fortawesome/free-regular-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import '../../assets/Loader.css';
 
 type TBuildingData = {
   unique: string;
@@ -21,6 +22,11 @@ const RegistrationIssuanceMain = () => {
   const navigate = useNavigate();
   const [inputAddress, setInputAddress] = useState('');
   const [pageCount, setPageCount] = useState(0);
+  const [loading, setLoading] = useState(false);
+
+  const handleLoading = (status: boolean) => {
+    setLoading(status);
+  };
 
   const handleInputAddress = (val: string) => {
     setInputAddress(val);
@@ -37,6 +43,9 @@ const RegistrationIssuanceMain = () => {
     const base_url = import.meta.env.VITE_BASE_URL;
     const endpoint = '/juso/search';
     const full_url = `${base_url}${endpoint}`;
+
+    handleLoading(true); // 검색을 시작할 때 로딩 시작
+
     try {
       const response = await axios.post(full_url, {
         juso: juso,
@@ -48,11 +57,14 @@ const RegistrationIssuanceMain = () => {
       if (json.status === 200) {
         setData(json.result);
         setPageCount(Number(json.last_page));
+        setLoading(false);
       } else {
         console.error('API 요청이 실패했습니다.');
+        setLoading(false);
       }
     } catch (error) {
       console.error('API 요청 중 오류 발생:', error);
+      setLoading(false);
     }
   };
 
@@ -97,7 +109,7 @@ const RegistrationIssuanceMain = () => {
   const handlePreviousGroup = () => {
     if (currentPageGroup > 0) {
       setCurrentPageGroup(currentPageGroup - 1);
-      setCurrentPage(currentPageGroup * pagesPerGroup); // 페이지 그룹의 첫 번째 페이지로 이동
+      // setCurrentPage(currentPageGroup * pagesPerGroup); // 페이지 그룹의 첫 번째 페이지로 이동
     }
   };
 
@@ -106,7 +118,7 @@ const RegistrationIssuanceMain = () => {
     const totalPageGroups = Math.ceil(pageCount / pagesPerGroup);
     if (currentPageGroup < totalPageGroups - 1) {
       setCurrentPageGroup(currentPageGroup + 1);
-      setCurrentPage((currentPageGroup + 1) * pagesPerGroup + 1); // 다음 페이지 그룹의 첫 번째 페이지로 이동
+      // setCurrentPage((currentPageGroup + 1) * pagesPerGroup + 1); // 다음 페이지 그룹의 첫 번째 페이지로 이동
     }
   };
 
@@ -186,10 +198,16 @@ const RegistrationIssuanceMain = () => {
             </button>
           </span>
         </div>
+
         {/* 받아온 데이터들 출력 */}
         <div className='mt-[20px]'>
+          {loading ? (
+            <span className='flex justify-center items-center mt-[100px] mb-[140px]'>
+              <span className='loader'></span>
+            </span>
+          ) : null}
           {/* 전체선택 체크박스 */}
-          {data.length > 0 ? (
+          {data.length > 0 && !loading ? (
             <div>
               {allCheck ? (
                 <div className='flex items-center mb-[10px]'>
@@ -236,32 +254,34 @@ const RegistrationIssuanceMain = () => {
           )}
           {/* 검색 결과 출력 */}
           <div className=''>
-            {data?.map((item) => (
-              <div key={item.unique} className='pb-2'>
-                <p className='text-[15px] text-[#6f6f6f] border border-[#8894A0] p-[10px] select-none flex items-center'>
-                  {allCheck ? (
-                    <label className='pr-[15px] pl-[5px] pt-[6px] cursor-pointer'>
-                      <input
-                        type='checkbox'
-                        className='accent-[#636363] h-[17px] w-[17px] cursor-pointer'
-                        checked
-                      />
-                    </label>
-                  ) : (
-                    <label className='pr-[15px] pl-[5px] pt-[6px] cursor-pointer'>
-                      <input
-                        type='checkbox'
-                        className='accent-[#636363] h-[17px] w-[17px] cursor-pointer'
-                      />
-                    </label>
-                  )}
-                  <span className='text-black rounded-[20px] mr-[22px] border border-[#ccccc] py-[6px] px-4'>
-                    {filterOption}
-                  </span>
-                  {item.address}
-                </p>
-              </div>
-            ))}
+            {data.length > 0 && !loading
+              ? data?.map((item) => (
+                  <div key={item.unique} className='pb-2'>
+                    <p className='text-[15px] text-[#6f6f6f] border border-[#8894A0] p-[10px] select-none flex items-center'>
+                      {allCheck ? (
+                        <label className='pr-[15px] pl-[5px] pt-[6px] cursor-pointer'>
+                          <input
+                            type='checkbox'
+                            className='accent-[#636363] h-[17px] w-[17px] cursor-pointer'
+                            checked
+                          />
+                        </label>
+                      ) : (
+                        <label className='pr-[15px] pl-[5px] pt-[6px] cursor-pointer'>
+                          <input
+                            type='checkbox'
+                            className='accent-[#636363] h-[17px] w-[17px] cursor-pointer'
+                          />
+                        </label>
+                      )}
+                      <span className='text-black rounded-[20px] mr-[22px] border border-[#ccccc] py-[6px] px-4'>
+                        {filterOption}
+                      </span>
+                      {item.address}
+                    </p>
+                  </div>
+                ))
+              : null}
             {/* 페이지 네이션 파트 */}
             <div className='flex justify-center items-center pb-[10px]'>
               {data.length > 0 ? (
