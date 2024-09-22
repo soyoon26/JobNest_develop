@@ -70,7 +70,7 @@ const LeaseConfirmationItems = () => {
               type="text"
               className="w-[275px] border-32 pl-3 pr-[60px] "
             />
-            <span className="absolute inset-y-0 flex items-center text-gray-600 right-3">
+            <span className="absolute inset-y-0 flex items-center text-gray-600 right-6">
               만원
             </span>
           </div>

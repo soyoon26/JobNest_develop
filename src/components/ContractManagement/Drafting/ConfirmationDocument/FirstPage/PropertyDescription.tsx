@@ -121,10 +121,10 @@ const PropertyDescription: React.FC = () => {
                 </div>
               </div>
               <div className=" h-[126px] flex">
-                <div className="items-j h-full border-bb w-[150px] border-br">
+                <div className="items-j h-full border-bb text-center w-[150px] border-br">
                   준공 년도
                   <br />
-                  중개축년도
+                  (중개축년도)
                 </div>
                 <div className="w-[300px] items-j h-full border-bb border-br">
                   <ContractInput width="274px" />
@@ -186,7 +186,7 @@ const PropertyDescription: React.FC = () => {
                 </div>
               </div>
               <div className="flex h-full">
-                <div className="border-br w-[150px]  items-j">
+                <div className="border-br text-center w-[150px]  items-j">
                   건축물대장상
                   <br />
                   위반건축물 여부
