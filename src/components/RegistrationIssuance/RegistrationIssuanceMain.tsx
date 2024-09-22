@@ -99,7 +99,7 @@ const RegistrationIssuanceMain = () => {
     for (let i = startPage; i < endPage; i++) {
       const pageNumber = i + 1;
       pages.push(
-        <span key={i}>
+        <span key={i} className='select-none'>
           <button
             className={`m-2 rounded-full px-[10px] py-[2.2px] text-[15px] ${
               currentPage === pageNumber
@@ -108,6 +108,7 @@ const RegistrationIssuanceMain = () => {
             }`}
             onClick={() => {
               handlePageClick(i + 1);
+              setAllCheck(false);
             }}
           >
             {pageNumber}
@@ -307,18 +308,18 @@ const RegistrationIssuanceMain = () => {
               {data.length > 0 ? (
                 <>
                   <span
-                    className={`bg-gray-100 rounded-full px-1 mr-2 cursor-pointer ${
+                    className={`bg-gray-100 rounded-full px-1 mr-2 cursor-pointer select-none ${
                       currentPageGroup === 0 ? 'opacity-50' : ''
                     }`}
                     onClick={handlePreviousGroup}
                   >
                     ←
                   </span>
-                  <div className='bg-gray-100 rounded-full'>
+                  <div className='bg-gray-100 rounded-full select-none'>
                     {pageRendering(pageCount)}
                   </div>
                   <span
-                    className={`bg-gray-100 rounded-full px-1 ml-2 cursor-pointer ${
+                    className={`bg-gray-100 rounded-full px-1 ml-2 cursor-pointer select-none ${
                       (currentPageGroup + 1) * pagesPerGroup >= pageCount
                         ? 'opacity-50'
                         : ''
