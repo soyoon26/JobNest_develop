@@ -1,8 +1,10 @@
+import ContractDate from "../../Common/ContractDate";
 import ContractRadio from "../../Common/ContractRadio";
+import ContractRadioInput from "../../Common/ContractRadioInput";
 
 const LeaseConfirmationItems = () => {
   return (
-    <div className="w-[1198px] flex mt-10 h-[354px] border-by">
+    <div className="w-[1198px] flex mt-8 h-[354px] border-by">
       <div className="w-[129px] h-full items-j border-br text-center ">
         ③임대차
         <br /> 확인사항
@@ -54,16 +56,65 @@ const LeaseConfirmationItems = () => {
         <div className="border-bb flex h-[41px]">
           <div className="w-[170px] h-full items-j">최우선변제금</div>
           <div className="items-j w-[150px] border-bx">소액임차인범위</div>
-          <div className="flex-1"></div>
+          <div className="flex-1 items-j">
+            <div className="relative  w-[275px]">
+              <input type="text" className="w-full border-32 pl-3 pr-[60px] " />
+              <span className="absolute inset-y-0 flex items-center text-gray-600 right-3">
+                만원
+              </span>
+            </div>
+          </div>
           <div className="w-[150px] items-j border-bx">최우선변제금액</div>
-          <div className="w-[300px]"></div>
+          <div className="w-[300px] items-j relative">
+            <input
+              type="text"
+              className="w-[275px] border-32 pl-3 pr-[60px] "
+            />
+            <span className="absolute inset-y-0 flex items-center text-gray-600 right-6">
+              만원
+            </span>
+          </div>
         </div>
         <div className="flex border-bb">
           <div className="w-[170px] h-[149px] items-j">민간임대 등록여부</div>
           <div className="flex flex-col border-bl">
-            <div></div>
             <div className="flex">
-              <div className="w-[149px] items-j h-[41px] border-br">미등록</div>
+              <div className="w-[150px] border-bb border-br items-j h-[108px]">
+                등록
+              </div>
+              <div className="flex flex-col ">
+                {/* 등록윗칸 */}
+                <div className="flex w-[749px] h-[67px]">
+                  <div className="w-[449px] items pl-4 border-bb">
+                    <ContractRadioInput
+                      options={[
+                        { label: "장기일반민간임대주택", value: "type1" },
+                        { label: "공공지원민간임대주택", value: "type2" },
+                      ]}
+                      otherOptionLabel="그 밖의 유형"
+                      inputWidth="200px"
+                    />
+                  </div>
+                  <div className="h-full items pl-4 border-bb w-[300px] border-bl">
+                    <ContractRadio
+                      name="explain"
+                      options={[{ label: "임대보증금 보증 설명" }]}
+                    />
+                  </div>
+                </div>
+                {/* 등록 아래칸 */}
+                <div className="flex h-[41px]">
+                  <div className="flex-1 h-full pl-4 items border-bb">
+                    임대의무기간
+                  </div>
+                  <div className="w-[300px] border-bb border-bl items-j gap-2">
+                    임대 개시일 <ContractDate />
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div className="flex">
+              <div className="w-[150px] items-j h-[41px] border-br">미등록</div>
               <div className="flex-1 h-full px-4 items">
                 <ContractRadio
                   name="unregister"

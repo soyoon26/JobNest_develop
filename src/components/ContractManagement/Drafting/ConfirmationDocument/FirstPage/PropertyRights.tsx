@@ -1,6 +1,6 @@
 const PropertyRights = () => {
   return (
-    <div className="w-[1198px] mt-10 border-y border-black flex h-[386px]">
+    <div className="w-[1198px] mt-8 border-y border-black flex h-[386px]">
       <div className="flex flex-col border-br h-full items-j w-[150px]">
         <div>② 권리관계</div>
         <button className="text-[13px] mt-2 bg-[#335995] rounded-md p-2 items-j text-white">

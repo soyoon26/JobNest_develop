@@ -3,7 +3,7 @@ import React from "react";
 const TenantConfirmation: React.FC = () => {
   return (
     <>
-      <ul className="pl-6 mb-4 list-disc list-inside">
+      <ul className="pl-6 my-4 list-disc list-inside">
         <li>
           주택임대사업자는 「민간임대주택에 관한 특별법」 제49조에 따라
           임대보증금에 대한 보증에 가입하여야 합니다.
@@ -21,15 +21,15 @@ const TenantConfirmation: React.FC = () => {
           및 최우선변제금액을 기준으로 합니다.
         </li>
       </ul>
-      <div className="w-[1198px] h-[121px] border border-black">
+      <div className="w-[1198px] h-[121px] mb-44 border-by">
         <div className="flex">
-          <div className="w-[120px] h-[120px] border-r border-black text-center  flex flex-col items-center justify-center">
+          <div className="w-[120px] h-[120px] border-br  text-center  flex flex-col items-center justify-center">
             <div className="font-bold">{`<서명란>`}</div>
             임대차확인사항
             <br />
             확인·설명
           </div>
-          <div className="flex items-center justify-center w-[600px] text-center border-r border-black">
+          <div className="flex items-center justify-center w-[600px] text-center border-br ">
             개업공인중개사가 "③ 임대차 확인사항"을
             <br />
             임대인 및 임차인에게 설명하였음을 확인함

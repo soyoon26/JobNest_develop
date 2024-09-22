@@ -1,4 +1,5 @@
 import { useState } from "react";
+import ContractRadio from "../../Common/ContractRadio";
 
 const VerificationExplanation = () => {
   const [selectedOption, setSelectedOption] = useState<string | null>(null);
@@ -26,6 +27,28 @@ const VerificationExplanation = () => {
   };
   return (
     <>
+      <div className=" my-8 text-[30px] flex flex-col items-j w-full">
+        <div className="flex">
+          (&nbsp;주택 유형 :{" "}
+          <ContractRadio
+            name="type"
+            options={[
+              { label: "단독주택" },
+              { label: "공동주택" },
+              { label: "주거용 오피스텔" },
+            ]}
+          />
+          &nbsp; )
+        </div>
+        <div className="flex">
+          (거래 형태 :&nbsp;
+          <ContractRadio
+            name="contractType"
+            options={[{ label: "매매·교환" }, { label: "임대" }]}
+          />
+          &nbsp; )
+        </div>
+      </div>
       <div className="w-[1237px] border-y border-black h-[170px] flex">
         <div className="w-[200px] border-r items-j border-black">
           확인·설명 자료
