@@ -17,9 +17,8 @@ const ConfirmationModal: React.FC<ConfirmationModalProps> = ({
   message,
   confirmText = '확인',
   cancelText = '취소',
-  type = 'success',  // Default to success
+  type = 'success', // Default to success
 }) => {
-
   // Close modal when pressing the Escape key
   useEffect(() => {
     const handleKeyDown = (event: KeyboardEvent) => {
@@ -37,14 +36,21 @@ const ConfirmationModal: React.FC<ConfirmationModalProps> = ({
   if (!isOpen) return null;
 
   // Determine styles based on the type (success or error)
-  const modalStyles = type === 'success' ? styles.successModal : styles.errorModal;
+  const modalStyles =
+    type === 'success' ? styles.successModal : styles.errorModal;
 
   return (
     <div style={styles.overlay}>
       <div style={{ ...styles.modal, ...modalStyles }}>
-        <p style={styles.message}>{message}</p>
-        <div style={styles.buttonContainer}>
-          <button onClick={onConfirm} style={styles.confirmButton}>
+        <p style={styles.message} className='flex justify-center'>
+          {message}
+        </p>
+        <div style={styles.buttonContainer} className='justify-center'>
+          <button
+            onClick={onConfirm}
+            style={styles.confirmButton}
+            className='mr-[10px]'
+          >
             {confirmText}
           </button>
           <button onClick={onClose} style={styles.cancelButton}>
@@ -71,26 +77,24 @@ const styles = {
   },
   modal: {
     backgroundColor: '#fff',
-    padding: '30px',
+    padding: '20px',
     borderRadius: '12px',
     boxShadow: '0 10px 25px rgba(0, 0, 0, 0.1)',
     textAlign: 'center' as 'center',
-    width: '350px',
-    animation: 'fadeIn 0.3s ease',
+    width: '250px',
+    animation: 'fadeIn 2s ease',
   },
   message: {
-    fontSize: '18px',
-    fontWeight: 'bold' as 'bold',
+    fontSize: '16px',
     marginBottom: '20px',
   },
   buttonContainer: {
     display: 'flex',
-    justifyContent: 'space-between',
     marginTop: '20px',
   },
   confirmButton: {
-    padding: '10px 25px',
-    borderRadius: '6px',
+    padding: '10px 20px',
+    borderRadius: '8px',
     border: 'none',
     backgroundColor: '#347fff',
     color: 'white',
@@ -99,10 +103,10 @@ const styles = {
     transition: 'background-color 0.3s ease',
   },
   cancelButton: {
-    padding: '10px 25px',
-    borderRadius: '6px',
+    padding: '10px 20px',
+    borderRadius: '8px',
     border: 'none',
-    backgroundColor: '#dc3545',
+    backgroundColor: '#636363',
     color: 'white',
     fontWeight: 'bold',
     cursor: 'pointer',

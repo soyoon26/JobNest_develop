@@ -21,7 +21,7 @@ const ModalAlert: React.FC<ModalAlertProps> = ({
   onCancel,
   children,
 }) => {
-  const modalColor = type === 'error' ? '#ff4d4f' : '#007bff'; // Use the type prop to set modal color
+  const modalColor = type === 'error' ? '#636363' : '#347fff'; // Use the type prop to set modal color
 
   // Escape key closes the modal
   useEffect(() => {
@@ -43,19 +43,19 @@ const ModalAlert: React.FC<ModalAlertProps> = ({
         {children ? (
           <div>{children}</div>
         ) : (
-          <p style={styles.message}>{message}</p>
+          <p style={styles.message} className='flex justify-center'>
+            {message}
+          </p>
         )}
-        <div style={styles.buttonContainer}>
+        <div style={styles.buttonContainer} className='justify-center'>
           <button
             onClick={onConfirm || onClose} // If onConfirm is undefined, use onClose
             style={{ ...styles.confirmButton, backgroundColor: modalColor }}
+            className='mx-[10px]'
           >
             {confirmText}
           </button>
-          <button
-            onClick={onCancel || onClose}
-            style={styles.cancelButton}
-          >
+          <button onClick={onCancel || onClose} style={styles.cancelButton}>
             {cancelText}
           </button>
         </div>
@@ -79,29 +79,26 @@ const styles = {
   },
   modal: {
     backgroundColor: '#fff',
-    padding: '20px 25px',
+    padding: '20px',
     borderRadius: '12px',
-    boxShadow: '0 4px 15px rgba(0, 0, 0, 0.1)',
+    boxShadow: '0 10px 15px rgba(0, 0, 0, 0.1)',
     textAlign: 'center' as 'center',
-    width: '350px',
-    animation: 'fadeIn 0.3s ease',
+    width: '250px',
+    animation: 'fadeIn 2s ease',
   },
   message: {
     fontSize: '16px',
-    fontWeight: 'bold' as 'bold',
     marginBottom: '20px',
-    color: '#333',
   },
   buttonContainer: {
     display: 'flex',
-    justifyContent: 'space-between',
     marginTop: '20px',
   },
   confirmButton: {
     padding: '10px 20px',
     borderRadius: '8px',
     border: 'none',
-    backgroundColor: '#007bff', // Blue color for confirm button
+    backgroundColor: '#347fff', // Blue color for confirm button
     color: 'white',
     fontWeight: 'bold',
     cursor: 'pointer',
@@ -112,7 +109,7 @@ const styles = {
     padding: '10px 20px',
     borderRadius: '8px',
     border: 'none',
-    backgroundColor: '#dc3545', // Red color for cancel button
+    backgroundColor: '#636363', // Red color for cancel button
     color: 'white',
     fontWeight: 'bold',
     cursor: 'pointer',

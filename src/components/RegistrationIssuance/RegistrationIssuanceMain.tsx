@@ -108,7 +108,7 @@ const RegistrationIssuanceMain = () => {
             }`}
             onClick={() => {
               handlePageClick(i + 1);
-              setAllCheck(false);
+              // setAllCheck(false);
             }}
           >
             {pageNumber}

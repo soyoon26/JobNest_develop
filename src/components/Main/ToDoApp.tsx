@@ -35,7 +35,9 @@ const ToDoApp: React.FC<ToDoAppProps> = ({ onSave }) => {
   const [editTodoId, setEditTodoId] = useState<number | null>(null); // 수정할 할 일 ID
   const [editText, setEditText] = useState(''); // 수정할 할 일 텍스트
   const [menuOpenId, setMenuOpenId] = useState<number | null>(null); // 열려 있는 메뉴 ID
-  const [selectedCategory, setSelectedCategory] = useState<'today' | 'past'>('today'); // 선택한 카테고리 (오늘 or 지난 내역)
+  const [selectedCategory, setSelectedCategory] = useState<'today' | 'past'>(
+    'today'
+  ); // 선택한 카테고리 (오늘 or 지난 내역)
   const [token, setToken] = useState<string | null>(null); // 인증 토큰 관리
   const [currentDate, setCurrentDate] = useState<string>(getTodayDate()); // 현재 날짜
 
@@ -190,27 +192,27 @@ const ToDoApp: React.FC<ToDoAppProps> = ({ onSave }) => {
 
   // 할 일 목록 렌더링 함수
   const renderTodoList = (todos: TodoItem[]) => (
-    <ul className="mb-4">
+    <ul className='mb-4'>
       {todos.map((todo) => (
-        <li key={todo.id} className="mb-2">
-          <div className="flex justify-between items-center flex-wrap group relative">
-            <div className="flex items-center grow-0 shrink-0 basis-4/5">
+        <li key={todo.id} className='mb-2'>
+          <div className='flex justify-between items-center flex-wrap group relative'>
+            <div className='flex items-center grow-0 shrink-0 basis-4/5'>
               <input
-                type="checkbox"
+                type='checkbox'
                 id={`todo-${todo.id}`}
                 checked={todo.isCompleted}
                 onChange={() => toggleTodo(todo.id)}
-                className="mr-2 accent-[#636363] h-[20px] w-[20px]"
+                className='mr-2 accent-[#636363] h-[20px] w-[20px]'
               />
               {editTodoId === todo.id ? (
                 <input
-                  type="text"
+                  type='text'
                   value={editText}
                   onChange={(e) => setEditText(e.target.value)}
                   onKeyPress={(e) =>
                     e.key === 'Enter' && handleEditSubmit(todo.id)
                   }
-                  className="border px-2 py-1 rounded w-40"
+                  className='border px-2 py-1 rounded w-40'
                 />
               ) : (
                 <span
@@ -223,30 +225,30 @@ const ToDoApp: React.FC<ToDoAppProps> = ({ onSave }) => {
                 </span>
               )}
             </div>
-            <div className="flex justify-center items-center grow-0 shrink-0 basis-1/5">
+            <div className='flex justify-center items-center grow-0 shrink-0 basis-1/5'>
               <button
                 onClick={() =>
                   setMenuOpenId(menuOpenId === todo.id ? null : todo.id)
                 }
-                className="text-gray-500 hover:text-gray-700 p-2"
+                className='text-gray-500 hover:text-gray-700 p-2'
               >
                 <img
-                  src="src\assets\images\menubar.png"
-                  alt="메뉴바"
-                  className="hidden group-hover:block"
+                  src='src\assets\images\menubar.png'
+                  alt='메뉴바'
+                  className='hidden group-hover:block'
                 />
               </button>
               {menuOpenId === todo.id && (
-                <div className="absolute top-[-1px] right-10 bg-white w-[58px] border rounded shadow-lg z-50">
+                <div className='absolute top-[-1px] right-10 bg-white w-[58px] border rounded shadow-lg z-50'>
                   <button
                     onClick={() => handleEditClick(todo.id, todo.text)}
-                    className="block text-left px-4 py-2 text-black hover:bg-gray-100 text-sm"
+                    className='block text-left px-4 py-2 text-black hover:bg-gray-100 text-sm'
                   >
                     수정
                   </button>
                   <button
-                    onClick={() => handleDeleteTodo(todo.id)} // Trigger delete confirmation
-                    className="block text-left px-4 py-2 text-black hover:bg-gray-100 text-sm"
+                    onClick={() => handleDeleteTodo(todo.id)}
+                    className='block text-left px-4 py-2 text-black hover:bg-gray-100 text-sm'
                   >
                     삭제
                   </button>
@@ -265,40 +267,40 @@ const ToDoApp: React.FC<ToDoAppProps> = ({ onSave }) => {
         <>
           <div>
             {showToDoList && (
-              <div className="bg-white rounded-lg shadow-lg w-72 p-4 border border-gray-300">
-                <div className="mb-4">
+              <div className='bg-white rounded-lg shadow-lg w-72 p-4 border border-gray-300'>
+                <div className='mb-4'>
                   <select
                     value={selectedCategory}
                     onChange={(e) =>
                       setSelectedCategory(e.target.value as 'today' | 'past')
                     }
-                    className="border rounded-md w-[90px] px-2 py-1"
+                    className='border rounded-md w-[100px] px-2 py-1'
                   >
-                    <option value="today">오늘</option>
-                    <option value="past">지난 내역</option>
+                    <option value='today'>오늘</option>
+                    <option value='past'>지난 내역</option>
                   </select>
                 </div>
 
                 {selectedCategory === 'today' && (
                   <div>
                     {filteredTodos.length === 0 ? (
-                      <p className="text-gray-500 mb-[13px] ml-[3px]">
+                      <p className='text-gray-500 mb-[13px] ml-[3px]'>
                         할 일이 없습니다. 추가해보세요!
                       </p>
                     ) : (
                       renderTodoList(filteredTodos)
                     )}
                     <input
-                      type="text"
+                      type='text'
                       value={newTodo}
                       onChange={(e) => setNewTodo(e.target.value)}
                       onKeyPress={handleKeyPress}
-                      placeholder="새로운 할 일 작성"
-                      className="w-full border rounded-lg px-2 py-1 mb-4"
+                      placeholder='새로운 할 일 작성'
+                      className='w-full border rounded-lg px-2 py-1 mb-4'
                     />
                     <button
                       onClick={addTodo}
-                      className="w-full bg-[#347fff] text-white px-4 py-2 rounded-md hover:bg-[#347fff] text-[15px] font-extrabold"
+                      className='w-full bg-[#347fff] text-white px-4 py-2 rounded-md hover:bg-[#347fff] text-[15px] font-extrabold'
                     >
                       추가
                     </button>
@@ -308,7 +310,7 @@ const ToDoApp: React.FC<ToDoAppProps> = ({ onSave }) => {
                 {selectedCategory === 'past' && (
                   <>
                     {filteredTodos.length === 0 ? (
-                      <p className="text-gray-500">지난 내역이 없습니다.</p>
+                      <p className='text-gray-500'>지난 내역이 없습니다.</p>
                     ) : (
                       renderTodoList(filteredTodos)
                     )}
@@ -319,17 +321,24 @@ const ToDoApp: React.FC<ToDoAppProps> = ({ onSave }) => {
           </div>
 
           {/* Google Calendar Button and '오늘 할 일 메모' Button moved 30px up */}
-          <div className="flex justify-end mt-[20px]" style={{ marginBottom: '50px' }}>
+          <div className='flex relative'>
+            {showNotification && (
+              <div className='mt-[4px]'>
+                <FlashNotification
+                  visible={showNotification}
+                  onClose={() => setShowNotification(false)}
+                />
+              </div>
+            )}
             <GoogleCalendarButton
               isLoggedIn={loginState}
-              toggleCalendar={() => setIsCalendarVisible(!isCalendarVisible)} // Properly toggles calendar visibility
+              toggleCalendar={() => setIsCalendarVisible(!isCalendarVisible)}
             />
 
             {/* '오늘 할 일 메모' Button */}
-            <div style={{ marginLeft: '5px' }}>
+            <div className='ml-[20px] mt-[20px]'>
               <button
-                className="px-4 py-2 bg-[#347fff] text-white w-[136px] h-[42px] rounded-md shadow-md text-[15px] font-extrabold"
-                style={{ marginBottom: '50px' }}
+                className='px-4 py-2 bg-[#347fff] text-white w-[136px] h-[42px] rounded-md shadow-md text-[15px] font-extrabold'
                 onClick={() => setShowToDoList(!showToDoList)}
               >
                 오늘 할 일 메모
@@ -337,21 +346,14 @@ const ToDoApp: React.FC<ToDoAppProps> = ({ onSave }) => {
             </div>
           </div>
 
-          {/* FlashNotification with 2px spacing below the buttons */}
-          {showNotification && (
-            <div className="mt-[4px]">
-              <FlashNotification visible={showNotification} onClose={() => setShowNotification(false)} />
+          {/* {showNotification && (
+            <div className='mt-[4px]'>
+              <FlashNotification
+                visible={showNotification}
+                onClose={() => setShowNotification(false)}
+              />
             </div>
-          )}
-
-          {/* ModalAlert for adding a task */}
-          {isModalVisible && (
-            <ModalAlert
-              message="새로운 일정이 성공적으로 추가되었습니다!"
-              type="success"
-              onClose={() => setModalVisible(false)}
-            />
-          )}
+          )} */}
 
           {/* FullCalendarComponent, conditionally rendered */}
           {isCalendarVisible && (
@@ -364,7 +366,16 @@ const ToDoApp: React.FC<ToDoAppProps> = ({ onSave }) => {
             </div>
           )}
 
-          {/* ConfirmationModal for deleting a task */}
+          {/* 일정 추가 확인 모달 */}
+          {isModalVisible && (
+            <ModalAlert
+              message='일정이 추가되었습니다'
+              type='success'
+              onClose={() => setModalVisible(false)}
+            />
+          )}
+
+          {/* 삭제 확인 모달 */}
           {isConfirmationModalOpen && todoToDelete !== null && (
             <ConfirmationModal
               isOpen={isConfirmationModalOpen}
@@ -373,9 +384,9 @@ const ToDoApp: React.FC<ToDoAppProps> = ({ onSave }) => {
                 removeTodo(todoToDelete!);
                 setConfirmationModalOpen(false);
               }}
-              message="정말 이 일정을 삭제하시겠습니까?"
-              confirmText="삭제"
-              cancelText="취소"
+              message='일정을 삭제하시겠습니까?'
+              confirmText='삭제'
+              cancelText='취소'
             />
           )}
         </>

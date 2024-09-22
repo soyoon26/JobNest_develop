@@ -6,7 +6,10 @@ interface GoogleCalendarButtonProps {
   toggleCalendar: (isVisible: boolean) => void;
 }
 
-const GoogleCalendarButton: React.FC<GoogleCalendarButtonProps> = ({ isLoggedIn, toggleCalendar }) => {
+const GoogleCalendarButton: React.FC<GoogleCalendarButtonProps> = ({
+  isLoggedIn,
+  toggleCalendar,
+}) => {
   const [isCalendarVisible, setIsCalendarVisible] = useState(false);
 
   const handleClick = () => {
@@ -20,22 +23,20 @@ const GoogleCalendarButton: React.FC<GoogleCalendarButtonProps> = ({ isLoggedIn,
 
   return (
     <div>
-      <button
-        onClick={handleClick}
-        className="px-2 py-2 bg-[#347fff] text-white w-[136px] h-[42px] rounded-md shadow-md text-[15px] font-extrabold"
-      >
-        {isCalendarVisible ? '구글 달력 숨기기' : '구글 달력 보기'} {/* Toggle button text */}
-      </button>
-
-      {/* Render FullCalendarComponent when isCalendarVisible is true */}
+      <div className='mt-[20px]'>
+        <button
+          onClick={handleClick}
+          className='bg-[#347fff] text-white w-[136px] h-[42px] rounded-md shadow-md text-[15px] font-extrabold'
+        >
+          구글 달력
+        </button>
+      </div>
       {isCalendarVisible && (
-        <div style={{ marginTop: '20px' }}>
-          <FullCalendarComponent
-            handleAlert={() => {}}
-            handleEventNotification={() => {}}
-            onEventSave={() => {}}
-          />
-        </div>
+        <FullCalendarComponent
+          handleAlert={() => {}}
+          handleEventNotification={() => {}}
+          onEventSave={() => {}}
+        />
       )}
     </div>
   );

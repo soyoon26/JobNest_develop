@@ -21,10 +21,15 @@ interface NotificationState {
 interface FullCalendarComponentProps {
   handleAlert: (message: string) => void;
   handleEventNotification: (message: string, type: 'success' | 'error') => void;
-  onEventSave: (eventData: { title: string; start: string; end: string }) => void;
+  onEventSave: (eventData: {
+    title: string;
+    start: string;
+    end: string;
+  }) => void;
 }
 
-const CLIENT_ID = '843336558883-t6882gjo6vco7pf0ikbr3tlrku7f9kgu.apps.googleusercontent.com';
+const CLIENT_ID =
+  '843336558883-t6882gjo6vco7pf0ikbr3tlrku7f9kgu.apps.googleusercontent.com';
 const API_KEY = 'AIzaSyDlbRl04r8yOjxcmDRZqD9IS6Jo6qgjkn8';
 const CALENDAR_ID = 'primary';
 const SCOPES = 'https://www.googleapis.com/auth/calendar';
@@ -34,8 +39,12 @@ const FullCalendarComponent: React.FC<FullCalendarComponentProps> = ({
   handleEventNotification,
   onEventSave,
 }) => {
-  const [events, setEvents] = useState<{ title: string; start: string; end: string }[]>([]);
-  const [notification, setNotification] = useState<NotificationState | null>(null);
+  const [events, setEvents] = useState<
+    { title: string; start: string; end: string }[]
+  >([]);
+  const [notification, setNotification] = useState<NotificationState | null>(
+    null
+  );
 
   useEffect(() => {
     const initClient = () => {
@@ -44,7 +53,9 @@ const FullCalendarComponent: React.FC<FullCalendarComponentProps> = ({
           apiKey: API_KEY,
           clientId: CLIENT_ID,
           scope: SCOPES,
-          discoveryDocs: ['https://www.googleapis.com/discovery/v1/apis/calendar/v3/rest'],
+          discoveryDocs: [
+            'https://www.googleapis.com/discovery/v1/apis/calendar/v3/rest',
+          ],
         })
         .then(() => {
           loadEvents();
@@ -85,21 +96,30 @@ const FullCalendarComponent: React.FC<FullCalendarComponentProps> = ({
       onEventSave({ title, start, end });
 
       // Save directly to Google Calendar
-      gapi.client.calendar.events.insert({
-        calendarId: CALENDAR_ID,
-        resource: {
-          summary: title,
-          start: { dateTime: start },
-          end: { dateTime: end },
-        },
-      }).then(() => {
-        setNotification({ message: 'Event successfully saved!', type: 'success' });
-        handleEventNotification('Event successfully saved!', 'success');
-        loadEvents();
-      }).catch((error: any) => {
-        setNotification({ message: `Failed to save event: ${error.result.error.message}`, type: 'error' });
-        handleEventNotification('Failed to save event!', 'error');
-      });
+      gapi.client.calendar.events
+        .insert({
+          calendarId: CALENDAR_ID,
+          resource: {
+            summary: title,
+            start: { dateTime: start },
+            end: { dateTime: end },
+          },
+        })
+        .then(() => {
+          setNotification({
+            message: 'Event successfully saved!',
+            type: 'success',
+          });
+          handleEventNotification('Event successfully saved!', 'success');
+          loadEvents();
+        })
+        .catch((error: any) => {
+          setNotification({
+            message: `Failed to save event: ${error.result.error.message}`,
+            type: 'error',
+          });
+          handleEventNotification('Failed to save event!', 'error');
+        });
     }
   };
 
@@ -110,20 +130,20 @@ const FullCalendarComponent: React.FC<FullCalendarComponentProps> = ({
 
   return (
     <div
-      className="calendar-container p-6 rounded-lg shadow-lg bg-white"
+      className='calendar-container p-6 rounded-lg shadow-lg bg-white'
       style={{
-        width: '1000px',  // Fixed width
-        height: '600px', // Fixed height
+        width: '1000px', // Fixed width
+        height: '800px', // Fixed height
         overflowY: 'auto', // Enable vertical scroll for overflow
         position: 'fixed', // Fix the position
-        top: '700px', // Adjust the position to desired fixed location
-        right: '400px', // Adjust according to the layout
-        zIndex: 1000,  // Ensure it's above other elements
+        top: '100px', // Adjust the position to desired fixed location
+        right: '420px', // Adjust according to the layout
+        zIndex: 1000, // Ensure it's above other elements
       }}
     >
       <FullCalendar
         plugins={[dayGridPlugin, timeGridPlugin, interactionPlugin, listPlugin]}
-        initialView="dayGridMonth"
+        initialView='dayGridMonth'
         headerToolbar={{
           left: 'prev,next today',
           center: 'title',
@@ -143,11 +163,13 @@ const FullCalendarComponent: React.FC<FullCalendarComponentProps> = ({
         navLinks={true}
         editable={true}
         selectable={true}
-        themeSystem="bootstrap"
-        eventColor="#347fff"
+        themeSystem='bootstrap'
+        eventColor='#347fff'
       />
       {/* Notifications */}
-      {notification && <Notification message={notification.message} type={notification.type} />}
+      {notification && (
+        <Notification message={notification.message} type={notification.type} />
+      )}
     </div>
   );
 };

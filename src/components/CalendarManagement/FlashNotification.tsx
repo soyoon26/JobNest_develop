@@ -5,7 +5,10 @@ interface FlashNotificationProps {
   onClose: () => void;
 }
 
-const FlashNotification: React.FC<FlashNotificationProps> = ({ visible, onClose }) => {
+const FlashNotification: React.FC<FlashNotificationProps> = ({
+  visible,
+  onClose,
+}) => {
   const [flashCount, setFlashCount] = useState(0);
   const [opacity, setOpacity] = useState(0); // For animation effect
 
@@ -37,10 +40,12 @@ const FlashNotification: React.FC<FlashNotificationProps> = ({ visible, onClose 
 
   return (
     <div
-      className="fixed bottom-[20px] right-[90px] p-3 bg-gray-500 rounded-md shadow-lg transition-opacity"
+      className='bottom-[50px] right-[90px] p-3 bg-gray-500 rounded-md shadow-lg transition-opacity'
       style={{ zIndex: 2000, opacity, transition: 'opacity 0.5s ease-in-out' }} // Smooth animation
     >
-      <p className="text-white">로그인 성공! 이제 일정을 확인하거나 작업을 시작하세요!</p>
+      <span className='text-white'>
+        로그인 성공! 이제 일정을 확인하거나 작업을 시작하세요!
+      </span>
     </div>
   );
 };
