@@ -1,33 +1,43 @@
 import React, { useState } from 'react';
+import FullCalendarComponent from './FullCalendarComponent';
 
 interface GoogleCalendarButtonProps {
+  isLoggedIn: boolean;
   toggleCalendar: (isVisible: boolean) => void;
-  isLoggedIn: boolean;  // Prop to check if the user is logged in
 }
 
-const GoogleCalendarButton: React.FC<GoogleCalendarButtonProps> = ({ toggleCalendar, isLoggedIn }) => {
+const GoogleCalendarButton: React.FC<GoogleCalendarButtonProps> = ({ isLoggedIn, toggleCalendar }) => {
   const [isCalendarVisible, setIsCalendarVisible] = useState(false);
 
   const handleClick = () => {
     if (isLoggedIn) {
-      const newVisibility = !isCalendarVisible;
-      setIsCalendarVisible(newVisibility);
-      toggleCalendar(newVisibility);
+      setIsCalendarVisible(!isCalendarVisible); // Toggle the visibility state
+      toggleCalendar(!isCalendarVisible); // Pass the state back to the parent component
     } else {
-      alert('로그인 후 구글 달력에 접근 가능합니다.'); // Display login prompt if not logged in
+      alert('로그인 후 구글 달력에 접근 가능합니다.'); // Show alert if not logged in
     }
   };
 
   return (
-    <button
-      onClick={handleClick}
-      className={`fixed bottom-[150px] right-[175px] w-[140px] h-[40px] font-semibold rounded-md shadow-md transition-colors duration-300 ${
-        isCalendarVisible ? 'bg-[#347fff] text-white' : 'bg-white text-[#347fff] border-2 border-[#347fff]'
-      }`}
-      style={{ zIndex: 9999, transform: 'scale(1.00)' }}
-    >
-      {isCalendarVisible ? '구글 달력' : '구글 달력'} 
-    </button>
+    <div>
+      <button
+        onClick={handleClick}
+        className="px-2 py-2 bg-[#347fff] text-white w-[136px] h-[42px] rounded-md shadow-md text-[15px] font-extrabold"
+      >
+        {isCalendarVisible ? '구글 달력 숨기기' : '구글 달력 보기'} {/* Toggle button text */}
+      </button>
+
+      {/* Render FullCalendarComponent when isCalendarVisible is true */}
+      {isCalendarVisible && (
+        <div style={{ marginTop: '20px' }}>
+          <FullCalendarComponent
+            handleAlert={() => {}}
+            handleEventNotification={() => {}}
+            onEventSave={() => {}}
+          />
+        </div>
+      )}
+    </div>
   );
 };
 

@@ -7,6 +7,7 @@ interface ConfirmationModalProps {
   message: string;
   confirmText?: string; // Custom text for confirm button
   cancelText?: string; // Custom text for cancel button
+  type?: 'success' | 'error'; // Type of the notification (success or error)
 }
 
 const ConfirmationModal: React.FC<ConfirmationModalProps> = ({
@@ -16,8 +17,9 @@ const ConfirmationModal: React.FC<ConfirmationModalProps> = ({
   message,
   confirmText = '확인',
   cancelText = '취소',
+  type = 'success',  // Default to success
 }) => {
-  
+
   // Close modal when pressing the Escape key
   useEffect(() => {
     const handleKeyDown = (event: KeyboardEvent) => {
@@ -34,10 +36,13 @@ const ConfirmationModal: React.FC<ConfirmationModalProps> = ({
 
   if (!isOpen) return null;
 
+  // Determine styles based on the type (success or error)
+  const modalStyles = type === 'success' ? styles.successModal : styles.errorModal;
+
   return (
     <div style={styles.overlay}>
-      <div style={styles.modal}>
-        <p>{message}</p>
+      <div style={{ ...styles.modal, ...modalStyles }}>
+        <p style={styles.message}>{message}</p>
         <div style={styles.buttonContainer}>
           <button onClick={onConfirm} style={styles.confirmButton}>
             {confirmText}
@@ -58,7 +63,7 @@ const styles = {
     left: 0,
     right: 0,
     bottom: 0,
-    backgroundColor: 'rgba(0, 0, 0, 0.5)',
+    backgroundColor: 'rgba(0, 0, 0, 0.6)',
     display: 'flex',
     justifyContent: 'center',
     alignItems: 'center',
@@ -66,52 +71,51 @@ const styles = {
   },
   modal: {
     backgroundColor: '#fff',
-    padding: '20px',
-    borderRadius: '8px',
-    boxShadow: '0 5px 15px rgba(0,0,0,.3)',
+    padding: '30px',
+    borderRadius: '12px',
+    boxShadow: '0 10px 25px rgba(0, 0, 0, 0.1)',
     textAlign: 'center' as 'center',
-    width: '300px',
-    animation: 'fadeIn 0.3s ease',  // Adding a fade-in animation
+    width: '350px',
+    animation: 'fadeIn 0.3s ease',
+  },
+  message: {
+    fontSize: '18px',
+    fontWeight: 'bold' as 'bold',
+    marginBottom: '20px',
   },
   buttonContainer: {
     display: 'flex',
-    justifyContent: 'space-around',
+    justifyContent: 'space-between',
     marginTop: '20px',
   },
   confirmButton: {
-    padding: '10px 20px',
-    borderRadius: '5px',
+    padding: '10px 25px',
+    borderRadius: '6px',
     border: 'none',
-    backgroundColor: '#347fff', // Blue confirmation button
+    backgroundColor: '#347fff',
     color: 'white',
-    fontWeight: 'bold', // Bold font for buttons
+    fontWeight: 'bold',
     cursor: 'pointer',
-    transition: 'background-color 0.3s ease', // Button hover effect
+    transition: 'background-color 0.3s ease',
   },
   cancelButton: {
-    padding: '10px 20px',
-    borderRadius: '5px',
+    padding: '10px 25px',
+    borderRadius: '6px',
     border: 'none',
-    backgroundColor: '#dc3545', // Red cancel button
+    backgroundColor: '#dc3545',
     color: 'white',
-    fontWeight: 'bold', // Bold font for buttons
+    fontWeight: 'bold',
     cursor: 'pointer',
-    transition: 'background-color 0.3s ease', // Button hover effect
+    transition: 'background-color 0.3s ease',
+  },
+  successModal: {
+    backgroundColor: '#ffffff',
+    color: '#333',
+  },
+  errorModal: {
+    backgroundColor: '#ffffff',
+    color: '#ff4d4f',
   },
 };
-
-// Optional CSS for fade-in animation
-const fadeInAnimation = `
-@keyframes fadeIn {
-  from { opacity: 0; }
-  to { opacity: 1; }
-}
-`;
-
-// Append animation CSS to the document
-const styleSheet = document.createElement('style');
-styleSheet.type = 'text/css';
-styleSheet.innerText = fadeInAnimation;
-document.head.appendChild(styleSheet);
 
 export default ConfirmationModal;

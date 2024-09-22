@@ -1,15 +1,29 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, ReactNode } from 'react';
 
 interface ModalAlertProps {
-  message: string;
   onClose: () => void;
-  type?: 'success' | 'error'; // Notification type (success or error)
+  message?: string;
+  type?: 'success' | 'error'; // Type of alert (success or error)
+  confirmText?: string; // Confirm button text
+  cancelText?: string; // Cancel button text
+  onConfirm?: () => void; // Confirm action handler
+  onCancel?: () => void; // Cancel action handler
+  children?: ReactNode; // Optional children
 }
 
-const ModalAlert: React.FC<ModalAlertProps> = ({ message, onClose, type = 'success' }) => {
-  const backgroundColor = type === 'error' ? '#ff4d4f' : '#28a745'; // Error (red) or success (green)
+const ModalAlert: React.FC<ModalAlertProps> = ({
+  onClose,
+  message,
+  type = 'success',
+  confirmText = '확인',
+  cancelText = '취소',
+  onConfirm,
+  onCancel,
+  children,
+}) => {
+  const modalColor = type === 'error' ? '#ff4d4f' : '#007bff'; // Use the type prop to set modal color
 
-  // Close the modal with the Escape key
+  // Escape key closes the modal
   useEffect(() => {
     const handleKeyDown = (event: KeyboardEvent) => {
       if (event.key === 'Escape') {
@@ -25,11 +39,26 @@ const ModalAlert: React.FC<ModalAlertProps> = ({ message, onClose, type = 'succe
 
   return (
     <div style={styles.overlay}>
-      <div style={{ ...styles.modal, backgroundColor }}>
-        <p style={styles.message}>{message}</p>
-        <button style={styles.button} onClick={onClose}>
-          확인
-        </button>
+      <div style={styles.modal}>
+        {children ? (
+          <div>{children}</div>
+        ) : (
+          <p style={styles.message}>{message}</p>
+        )}
+        <div style={styles.buttonContainer}>
+          <button
+            onClick={onConfirm || onClose} // If onConfirm is undefined, use onClose
+            style={{ ...styles.confirmButton, backgroundColor: modalColor }}
+          >
+            {confirmText}
+          </button>
+          <button
+            onClick={onCancel || onClose}
+            style={styles.cancelButton}
+          >
+            {cancelText}
+          </button>
+        </div>
       </div>
     </div>
   );
@@ -42,50 +71,54 @@ const styles = {
     left: 0,
     right: 0,
     bottom: 0,
-    backgroundColor: 'rgba(0, 0, 0, 0.5)', // Dark overlay background
+    backgroundColor: 'rgba(0, 0, 0, 0.4)',
     display: 'flex',
     justifyContent: 'center',
     alignItems: 'center',
-    zIndex: 1000, // High z-index to ensure it's on top
+    zIndex: 1000,
   },
   modal: {
-    padding: '20px',
-    borderRadius: '8px',
+    backgroundColor: '#fff',
+    padding: '20px 25px',
+    borderRadius: '12px',
+    boxShadow: '0 4px 15px rgba(0, 0, 0, 0.1)',
     textAlign: 'center' as 'center',
-    boxShadow: '0 5px 15px rgba(0, 0, 0, 0.1)', // Subtle shadow
-    width: '80%', // Responsive width
-    maxWidth: '400px', // Max width for larger screens
-    color: 'white',
-    animation: 'fadeIn 0.3s ease', // Smooth fade-in animation
+    width: '350px',
+    animation: 'fadeIn 0.3s ease',
   },
   message: {
     fontSize: '16px',
-    marginBottom: '15px',
+    fontWeight: 'bold' as 'bold',
+    marginBottom: '20px',
+    color: '#333',
   },
-  button: {
+  buttonContainer: {
+    display: 'flex',
+    justifyContent: 'space-between',
+    marginTop: '20px',
+  },
+  confirmButton: {
     padding: '10px 20px',
-    backgroundColor: '#347fff', // Consistent blue button
+    borderRadius: '8px',
+    border: 'none',
+    backgroundColor: '#007bff', // Blue color for confirm button
     color: 'white',
     fontWeight: 'bold',
-    border: 'none',
-    borderRadius: '5px',
     cursor: 'pointer',
-    transition: 'background-color 0.3s ease', // Smooth transition on hover
+    transition: 'background-color 0.3s ease',
+    marginLeft: '10px',
+  },
+  cancelButton: {
+    padding: '10px 20px',
+    borderRadius: '8px',
+    border: 'none',
+    backgroundColor: '#dc3545', // Red color for cancel button
+    color: 'white',
+    fontWeight: 'bold',
+    cursor: 'pointer',
+    transition: 'background-color 0.3s ease',
+    marginRight: '10px',
   },
 };
-
-// Optional fade-in animation (CSS keyframes)
-const fadeInAnimation = `
-@keyframes fadeIn {
-  from { opacity: 0; }
-  to { opacity: 1; }
-}
-`;
-
-// Append animation CSS to the document
-const styleSheet = document.createElement('style');
-styleSheet.type = 'text/css';
-styleSheet.innerText = fadeInAnimation;
-document.head.appendChild(styleSheet);
 
 export default ModalAlert;

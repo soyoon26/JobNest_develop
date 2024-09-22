@@ -5,15 +5,16 @@ import GoogleCalendarButton from './GoogleCalendarButton';
 import TodayMemo from '../Main/ToDoApp'; 
 import FlashNotification from './FlashNotification';
 import ModalAlert from './ModalAlert';
+import ConfirmationModal from './ConfirmationModal';
 
 const ManageCalendar = () => {
   const [isAuthenticated, setIsAuthenticated] = useState(false);  // Track if the user is logged in
-  const [isCalendarVisible, setIsCalendarVisible] = useState(true);
-  const [isMemoVisible, setIsMemoVisible] = useState(true);
-  const [isFirstMemoSaved, setIsFirstMemoSaved] = useState(false);
-  const [showNotification, setShowNotification] = useState(true);
-  const [alertMessage, setAlertMessage] = useState<string | null>(null);
-  const [notification, setNotification] = useState<{ message: string; type: 'success' | 'error' } | null>(null);
+  const [isCalendarVisible, setIsCalendarVisible] = useState(false);  // Calendar visibility toggle
+  const [isMemoVisible, setIsMemoVisible] = useState(true);  // Memo visibility
+  const [isFirstMemoSaved, setIsFirstMemoSaved] = useState(false);  // Track memo save status
+  const [showNotification, setShowNotification] = useState(true);  // Show FlashNotification
+  const [alertMessage, setAlertMessage] = useState<string | null>(null);  // Alert message for events
+  const [confirmationModal, setConfirmationModal] = useState<{ message: string; type: 'success' | 'error' } | null>(null);  // Modal for success/failure notifications
 
   // Handle successful login for Google Calendar
   const handleLoginSuccess = () => {
@@ -31,7 +32,7 @@ const ManageCalendar = () => {
   // Toggle calendar visibility
   const toggleCalendarVisibility = (isVisible: boolean) => {
     setIsCalendarVisible(isVisible);
-    setIsMemoVisible(!isVisible); // Hide memo when the calendar is visible
+    setIsMemoVisible(!isVisible);  // Optionally hide memo when the calendar is visible
   };
 
   // Handle alert messages
@@ -39,19 +40,19 @@ const ManageCalendar = () => {
     setAlertMessage(message);
   };
 
-  // Handle event notification messages
+  // Handle event notification messages for success/failure
   const handleEventNotification = (message: string, type: 'success' | 'error') => {
-    setNotification({ message, type });
+    setConfirmationModal({ message, type });
   };
 
-  // Handle event saving
+  // Handle event saving logic and display appropriate messages
   const handleEventSave = (eventData: { title: string; start: string; end: string }) => {
     console.log('Event data saved:', eventData);
-    // Here you can trigger other logic such as API calls or Google Calendar saves
+    handleEventNotification('일정 등록이 완료되었습니다.', 'success');
   };
 
   return (
-    <div className="p-6 bg-white rounded-lg shadow-lg">
+    <div className="p-6 bg-white rounded-lg shadow-lg max-w-4xl mx-auto">
       {/* Google Calendar authentication */}
       {!isAuthenticated ? (
         <GoogleCalendarAuth onSuccess={handleLoginSuccess} />
@@ -66,9 +67,19 @@ const ManageCalendar = () => {
 
           {/* Calendar visibility */}
           {isCalendarVisible && (
-            <div className="mb-4">
+            <div
+              className="calendar-fixed"
+              style={{
+                position: 'fixed',
+                top: '700px',
+                right: '400px',
+                width: '1000px',    // Set width
+                height: '600px',   // Set height
+                overflowY: 'scroll', // Enable scrolling for overflow content
+                zIndex: 1000,     // Ensure it stays above other components
+              }}
+            >
               <FullCalendarComponent
-                isVisible={isCalendarVisible}
                 handleAlert={handleAlert}
                 handleEventNotification={handleEventNotification}
                 onEventSave={handleEventSave} // Pass handleEventSave
@@ -76,15 +87,23 @@ const ManageCalendar = () => {
             </div>
           )}
 
-          {/* Toggle button for Calendar */}
-          <GoogleCalendarButton 
-            isLoggedIn={isAuthenticated}  // Pass isAuthenticated as isLoggedIn
-            toggleCalendar={toggleCalendarVisibility} 
-          />
+          {/* Buttons for Google Calendar and Memo */}
+          <div className="flex space-x-4 items-start mb-6">
+            {/* Google Calendar Button */}
+            <GoogleCalendarButton
+              isLoggedIn={isAuthenticated}  // Pass isAuthenticated as isLoggedIn
+              toggleCalendar={toggleCalendarVisibility}
+            />
+
+            {/* Today Memo Button */}
+            <TodayMemo onSave={handleMemoSave} />
+          </div>
 
           {/* Show notification after the first memo is saved */}
           {isFirstMemoSaved && showNotification && (
-            <FlashNotification visible={showNotification} onClose={() => setShowNotification(false)} />
+            <div className="mt-1">
+              <FlashNotification visible={showNotification} onClose={() => setShowNotification(false)} />
+            </div>
           )}
 
           {/* Alert modal */}
@@ -92,15 +111,17 @@ const ManageCalendar = () => {
             <ModalAlert message={alertMessage} onClose={() => setAlertMessage(null)} />
           )}
 
-          {/* Notification for event success or failure */}
-          {notification && (
-            <div
-              className={`p-3 mb-4 rounded-lg shadow-md text-white ${
-                notification.type === 'success' ? 'bg-green-500' : 'bg-red-500'
-              }`}
-            >
-              {notification.message}
-            </div>
+          {/* Modal for event success or failure */}
+          {confirmationModal && (
+            <ConfirmationModal
+              isOpen={true}
+              message={confirmationModal.message}
+              onConfirm={() => setConfirmationModal(null)}
+              onClose={() => setConfirmationModal(null)}
+              confirmText="확인"
+              cancelText="취소"
+              type={confirmationModal.type} // Pass the type to the modal
+            />
           )}
         </>
       )}

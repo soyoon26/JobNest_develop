@@ -1,38 +1,46 @@
 import { useEffect, useState } from 'react';
 
 interface FlashNotificationProps {
-  visible: boolean; // Whether the notification is initially visible
-  onClose: () => void; // Callback to hide the notification after it flashes
+  visible: boolean;
+  onClose: () => void;
 }
 
 const FlashNotification: React.FC<FlashNotificationProps> = ({ visible, onClose }) => {
-  const [flashCount, setFlashCount] = useState(0); // Track the number of flashes
+  const [flashCount, setFlashCount] = useState(0);
+  const [opacity, setOpacity] = useState(0); // For animation effect
 
   useEffect(() => {
     if (!visible) return;
 
     const interval = setInterval(() => {
       setFlashCount((prev) => prev + 1);
+      setOpacity(1); // Fade-in effect
     }, 500); // Flash every 500ms
+
+    const fadeOut = setTimeout(() => {
+      setOpacity(0); // Fade-out effect
+    }, 1500); // Fade out after 1.5 seconds
 
     if (flashCount >= 3) {
       clearInterval(interval);
-      onClose(); // Automatically close after 3 flashes
+      clearTimeout(fadeOut);
+      onClose(); // Close after 3 flashes
     }
 
-    return () => clearInterval(interval); // Cleanup interval on unmount or if condition changes
+    return () => {
+      clearInterval(interval);
+      clearTimeout(fadeOut);
+    };
   }, [flashCount, onClose, visible]);
 
-  if (!visible || flashCount >= 3) return null; // Hide notification after 3 flashes or if not visible
+  if (!visible || flashCount >= 3) return null;
 
   return (
     <div
-      className="fixed bottom-[100px] right-[20px] p-3 bg-gray-500 rounded-md shadow-lg transition-opacity"
-      style={{ zIndex: 2000, opacity: visible ? 1 : 0 }} // Apply opacity based on visibility
+      className="fixed bottom-[20px] right-[90px] p-3 bg-gray-500 rounded-md shadow-lg transition-opacity"
+      style={{ zIndex: 2000, opacity, transition: 'opacity 0.5s ease-in-out' }} // Smooth animation
     >
-      <p className="text-[#ffffff]">
-        스마트폰에 설치되어 있는 구글 달력과 연동되어 있어요. 일정을 확인해보세요!
-      </p>
+      <p className="text-white">로그인 성공! 이제 일정을 확인하거나 작업을 시작하세요!</p>
     </div>
   );
 };

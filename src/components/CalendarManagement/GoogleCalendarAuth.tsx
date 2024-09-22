@@ -1,6 +1,4 @@
-import React, { useEffect, useState } from 'react';
-import { useDispatch } from 'react-redux';
-import { login, logout } from '../../redux/loginSlice'; // Redux 액션 불러오기
+import React, { useEffect } from 'react';
 import { gapi } from 'gapi-script';
 
 const CLIENT_ID = '843336558883-t6882gjo6vco7pf0ikbr3tlrku7f9kgu.apps.googleusercontent.com';
@@ -12,10 +10,6 @@ interface GoogleCalendarAuthProps {
 }
 
 const GoogleCalendarAuth: React.FC<GoogleCalendarAuthProps> = ({ onSuccess }) => {
-  const [isSigningIn, setIsSigningIn] = useState(false);
-  const [isSignedIn, setIsSignedIn] = useState(false);
-  const dispatch = useDispatch(); // Redux Dispatch 사용
-
   useEffect(() => {
     const initClient = () => {
       gapi.client.init({
@@ -24,49 +18,24 @@ const GoogleCalendarAuth: React.FC<GoogleCalendarAuthProps> = ({ onSuccess }) =>
         scope: SCOPES,
       }).then(() => {
         const authInstance = gapi.auth2.getAuthInstance();
-        setIsSignedIn(authInstance.isSignedIn.get());
-
-        authInstance.isSignedIn.listen((signInStatus: boolean) => {
-          setIsSignedIn(signInStatus);
-          if (signInStatus) {
-            dispatch(login()); // 로그인 시 Redux 상태 업데이트
-            onSuccess();
-          } else {
-            dispatch(logout()); // 로그아웃 시 Redux 상태 업데이트
-          }
-        });
+        if (authInstance.isSignedIn.get()) {
+          onSuccess();
+        }
       });
     };
     gapi.load('client:auth2', initClient);
-  }, [dispatch, onSuccess]);
+  }, [onSuccess]);
 
   const handleSignIn = () => {
-    setIsSigningIn(true);
     gapi.auth2.getAuthInstance().signIn().then(() => {
-      onSuccess();
-    }).finally(() => {
-      setIsSigningIn(false);
+      onSuccess(); // Trigger success callback after login
     });
   };
 
   return (
-    <div>
-      {isSigningIn ? (
-        <p>Google 로그인 중...</p>
-      ) : (
-        <>
-          {isSignedIn ? (
-            <button onClick={() => gapi.auth2.getAuthInstance().signOut()}>
-              Google 로그아웃
-            </button>
-          ) : (
-            <button onClick={handleSignIn}>
-              Google 로그인
-            </button>
-          )}
-        </>
-      )}
-    </div>
+    <button onClick={handleSignIn}>
+      Google 로그인
+    </button>
   );
 };
 
