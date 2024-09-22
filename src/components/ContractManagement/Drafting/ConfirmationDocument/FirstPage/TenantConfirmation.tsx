@@ -3,7 +3,7 @@ import React from "react";
 const TenantConfirmation: React.FC = () => {
   return (
     <>
-      <ul className="pl-6 mb-4 list-disc list-inside">
+      <ul className="pl-6 my-4 list-disc list-inside">
         <li>
           주택임대사업자는 「민간임대주택에 관한 특별법」 제49조에 따라
           임대보증금에 대한 보증에 가입하여야 합니다.
