@@ -282,11 +282,11 @@ const RegistrationIssuanceMain = () => {
                     key={item.unique}
                     className={`mb-2 border ${
                       checkedItems[item.unique]
-                        ? 'border-[#347fff] border-[1.5px]'
+                        ? 'border-[#347fff] border-[1.5px] mb-[6.5px]'
                         : 'border-[#8894A0]'
                     }`}
                   >
-                    <p className='text-[15px] text-[#6f6f6f] border border-[#8894A0] p-[10px] select-none flex items-center'>
+                    <p className='text-[15px] text-[#6f6f6f] p-[9px] select-none flex items-center'>
                       <label className='pr-[15px] pl-[5px] pt-[6px] cursor-pointer'>
                         <input
                           type='checkbox'

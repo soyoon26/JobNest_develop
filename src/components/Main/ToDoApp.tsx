@@ -44,7 +44,7 @@ const ToDoApp: React.FC<ToDoAppProps> = ({ onSave }) => {
   const [isModalVisible, setModalVisible] = useState(false); // State for ModalAlert
   const [isConfirmationModalOpen, setConfirmationModalOpen] = useState(false); // State for ConfirmationModal
   const [todoToDelete, setTodoToDelete] = useState<number | null>(null); // Track which Todo to delete
-  const [showNotification, setShowNotification] = useState(false); // State for showing FlashNotification
+  const [showNotification, setShowNotification] = useState(true); // State for showing FlashNotification
 
   const [isCalendarVisible, setIsCalendarVisible] = useState(false); // State for calendar visibility
 
@@ -265,7 +265,7 @@ const ToDoApp: React.FC<ToDoAppProps> = ({ onSave }) => {
     <>
       {loginState && (
         <>
-          <div>
+          <div className='flex justify-end'>
             {showToDoList && (
               <div className='bg-white rounded-lg shadow-lg w-72 p-4 border border-gray-300'>
                 <div className='mb-4'>
@@ -321,28 +321,34 @@ const ToDoApp: React.FC<ToDoAppProps> = ({ onSave }) => {
           </div>
 
           {/* Google Calendar Button and '오늘 할 일 메모' Button moved 30px up */}
-          <div className='flex relative'>
+          <div className=''>
+            {/* 로그인 알림 */}
             {showNotification && (
-              <div className='mt-[4px]'>
+              <div>
                 <FlashNotification
                   visible={showNotification}
                   onClose={() => setShowNotification(false)}
                 />
               </div>
             )}
-            <GoogleCalendarButton
-              isLoggedIn={loginState}
-              toggleCalendar={() => setIsCalendarVisible(!isCalendarVisible)}
-            />
 
-            {/* '오늘 할 일 메모' Button */}
-            <div className='ml-[20px] mt-[20px]'>
-              <button
-                className='px-4 py-2 bg-[#347fff] text-white w-[136px] h-[42px] rounded-md shadow-md text-[15px] font-extrabold'
-                onClick={() => setShowToDoList(!showToDoList)}
-              >
-                오늘 할 일 메모
-              </button>
+            {/* 버튼 2개 묶음 */}
+            <div className='flex justify-end'>
+              {/* 구글 달력 버튼 */}
+              <GoogleCalendarButton
+                isLoggedIn={loginState}
+                toggleCalendar={() => setIsCalendarVisible(!isCalendarVisible)}
+              />
+
+              {/* '오늘 할 일 메모' Button */}
+              <div className='ml-[20px] mt-[20px]'>
+                <button
+                  className='px-4 py-2 bg-[#347fff] text-white w-[136px] h-[42px] rounded-md shadow-md text-[15px] font-extrabold'
+                  onClick={() => setShowToDoList(!showToDoList)}
+                >
+                  오늘 할 일 메모
+                </button>
+              </div>
             </div>
           </div>
 
@@ -357,7 +363,7 @@ const ToDoApp: React.FC<ToDoAppProps> = ({ onSave }) => {
 
           {/* FullCalendarComponent, conditionally rendered */}
           {isCalendarVisible && (
-            <div style={{ marginTop: '30px' }}>
+            <div>
               <FullCalendarComponent
                 handleAlert={() => {}}
                 handleEventNotification={() => {}}

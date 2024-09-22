@@ -133,7 +133,7 @@ const FullCalendarComponent: React.FC<FullCalendarComponentProps> = ({
       className='calendar-container p-6 rounded-lg shadow-lg bg-white'
       style={{
         width: '1000px', // Fixed width
-        height: '800px', // Fixed height
+        height: '850px', // Fixed height
         overflowY: 'auto', // Enable vertical scroll for overflow
         position: 'fixed', // Fix the position
         top: '100px', // Adjust the position to desired fixed location
