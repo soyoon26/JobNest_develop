@@ -63,7 +63,7 @@ const RegistrationIssuanceMain = () => {
       pages.push(
         <span key={i}>
           <button
-            className='inline-block px-2'
+            className='m-2 rounded-full px-[8.5px] text-[15px] text-gray-400 font-bold hover:text-gray-700'
             onClick={() => fetchSearchData(inputAddress, i + 1)}
           >
             {i + 1}
@@ -80,8 +80,13 @@ const RegistrationIssuanceMain = () => {
     setAllCheck(!allCheck);
   };
 
+  const [filterOption, setFilterOption] = useState('전체');
+  const handleFilterOption = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    setFilterOption(e.target.value);
+  };
+
   return (
-    <div>
+    <div className='flex flex-col items-center'>
       <div className='pl-[65px] pt-[21px] w-full flex justify-between'>
         <div className='pt-[29px]'>
           <span className='text-[35px] mb-[46px] font-extrabold select-none'>
@@ -102,109 +107,133 @@ const RegistrationIssuanceMain = () => {
           </button>
         </span>
       </div>
-      <div className='pl-[94px] pt-[73px] relative'>
-        <span className='pr-[20px]'>
-          <select
-            className='text-[#6f6f6f] cursor-pointer w-[100px] h-[40px] border border-[#cccccc] text-[14x] pl-[7px] py-[1px]'
-            name='doc'
-            id='type'
-          >
-            <option value='등기+대장'>전체</option>
-            <option value='등기'>등기</option>
-            <option value='대장'>대장</option>
-          </select>
-        </span>
-        <span className='relative'>
-          <input
-            type='text'
-            placeholder='주소를 입력해주세요.'
-            value={inputAddress}
-            className='w-[1000px] h-[40px] border border-[#cccccc] pl-[15px] pr-[30px]'
-            onChange={(e) => {
-              handleInputAddress(e.target.value);
-            }}
-          />
-          {inputAddress && (
-            <button
-              onClick={clearInput}
-              className='absolute right-[15px] top-[50%] transform -translate-y-1/2 text-gray-500'
+      <div className='w-[80%] mt-[42px]'>
+        <div className='flex flex-wrap'>
+          <span className='pr-[20px] grow-0 shrink-0 basis-[10%]'>
+            <select
+              className='text-[#6f6f6f] cursor-pointer w-[100px] h-[40px] border border-[#cccccc] text-[14x] pl-[7px] py-[1px]'
+              name='doc'
+              id='type'
+              onChange={handleFilterOption}
             >
-              ×
-            </button>
-          )}
-        </span>
-        <span className='pl-[12px] relative top-[-2px]'>
-          <button
-            className='text-[14px] w-[48px] h-[40px] bg-[#347fff] text-white rounded font-normal'
-            onClick={() => {
-              fetchSearchData(inputAddress, 1);
-            }}
-          >
-            검색
-          </button>
-        </span>
-      </div>
-
-      {/* 받아온 데이터들 출력 */}
-      <div className='relative border border-black'>
-        {/* 전체선택 체크박스 */}
-        {data.length > 0 ? (
-          <div className='justify-center items-center absolute left-[94px] top-[50px]'>
-            {allCheck ? (
-              <div>
-                <FontAwesomeIcon
-                  icon={faSolidSquareCheck}
-                  color='#636363'
-                  className='mr-[8px] text-[23px] cursor-pointer'
-                  onClick={() => {
-                    toggleCheckbox();
-                  }}
-                />
-                <span
-                  onClick={() => {
-                    toggleCheckbox();
-                  }}
-                  className='cursor-pointer select-none'
-                >
-                  전체 선택
-                </span>
-              </div>
-            ) : (
-              <div>
-                <FontAwesomeIcon
-                  icon={faRegularSquareCheck}
-                  color='#636363'
-                  className='mr-[8px] text-[23px] cursor-pointer'
-                  onClick={() => {
-                    toggleCheckbox();
-                  }}
-                />
-                <span
-                  onClick={() => {
-                    toggleCheckbox();
-                  }}
-                  className='cursor-pointer select-none'
-                >
-                  전체 선택
-                </span>
-              </div>
+              <option value='전체'>전체</option>
+              <option value='등기'>등기</option>
+              <option value='대장'>대장</option>
+            </select>
+          </span>
+          <span className='relative grow-0 shrink-0 basis-[85%]'>
+            <input
+              type='text'
+              placeholder='주소를 입력해주세요.'
+              value={inputAddress}
+              className='w-[100%] h-[40px] border border-[#cccccc] pl-[15px] pr-[30px]'
+              onChange={(e) => {
+                handleInputAddress(e.target.value);
+              }}
+            />
+            {inputAddress && (
+              <button
+                onClick={clearInput}
+                className='absolute right-[15px] top-[50%] transform -translate-y-1/2 text-gray-500'
+              >
+                ×
+              </button>
             )}
-          </div>
-        ) : (
-          <></>
-        )}
-        <div className='absolute left-[94px] top-[100px]'>
-          {data?.map((item) => (
-            <div key={item.unique} className='pb-4'>
-              <p className='text-[16px] border border-[#6f6f6f] p-[12px] w-full'>
-                {item.address}
-              </p>
-            </div>
-          ))}
+          </span>
+          <span className='pl-[12px] relative grow-0 shrink-0 basis-[5%]'>
+            <button
+              className='text-[14px] w-[48px] h-[40px] bg-[#347fff] text-white rounded font-normal'
+              onClick={() => {
+                fetchSearchData(inputAddress, 1);
+              }}
+            >
+              검색
+            </button>
+          </span>
         </div>
-        {/* 페이지 네이션 파트 */}
-        <div className='absolute left-[94px] top-[750px]'>
-          {pageRendering(pageCount)}
+        {/* 받아온 데이터들 출력 */}
+        <div className='mt-[20px]'>
+          {/* 전체선택 체크박스 */}
+          {data.length > 0 ? (
+            <div>
+              {allCheck ? (
+                <div className='flex items-center mb-[10px]'>
+                  <FontAwesomeIcon
+                    icon={faSolidSquareCheck}
+                    color='#636363'
+                    className='mr-[8px] text-[23px] cursor-pointer'
+                    onClick={() => {
+                      toggleCheckbox();
+                    }}
+                  />
+                  <span
+                    onClick={() => {
+                      toggleCheckbox();
+                    }}
+                    className='cursor-pointer select-none'
+                  >
+                    전체 선택
+                  </span>
+                </div>
+              ) : (
+                <div className='flex items-center mb-[10px]'>
+                  <FontAwesomeIcon
+                    icon={faRegularSquareCheck}
+                    color='#636363'
+                    className='mr-[8px] text-[23px] cursor-pointer'
+                    onClick={() => {
+                      toggleCheckbox();
+                    }}
+                  />
+                  <span
+                    onClick={() => {
+                      toggleCheckbox();
+                    }}
+                    className='cursor-pointer select-none'
+                  >
+                    전체 선택
+                  </span>
+                </div>
+              )}
+            </div>
+          ) : (
+            <></>
+          )}
+          {/* 검색 결과 출력 */}
+          <div className=''>
+            {data?.map((item) => (
+              <div key={item.unique} className='pb-2'>
+                <span>{filterOption}</span>
+                <p className='text-[15px] border border-[#6f6f6f] p-[14px] select-none'>
+                  {item.address}
+                </p>
+              </div>
+            ))}
+            {/* 페이지 네이션 파트 */}
+            <div className='flex justify-center items-center pb-[10px]'>
+              {data.length > 0 ? (
+                <>
+                  <span
+                    className='bg-gray-100 rounded-full px-1 mr-2 cursor-pointer'
+                    // onClick={}
+                  >
+                    ←
+                  </span>
+                  <div className='bg-gray-100 rounded-full'>
+                    {pageRendering(pageCount)}
+                  </div>
+                  <span
+                    className='bg-gray-100 rounded-full px-1 ml-2 cursor-pointer'
+                    // onClick={}
+                  >
+                    →
+                  </span>
+                </>
+              ) : (
+                <></>
+              )}
+            </div>
+          </div>
         </div>
       </div>
     </div>
