@@ -20,9 +20,9 @@ const ContractRadioInputText: React.FC<ContractRadioInputTextProps> = ({
   };
 
   return (
-    <div className="flex items-center space-x-4">
-      {options.map((option, index) => (
-        <label key={index} className="flex items-center space-x-2">
+    <div className="flex flex-wrap items-center">
+      {options.slice(0, -1).map((option, index) => (
+        <label key={index} className="flex items-center mb-2 space-x-2">
           <input
             type="radio"
             value={option.value}
@@ -33,7 +33,17 @@ const ContractRadioInputText: React.FC<ContractRadioInputTextProps> = ({
         </label>
       ))}
 
-      <label className="flex items-center space-x-2">
+      <div className="flex items-center mb-2 space-x-2">
+        <label className="flex items-center space-x-2">
+          <input
+            type="radio"
+            value={options[options.length - 1].value}
+            checked={selectedOption === options[options.length - 1].value}
+            onChange={handleRadioChange}
+          />
+          <span>{options[options.length - 1].label}</span>
+        </label>
+
         <span>({inputLabel}</span>
         <input
           type="text"
@@ -43,7 +53,7 @@ const ContractRadioInputText: React.FC<ContractRadioInputTextProps> = ({
         />
         {unit && <span>{unit}</span>}
         <span>)</span>
-      </label>
+      </div>
     </div>
   );
 };

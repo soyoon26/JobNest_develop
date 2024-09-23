@@ -5,7 +5,7 @@ const UnwantedFacility: React.FC = () => {
   const [facilityDetail, setFacilityDetail] = useState<string>("");
 
   return (
-    <div className="my-2 text-[13px] items h-[50px] font-bold border-by  w-[1163px]">
+    <div className="my-2 text-[13px] items h-[50px] font-bold border-by  w-[1197px]">
       <div className="items-j h-full text-center border-br w-[150px]">
         ⑦ 비선호시설 <br />
         (1km 이내)
