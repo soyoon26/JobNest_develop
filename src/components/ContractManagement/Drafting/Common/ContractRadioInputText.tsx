@@ -22,7 +22,7 @@ const ContractRadioInputText: React.FC<ContractRadioInputTextProps> = ({
   return (
     <div className="flex flex-wrap items-center">
       {options.slice(0, -1).map((option, index) => (
-        <label key={index} className="flex items-center mb-2 space-x-2">
+        <label key={index} className="flex items-center mb-2 mr-2 space-x-2">
           <input
             type="radio"
             value={option.value}
