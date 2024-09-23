@@ -1,6 +1,6 @@
 const ExpectedTransactionAmount = () => {
   return (
-    <div className=" text-[13px] my-2 items h-[86px]  border-by  w-[1197px]">
+    <div className=" text-[13px] mt-4 items h-[86px]  border-by  w-[1197px]">
       <div className="items-j h-full text-center border-br flex-none w-[150px]">
         ⑧ 거래예정금액 등
       </div>

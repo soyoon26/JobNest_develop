@@ -1,6 +1,6 @@
 const Tax = () => {
   return (
-    <div className="my-2 text-[13px] items h-[81px]  border-by  w-[1197px]">
+    <div className="mt-4 mb-32 text-[13px] items h-[81px]  border-by  w-[1197px]">
       <div className="items-j h-full text-center flex-none border-br w-[150px]">
         ⑨취득 시부담할
         <br />
