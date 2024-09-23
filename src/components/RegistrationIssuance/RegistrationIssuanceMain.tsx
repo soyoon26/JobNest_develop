@@ -49,6 +49,7 @@ const RegistrationIssuanceMain = () => {
       ...prevState,
       [unique]: !prevState[unique], // 해당 항목의 상태를 토글
     }));
+    console.log(trueKeys.length);
   };
 
   // 검색을 위한 요청 함수 (axios 사용)
@@ -154,186 +155,226 @@ const RegistrationIssuanceMain = () => {
     setFilterOption(e.target.value);
   };
 
-  return (
-    <div className='flex flex-col items-center'>
-      <div className='pl-[65px] pt-[21px] w-full flex justify-between'>
-        <div className='pt-[29px]'>
-          <span className='text-[35px] mb-[46px] font-extrabold select-none'>
-            등기/대장 열람
-          </span>
-          <span className='text-[15px] ml-[30px] mb-[46px] font-bold select-none'>
-            동시에 여러 개의 등기 또는 대장을 발급받을 수 있어요.
-          </span>
-        </div>
-        <span>
-          <button
-            className='bg-[#347fff] w-[130px] h-[42px] mr-[24px] font-medium text-white'
-            onClick={() => {
-              navigate('/registrationIssuance/viewHistory');
-            }}
-          >
-            열람내역
-          </button>
-        </span>
-      </div>
-      <div className='w-[80%] mt-[42px]'>
-        <div className='flex flex-wrap'>
-          <span className='pr-[20px] grow-0 shrink-0 basis-[10%]'>
-            <select
-              className='text-[#6f6f6f] cursor-pointer w-[100px] h-[40px] border border-[#cccccc] text-[14x] pl-[7px] py-[1px]'
-              name='doc'
-              id='type'
-              onChange={handleFilterOption}
-            >
-              <option value='전체'>전체</option>
-              <option value='등기'>등기</option>
-              <option value='대장'>대장</option>
-            </select>
-          </span>
-          <span className='relative grow-0 shrink-0 basis-[85%]'>
-            <input
-              type='text'
-              placeholder='주소를 입력해주세요.'
-              value={inputAddress}
-              className='w-[100%] h-[40px] border border-[#cccccc] pl-[15px] pr-[30px]'
-              onChange={(e) => {
-                handleInputAddress(e.target.value);
-              }}
-            />
-            {inputAddress && (
-              <button
-                onClick={clearInput}
-                className='absolute right-[15px] top-[50%] transform -translate-y-1/2 text-gray-500'
-              >
-                ×
-              </button>
-            )}
-          </span>
-          <span className='pl-[12px] relative grow-0 shrink-0 basis-[5%]'>
-            <button
-              className='text-[14px] w-[48px] h-[40px] bg-[#347fff] text-white rounded font-normal'
-              onClick={() => {
-                fetchSearchData(inputAddress, 1);
-              }}
-            >
-              검색
-            </button>
-          </span>
-        </div>
+  //체크된 아이템의 unique값 반환
+  const trueKeys = Object.keys(checkedItems).filter((key) => checkedItems[key]);
 
-        {/* 받아온 데이터들 출력 */}
-        <div className='mt-[20px]'>
-          {loading ? (
-            <span className='flex justify-center items-center mt-[100px] mb-[140px]'>
-              <span className='loader'></span>
+  //unique값으로 주소값 찾기
+  const getAddressByUnique = (unique: string): string | undefined => {
+    const found = data.find((item) => item.unique === unique);
+    return found ? found.address : undefined;
+  };
+
+  return (
+    <div className='flex flex-row overflow-hidden'>
+      <div
+        className={`flex flex-col items-center grow-0 shrink-0 duration-500 ${
+          trueKeys.length > 0 ? 'basis-[70%]' : 'basis-[100%]'
+        }`}
+      >
+        <div className='pl-[65px] pt-[21px] w-full flex justify-between'>
+          <div className='pt-[29px]'>
+            <span className='text-[35px] mb-[46px] font-extrabold select-none'>
+              등기/대장 열람
             </span>
-          ) : null}
-          {/* 전체선택 체크박스 */}
-          {data.length > 0 && !loading ? (
-            <div>
-              {allCheck ? (
-                <div className='flex items-center mb-[10px]'>
-                  <FontAwesomeIcon
-                    icon={faSolidSquareCheck}
-                    color='#347fff'
-                    className='mr-[8px] text-[23px] cursor-pointer'
-                    onClick={() => {
-                      toggleCheckbox();
-                    }}
-                  />
-                  <span
-                    onClick={() => {
-                      toggleCheckbox();
-                    }}
-                    className='cursor-pointer select-none'
-                  >
-                    전체 선택
-                  </span>
-                </div>
-              ) : (
-                <div className='flex items-center mb-[10px]'>
-                  <FontAwesomeIcon
-                    icon={faRegularSquareCheck}
-                    color='#636363'
-                    className='mr-[8px] text-[23px] cursor-pointer'
-                    onClick={() => {
-                      toggleCheckbox();
-                    }}
-                  />
-                  <span
-                    onClick={() => {
-                      toggleCheckbox();
-                    }}
-                    className='cursor-pointer select-none'
-                  >
-                    전체 선택
-                  </span>
-                </div>
-              )}
-            </div>
-          ) : (
-            <></>
+            <span className='text-[15px] ml-[30px] mb-[46px] font-bold select-none'>
+              동시에 여러 개의 등기 또는 대장을 발급받을 수 있어요.
+            </span>
+          </div>
+          {trueKeys.length > 0 ? null : (
+            <span>
+              <button
+                className='bg-[#347fff] w-[130px] h-[42px] mr-[24px] font-medium text-white'
+                onClick={() => {
+                  navigate('/registrationIssuance/viewHistory');
+                }}
+              >
+                열람내역
+              </button>
+            </span>
           )}
-          {/* 검색 결과 출력 */}
-          <div className=''>
-            {data.length > 0 && !loading
-              ? data?.map((item) => (
-                  <div
-                    key={item.unique}
-                    className={`mb-2 border ${
-                      checkedItems[item.unique]
-                        ? 'border-[#347fff] border-[1.5px] mb-[6.5px]'
-                        : 'border-[#8894A0]'
-                    }`}
-                  >
-                    <p className='text-[15px] text-[#6f6f6f] p-[9px] select-none flex items-center'>
-                      <label className='pr-[15px] pl-[5px] pt-[6px] cursor-pointer'>
-                        <input
-                          type='checkbox'
-                          className='accent-[#347fff] h-[17px] w-[17px] cursor-pointer'
-                          checked={!!checkedItems[item.unique]} // 체크 상태에 따라 체크박스가 체크됨
-                          onChange={() => handleCheckboxChange(item.unique)} // 체크박스를 클릭하면 상태 변경
-                        />
-                      </label>
-                      <span className='text-black rounded-[20px] mr-[22px] border border-[#ccccc] py-[6px] px-4'>
-                        {filterOption}
-                      </span>
-                      {item.address}
-                    </p>
-                  </div>
-                ))
-              : null}
-            {/* 페이지 네이션 파트 */}
-            <div className='flex justify-center items-center pb-[10px]'>
-              {data.length > 0 ? (
-                <>
-                  <span
-                    className={`bg-gray-100 rounded-full px-1 mr-2 cursor-pointer select-none ${
-                      currentPageGroup === 0 ? 'opacity-50' : ''
-                    }`}
-                    onClick={handlePreviousGroup}
-                  >
-                    ←
-                  </span>
-                  <div className='bg-gray-100 rounded-full select-none'>
-                    {pageRendering(pageCount)}
-                  </div>
-                  <span
-                    className={`bg-gray-100 rounded-full px-1 ml-2 cursor-pointer select-none ${
-                      (currentPageGroup + 1) * pagesPerGroup >= pageCount
-                        ? 'opacity-50'
-                        : ''
-                    }`}
-                    onClick={handleNextGroup}
-                  >
-                    →
-                  </span>
-                </>
-              ) : (
-                <></>
+        </div>
+        {/* 사이드 바가 열리면 w를 좀 늘려줘야 버튼이 아래로 안 빠짐...! */}
+        <div className='w-[80%] mt-[42px]'>
+          <div className='flex flex-wrap'>
+            <span className='pr-[10px] grow-0 shrink-0 basis-[8%]'>
+              <select
+                className='text-[#6f6f6f] cursor-pointer w-[100%] h-[40px] border border-[#cccccc] text-[14x] pl-[7px] py-[1px]'
+                name='doc'
+                id='type'
+                onChange={handleFilterOption}
+              >
+                <option value='전체'>전체</option>
+                <option value='등기'>등기</option>
+                <option value='대장'>대장</option>
+              </select>
+            </span>
+            <span className='relative grow-0 shrink-0 basis-[85%]'>
+              <input
+                type='text'
+                placeholder='주소를 입력해주세요.'
+                value={inputAddress}
+                className='w-[100%] h-[40px] border border-[#cccccc] pl-[15px] pr-[30px]'
+                onChange={(e) => {
+                  handleInputAddress(e.target.value);
+                }}
+              />
+              {inputAddress && (
+                <button
+                  onClick={clearInput}
+                  className='absolute right-[15px] top-[50%] transform -translate-y-1/2 text-gray-500'
+                >
+                  ×
+                </button>
               )}
+            </span>
+            <span className='pl-[12px] relative grow-0 shrink-0 basis-[7%]'>
+              <button
+                className='text-[14px] w-[100%] h-[40px] bg-[#347fff] text-white rounded font-normal'
+                onClick={() => {
+                  fetchSearchData(inputAddress, 1);
+                }}
+              >
+                검색
+              </button>
+            </span>
+          </div>
+
+          {/* 받아온 데이터들 출력 */}
+          <div className='mt-[20px]'>
+            {loading ? (
+              <span className='flex justify-center items-center mt-[100px] mb-[140px]'>
+                <span className='loader'></span>
+              </span>
+            ) : null}
+            {/* 전체선택 체크박스 */}
+            {data.length > 0 && !loading ? (
+              <div>
+                {allCheck ? (
+                  <div className='flex items-center mb-[10px]'>
+                    <FontAwesomeIcon
+                      icon={faSolidSquareCheck}
+                      color='#347fff'
+                      className='mr-[8px] text-[23px] cursor-pointer'
+                      onClick={() => {
+                        toggleCheckbox();
+                      }}
+                    />
+                    <span
+                      onClick={() => {
+                        toggleCheckbox();
+                      }}
+                      className='cursor-pointer select-none'
+                    >
+                      전체 선택
+                    </span>
+                  </div>
+                ) : (
+                  <div className='flex items-center mb-[10px]'>
+                    <FontAwesomeIcon
+                      icon={faRegularSquareCheck}
+                      color='#636363'
+                      className='mr-[8px] text-[23px] cursor-pointer'
+                      onClick={() => {
+                        toggleCheckbox();
+                      }}
+                    />
+                    <span
+                      onClick={() => {
+                        toggleCheckbox();
+                      }}
+                      className='cursor-pointer select-none'
+                    >
+                      전체 선택
+                    </span>
+                  </div>
+                )}
+              </div>
+            ) : (
+              <></>
+            )}
+            {/* 검색 결과 출력 */}
+            <div className=''>
+              {data.length > 0 && !loading
+                ? data?.map((item) => (
+                    <div
+                      key={item.unique}
+                      className={`mb-2 border ${
+                        checkedItems[item.unique]
+                          ? 'border-[#347fff] border-[1.5px] mb-[6.5px]'
+                          : 'border-[#8894A0]'
+                      }`}
+                    >
+                      <p className='text-[15px] text-[#6f6f6f] p-[9px] select-none flex items-center'>
+                        <label className='pr-[15px] pl-[5px] pt-[6px] cursor-pointer'>
+                          <input
+                            type='checkbox'
+                            className='accent-[#347fff] h-[17px] w-[17px] cursor-pointer'
+                            checked={!!checkedItems[item.unique]} // 체크 상태에 따라 체크박스가 체크됨
+                            onChange={() => handleCheckboxChange(item.unique)} // 체크박스를 클릭하면 상태 변경
+                          />
+                        </label>
+                        <span className='text-black rounded-[20px] mr-[22px] border border-[#ccccc] py-[6px] px-4'>
+                          {filterOption}
+                        </span>
+                        {item.address}
+                      </p>
+                    </div>
+                  ))
+                : null}
+              {/* 페이지 네이션 파트 */}
+              <div className='flex justify-center items-center pb-[10px]'>
+                {data.length > 0 ? (
+                  <>
+                    <span
+                      className={`bg-gray-100 rounded-full px-1 mr-2 cursor-pointer select-none ${
+                        currentPageGroup === 0 ? 'opacity-50' : ''
+                      }`}
+                      onClick={handlePreviousGroup}
+                    >
+                      ←
+                    </span>
+                    <div className='bg-gray-100 rounded-full select-none'>
+                      {pageRendering(pageCount)}
+                    </div>
+                    <span
+                      className={`bg-gray-100 rounded-full px-1 ml-2 cursor-pointer select-none ${
+                        (currentPageGroup + 1) * pagesPerGroup >= pageCount
+                          ? 'opacity-50'
+                          : ''
+                      }`}
+                      onClick={handleNextGroup}
+                    >
+                      →
+                    </span>
+                  </>
+                ) : (
+                  <></>
+                )}
+              </div>
             </div>
           </div>
+        </div>
+      </div>
+      <div
+        className={`h-screen bg-[#f2f2f2] my-[23px] grow-0 shrink-0 basis-[28.5%] transition-all duration-500 ${
+          trueKeys.length > 0 ? 'translate-x-0' : 'translate-x-[109%]'
+        }`}
+      >
+        <div>
+          <div className='pl-[32px] pt-[41px] pb-[35px]'>
+            <span className='text-[20px] font-bold'>선택</span>
+            <span className='ml-[30px] text-[14px] font-normal'>
+              {trueKeys.length}개
+            </span>
+          </div>
+          {trueKeys.map((val) => (
+            <div className='pl-[17px] pb-4'>
+              <span className='text-black bg-white text-[13px] font-bold rounded-[20px] mr-[15px] border border-gray-400 py-[6px] px-4'>
+                {filterOption}
+              </span>
+              <span className='text-[13px]'>{getAddressByUnique(val)}</span>
+            </div>
+          ))}
         </div>
       </div>
     </div>
