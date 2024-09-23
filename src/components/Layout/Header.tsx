@@ -1,7 +1,6 @@
 import axios from 'axios';
 import { useEffect } from 'react';
-import { useSelector } from 'react-redux';
-import { useDispatch } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import { Link, useNavigate } from 'react-router-dom';
 import { login, logout } from '../../redux/loginSlice';
 import { RootState } from '../../redux/store';
@@ -9,7 +8,7 @@ import { RootState } from '../../redux/store';
 const Header = () => {
   const navigate = useNavigate();
 
-  // Redux 상태에서 login 상태 가져오기
+  // Redux 상태에서 로그인 상태 가져오기
   const loginState = useSelector((state: RootState) => state.auth.login);
   const dispatch = useDispatch();
 
@@ -34,20 +33,20 @@ const Header = () => {
 
         // 토큰을 로컬 스토리지에 저장
         localStorage.setItem('authToken', token);
-        handleLogin(true);
+        handleLogin(true); // Redux 상태 업데이트 (로그인 성공)
       }
     } catch (error) {
-      console.error('Error fetching the token:', error);
+      console.error('로그인 토큰을 가져오는 도중 에러 발생:', error);
     }
   };
 
-  // 로그아웃 처리
+  // 로그아웃 처리 함수
   const handleLogout = () => {
     localStorage.removeItem('authToken'); // 로컬 스토리지에서 토큰 삭제
-    handleLogin(false);
+    handleLogin(false); // Redux 상태 업데이트 (로그아웃)
   };
 
-  // 페이지가 로드될 때 로컬 스토리지에서 토큰 확인
+  // 페이지 로드 시 로컬 스토리지에서 토큰 확인
   useEffect(() => {
     const token = localStorage.getItem('authToken');
     if (token) {
@@ -57,54 +56,52 @@ const Header = () => {
   }, []);
 
   const clickLogo = () => {
-    navigate('/');
+    navigate('/'); // 홈 페이지로 이동
   };
 
   return (
-    <>
-      <div className='h-[100px] flex items-center bg-[#fff] border-b border-[#ededed]'>
-        <div
-          className='text-[40px] w-[164px] h-[50px] flex items-center justify-center ml-[40px] font-black text-[#347fff] cursor-pointer select-none'
-          onClick={clickLogo}
-        >
-          JobNest
-        </div>
-        <div className='flex items-center ml-auto'>
-          <ul className='flex gap-[38px]'>
-            <li className='font-medium text-[18px] select-none'>매물 관리</li>
-            <li className='font-medium text-[18px] select-none'>
-              <Link to='/contractManagement'>계약 관리</Link>
-            </li>
-            <li
-              className='font-medium text-[18px] cursor-pointer select-none'
-              onClick={() => navigate('/registrationIssuance')}
-            >
-              등기/대장 발급
-            </li>
-          </ul>
-          {loginState ? (
-            <>
-              <span className='text-[#8894A0] ml-[88px] select-none'>
-                박지우님 환영합니다!
-              </span>
-              <button
-                className='bg-[#347fff] w-[130px] h-[42px] ml-[50px] font-medium mr-[41px] text-white select-none'
-                onClick={handleLogout}
-              >
-                로그아웃
-              </button>
-            </>
-          ) : (
-            <button
-              className='bg-[#347fff] w-[130px] h-[42px] ml-[50px] font-medium mr-[41px] text-white select-none'
-              onClick={getLoginToken}
-            >
-              로그인
-            </button>
-          )}
-        </div>
+    <div className="h-[100px] flex items-center bg-[#fff] border-b border-[#ededed]">
+      <div
+        className="text-[40px] w-[164px] h-[50px] flex items-center justify-center ml-[40px] font-black text-[#347fff] cursor-pointer select-none"
+        onClick={clickLogo}
+      >
+        JobNest
       </div>
-    </>
+      <div className="flex items-center ml-auto">
+        <ul className="flex gap-[38px]">
+          <li className="font-medium text-[18px] select-none">매물 관리</li>
+          <li className="font-medium text-[18px] select-none">
+            <Link to="/contractManagement">계약 관리</Link>
+          </li>
+          <li
+            className="font-medium text-[18px] cursor-pointer select-none"
+            onClick={() => navigate('/registrationIssuance')}
+          >
+            등기/대장 발급
+          </li>
+        </ul>
+        {loginState ? (
+          <>
+            <span className="text-[#8894A0] ml-[88px] select-none">
+              박지우님 환영합니다!
+            </span>
+            <button
+              className="bg-[#347fff] w-[130px] h-[42px] ml-[50px] font-medium mr-[41px] text-white select-none"
+              onClick={handleLogout}
+            >
+              로그아웃
+            </button>
+          </>
+        ) : (
+          <button
+            className="bg-[#347fff] w-[130px] h-[42px] ml-[50px] font-medium mr-[41px] text-white select-none"
+            onClick={getLoginToken}
+          >
+            로그인
+          </button>
+        )}
+      </div>
+    </div>
   );
 };
 

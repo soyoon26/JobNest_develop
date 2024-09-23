@@ -1,12 +1,13 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 
 interface ConfirmationModalProps {
   isOpen: boolean;
   onClose: () => void;
-  onConfirm: () => void;  // 확인 버튼 클릭 시 처리할 함수
+  onConfirm: () => void; // Confirm button click handler
   message: string;
-  confirmText?: string;  // 확인 버튼 텍스트
-  cancelText?: string;  // 취소 버튼 텍스트
+  confirmText?: string; // Custom text for confirm button
+  cancelText?: string; // Custom text for cancel button
+  type?: 'success' | 'error'; // Type of the notification (success or error)
 }
 
 const ConfirmationModal: React.FC<ConfirmationModalProps> = ({
@@ -16,15 +17,40 @@ const ConfirmationModal: React.FC<ConfirmationModalProps> = ({
   message,
   confirmText = '확인',
   cancelText = '취소',
+  type = 'success', // Default to success
 }) => {
+  // Close modal when pressing the Escape key
+  useEffect(() => {
+    const handleKeyDown = (event: KeyboardEvent) => {
+      if (event.key === 'Escape' && isOpen) {
+        onClose();
+      }
+    };
+
+    window.addEventListener('keydown', handleKeyDown);
+    return () => {
+      window.removeEventListener('keydown', handleKeyDown);
+    };
+  }, [isOpen, onClose]);
+
   if (!isOpen) return null;
+
+  // Determine styles based on the type (success or error)
+  const modalStyles =
+    type === 'success' ? styles.successModal : styles.errorModal;
 
   return (
     <div style={styles.overlay}>
-      <div style={styles.modal}>
-        <p>{message}</p>
-        <div style={styles.buttonContainer}>
-          <button onClick={onConfirm} style={styles.confirmButton}>
+      <div style={{ ...styles.modal, ...modalStyles }}>
+        <p style={styles.message} className='flex justify-center'>
+          {message}
+        </p>
+        <div style={styles.buttonContainer} className='justify-center'>
+          <button
+            onClick={onConfirm}
+            style={styles.confirmButton}
+            className='mr-[10px]'
+          >
             {confirmText}
           </button>
           <button onClick={onClose} style={styles.cancelButton}>
@@ -43,7 +69,7 @@ const styles = {
     left: 0,
     right: 0,
     bottom: 0,
-    backgroundColor: 'rgba(0, 0, 0, 0.5)',
+    backgroundColor: 'rgba(0, 0, 0, 0.6)',
     display: 'flex',
     justifyContent: 'center',
     alignItems: 'center',
@@ -52,31 +78,47 @@ const styles = {
   modal: {
     backgroundColor: '#fff',
     padding: '20px',
-    borderRadius: '8px',
-    boxShadow: '0 5px 15px rgba(0,0,0,.3)',
+    borderRadius: '12px',
+    boxShadow: '0 10px 25px rgba(0, 0, 0, 0.1)',
     textAlign: 'center' as 'center',
-    width: '300px',
+    width: '250px',
+    animation: 'fadeIn 2s ease',
+  },
+  message: {
+    fontSize: '16px',
+    marginBottom: '20px',
   },
   buttonContainer: {
     display: 'flex',
-    justifyContent: 'space-around',
     marginTop: '20px',
   },
   confirmButton: {
     padding: '10px 20px',
-    borderRadius: '5px',
+    borderRadius: '8px',
     border: 'none',
-    backgroundColor: '#28a745',  // 초록색 확인 버튼
+    backgroundColor: '#347fff',
     color: 'white',
+    fontWeight: 'bold',
     cursor: 'pointer',
+    transition: 'background-color 0.3s ease',
   },
   cancelButton: {
     padding: '10px 20px',
-    borderRadius: '5px',
+    borderRadius: '8px',
     border: 'none',
-    backgroundColor: '#dc3545',  // 빨간색 취소 버튼
+    backgroundColor: '#636363',
     color: 'white',
+    fontWeight: 'bold',
     cursor: 'pointer',
+    transition: 'background-color 0.3s ease',
+  },
+  successModal: {
+    backgroundColor: '#ffffff',
+    color: '#333',
+  },
+  errorModal: {
+    backgroundColor: '#ffffff',
+    color: '#ff4d4f',
   },
 };
 
