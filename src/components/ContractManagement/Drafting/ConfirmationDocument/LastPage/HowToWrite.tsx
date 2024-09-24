@@ -1,6 +1,6 @@
 const HowToWrite = () => {
   return (
-    <div className="w-[1194px] ">
+    <div className="w-[1197px] ">
       <div className="bg-[#D9D9D9] items-j border-bt h-[37px] text-[20px]">
         작성방법(주거용 건축물)
       </div>
