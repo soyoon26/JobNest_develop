@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import RegistrationIssuanceHistoryTable from './RegistrationIssuanceHistoryTable';
 
 const RegistrationViewHistory = () => {
   const navigate = useNavigate();
@@ -32,7 +33,7 @@ const RegistrationViewHistory = () => {
           </button>
         </span>
       </div>
-      <div className='w-[80%] mt-[42px]'>
+      <div className='w-[90%] mt-[42px]'>
         <div className='flex flex-wrap'>
           <span className='pr-[20px] grow-0 shrink-0 basis-[10%]'>
             <select
@@ -50,6 +51,7 @@ const RegistrationViewHistory = () => {
               type='text'
               placeholder='주소를 입력해주세요.'
               value={inputAddress}
+              spellCheck='false'
               className='w-[100%] h-[40px] border border-[#cccccc] pl-[15px] pr-[30px]'
               onChange={(e) => {
                 handleInputAddress(e.target.value);
@@ -69,6 +71,10 @@ const RegistrationViewHistory = () => {
               검색
             </button>
           </span>
+        </div>
+        {/* 열람 내역 테이블 */}
+        <div>
+          <RegistrationIssuanceHistoryTable />
         </div>
       </div>
     </div>

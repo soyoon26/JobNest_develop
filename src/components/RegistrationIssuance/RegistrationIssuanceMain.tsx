@@ -225,6 +225,7 @@ const RegistrationIssuanceMain = () => {
                 type='text'
                 placeholder='주소를 입력해주세요.'
                 value={inputAddress}
+                spellCheck='false'
                 className='w-[100%] h-[40px] border border-[#cccccc] pl-[15px] pr-[30px]'
                 onChange={(e) => {
                   handleInputAddress(e.target.value);
