@@ -1,6 +1,6 @@
 import ContractInput from "../../Common/ContractInput";
 
-const ContractSignature = () => {
+const PeopleInfo = () => {
   return (
     <div className="w-[1197px] flex flex-col border-by my-4">
       <div className="flex">
@@ -72,4 +72,4 @@ const ContractSignature = () => {
     </div>
   );
 };
-export default ContractSignature;
+export default PeopleInfo;

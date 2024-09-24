@@ -1,4 +1,4 @@
-import ContractSignature from "./ContractSignature";
+import ContractSignature from "./PeopleInfo";
 import HowToWrite from "./HowToWrite";
 
 const LsatPage = () => {
