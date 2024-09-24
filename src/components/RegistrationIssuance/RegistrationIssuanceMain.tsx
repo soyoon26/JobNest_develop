@@ -167,7 +167,7 @@ const RegistrationIssuanceMain = () => {
   return (
     <div className='flex flex-row overflow-hidden'>
       <div
-        className={`flex flex-col items-center grow-0 shrink-0 duration-500 ${
+        className={`flex flex-col items-center grow-0 shrink-0 duration-700 ${
           trueKeys.length > 0 ? 'basis-[70%]' : 'basis-[100%]'
         }`}
       >
@@ -194,9 +194,17 @@ const RegistrationIssuanceMain = () => {
           )}
         </div>
         {/* 사이드 바가 열리면 w를 좀 늘려줘야 버튼이 아래로 안 빠짐...! */}
-        <div className='w-[80%] mt-[42px]'>
+        <div
+          className={`w-[80%] mt-[42px] duration-700 ${
+            trueKeys.length > 0 ? 'w-[90%]' : null
+          }`}
+        >
           <div className='flex flex-wrap'>
-            <span className='pr-[10px] grow-0 shrink-0 basis-[8%]'>
+            <span
+              className={`pr-[10px] grow-0 shrink-0 duration-700 ${
+                trueKeys.length > 0 ? 'basis-[9%]' : 'basis-[7%]'
+              }`}
+            >
               <select
                 className='text-[#6f6f6f] cursor-pointer w-[100%] h-[40px] border border-[#cccccc] text-[14x] pl-[7px] py-[1px]'
                 name='doc'
@@ -208,7 +216,11 @@ const RegistrationIssuanceMain = () => {
                 <option value='대장'>대장</option>
               </select>
             </span>
-            <span className='relative grow-0 shrink-0 basis-[85%]'>
+            <span
+              className={`relative grow-0 shrink-0 duration-700 ${
+                trueKeys.length > 0 ? 'basis-[84%]' : 'basis-[88%]'
+              }`}
+            >
               <input
                 type='text'
                 placeholder='주소를 입력해주세요.'
@@ -227,7 +239,11 @@ const RegistrationIssuanceMain = () => {
                 </button>
               )}
             </span>
-            <span className='pl-[12px] relative grow-0 shrink-0 basis-[7%]'>
+            <span
+              className={`pl-[12px] relative grow-0 shrink-0 duration-700 ${
+                trueKeys.length > 0 ? 'basis-[7%]' : 'basis-[5%]'
+              }`}
+            >
               <button
                 className='text-[14px] w-[100%] h-[40px] bg-[#347fff] text-white rounded font-normal'
                 onClick={() => {
@@ -298,13 +314,13 @@ const RegistrationIssuanceMain = () => {
                 ? data?.map((item) => (
                     <div
                       key={item.unique}
-                      className={`mb-2 border ${
+                      className={`mb-4 border ${
                         checkedItems[item.unique]
-                          ? 'border-[#347fff] border-[1.5px] mb-[6.5px]'
+                          ? 'border-[#347fff] border-[1.5px] mb-[14px]'
                           : 'border-[#8894A0]'
                       }`}
                     >
-                      <p className='text-[15px] text-[#6f6f6f] p-[9px] select-none flex items-center'>
+                      <p className='text-[14px] text-[#6f6f6f] p-[9px] select-none flex items-center'>
                         <label className='pr-[15px] pl-[5px] pt-[6px] cursor-pointer'>
                           <input
                             type='checkbox'
@@ -316,13 +332,13 @@ const RegistrationIssuanceMain = () => {
                         <span className='text-black rounded-[20px] mr-[22px] border border-[#ccccc] py-[6px] px-4'>
                           {filterOption}
                         </span>
-                        {item.address}
+                        <span>{item.address}</span>
                       </p>
                     </div>
                   ))
                 : null}
               {/* 페이지 네이션 파트 */}
-              <div className='flex justify-center items-center pb-[10px]'>
+              <div className='flex justify-center items-center py-[14px]'>
                 {data.length > 0 ? (
                   <>
                     <span
@@ -355,8 +371,9 @@ const RegistrationIssuanceMain = () => {
           </div>
         </div>
       </div>
+      {/* 사이드바 */}
       <div
-        className={`h-screen bg-[#f2f2f2] my-[23px] grow-0 shrink-0 basis-[28.5%] transition-all duration-500 ${
+        className={`h-screen bg-[#f2f2f2] my-[23px] grow-0 shrink-0 basis-[28.5%] transition-all duration-1000 relative ${
           trueKeys.length > 0 ? 'translate-x-0' : 'translate-x-[109%]'
         }`}
       >
@@ -364,17 +381,22 @@ const RegistrationIssuanceMain = () => {
           <div className='pl-[32px] pt-[41px] pb-[35px]'>
             <span className='text-[20px] font-bold'>선택</span>
             <span className='ml-[30px] text-[14px] font-normal'>
-              {trueKeys.length}개
+              총 {trueKeys.length}개
             </span>
           </div>
-          {trueKeys.map((val) => (
-            <div className='pl-[17px] pb-4'>
-              <span className='text-black bg-white text-[13px] font-bold rounded-[20px] mr-[15px] border border-gray-400 py-[6px] px-4'>
-                {filterOption}
-              </span>
-              <span className='text-[13px]'>{getAddressByUnique(val)}</span>
-            </div>
-          ))}
+        </div>
+        {trueKeys.map((val) => (
+          <div className='pl-[17px] pb-4'>
+            <span className='text-black bg-white text-[13px] font-bold rounded-[20px] mr-[15px] border border-gray-400 py-[6px] px-4'>
+              {filterOption}
+            </span>
+            <span className='text-[13px]'>{getAddressByUnique(val)}</span>
+          </div>
+        ))}
+        <div className='flex justify-center'>
+          <button className='absolute bottom-[30px] w-[356px] h-[42px] bg-[#347fff] text-white'>
+            열람하기
+          </button>
         </div>
       </div>
     </div>
