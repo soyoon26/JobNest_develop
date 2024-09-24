@@ -1,7 +1,18 @@
+import ContractRadio from "../../Common/ContractRadio";
+
 const HowToWrite = () => {
   return (
-    <div className="w-[1194px] ">
-      <div className="bg-[#D9D9D9] items-j border-bt h-[37px] text-[20px]">
+    <div className="w-[1197px]  mt-8 ">
+      <div className="border-bt flex pt-2">
+        작성방법(주거용 건축물) 출력
+        <div className="ml-12">
+          <ContractRadio
+            name="print"
+            options={[{ label: "미출력" }, { label: "출력" }]}
+          />
+        </div>
+      </div>
+      <div className="bg-[#D9D9D9] mt-2 w-full items-j border-bt h-[37px] text-[20px]">
         작성방법(주거용 건축물)
       </div>
       <div className="p-4">
