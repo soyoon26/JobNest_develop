@@ -28,8 +28,7 @@ interface FullCalendarComponentProps {
   }) => void;
 }
 
-const CLIENT_ID =
-  '843336558883-t6882gjo6vco7pf0ikbr3tlrku7f9kgu.apps.googleusercontent.com';
+const CLIENT_ID = '843336558883-9k8mq52uiro8hbuhm10fl5vc44lksmrk.apps.googleusercontent.com';
 const API_KEY = 'AIzaSyDlbRl04r8yOjxcmDRZqD9IS6Jo6qgjkn8';
 const CALENDAR_ID = 'primary';
 const SCOPES = 'https://www.googleapis.com/auth/calendar';
@@ -42,9 +41,7 @@ const FullCalendarComponent: React.FC<FullCalendarComponentProps> = ({
   const [events, setEvents] = useState<
     { title: string; start: string; end: string }[]
   >([]);
-  const [notification, setNotification] = useState<NotificationState | null>(
-    null
-  );
+  const [notification, setNotification] = useState<NotificationState | null>(null);
 
   useEffect(() => {
     const initClient = () => {
@@ -89,8 +86,8 @@ const FullCalendarComponent: React.FC<FullCalendarComponentProps> = ({
   const handleDateClick = (arg: { dateStr: string }) => {
     const title = prompt('Enter event title');
     if (title) {
-      const start = arg.dateStr;
-      const end = arg.dateStr;
+      const start = new Date(arg.dateStr).toISOString(); // ISO 8601 형식으로 변환
+      const end = new Date(arg.dateStr).toISOString(); // 시작 시간과 같은 형식으로 종료 시간 설정
 
       // Save event using the external handler
       onEventSave({ title, start, end });
@@ -101,8 +98,8 @@ const FullCalendarComponent: React.FC<FullCalendarComponentProps> = ({
           calendarId: CALENDAR_ID,
           resource: {
             summary: title,
-            start: { dateTime: start },
-            end: { dateTime: end },
+            start: { dateTime: start }, // dateTime 형식 사용
+            end: { dateTime: end }, // dateTime 형식 사용
           },
         })
         .then(() => {
