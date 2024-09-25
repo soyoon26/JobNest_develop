@@ -204,12 +204,14 @@ const ToDoApp = () => {
               )}
             </div>
             <div className='relative flex items-center'>
-              <button
-                onClick={() => togglePriority(todo.id)}
-                className={`mr-2 ${todo.isPriority ? 'text-gray-500' : 'text-gray-200'}`}
-              >
-                ★
-              </button>
+              {!editTodoId && (
+                <button
+                  onClick={() => togglePriority(todo.id)}
+                  className={`mr-2 ${todo.isPriority ? 'text-gray-500' : 'text-gray-200'}`}
+                >
+                  ★
+                </button>
+              )}
               <button
                 onClick={() =>
                   setMenuOpenId(menuOpenId === todo.id ? null : todo.id)
