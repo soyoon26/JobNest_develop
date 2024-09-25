@@ -1,6 +1,4 @@
-import SearchDate from "../../../Search/SearchDate";
 import ContractDate from "../../Common/ContractDate";
-import Contract from "../../Contract/Contract";
 
 const Signiture = () => {
   return (
