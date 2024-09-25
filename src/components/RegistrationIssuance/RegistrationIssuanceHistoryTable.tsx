@@ -1,4 +1,5 @@
 import axios from 'axios';
+import { spawn } from 'child_process';
 import { useEffect, useState } from 'react';
 
 type TApiResponse = {
@@ -141,7 +142,7 @@ const RegistrationIssuanceHistoryTable = () => {
               </tr>
             </thead>
             <tbody>
-              {data.map((row, index) => (
+              {historyData.map((row, index) => (
                 <tr key={index} className='text-[14px]'>
                   <td className='border border-[#7f7f7f] p-2 text-center'>
                     <input
@@ -150,27 +151,35 @@ const RegistrationIssuanceHistoryTable = () => {
                     />
                   </td>
                   <td className='border border-[#7f7f7f] p-2 text-center'>
-                    {row.type}
+                    {row.category === 'iros' ? (
+                      <span>등기</span>
+                    ) : (
+                      <span>대장</span>
+                    )}
                   </td>
                   <td className='border border-[#7f7f7f] p-2 text-center'>
-                    {row.number}
+                    {row.unique}
                   </td>
                   <td className='border border-[#7f7f7f] p-2 text-center'>
-                    {row.address}
+                    {row.juso}
                   </td>
                   <td className='border border-[#7f7f7f] p-2 text-center'>
-                    {row.owner}
+                    {row.owner.map((owner, idx) => (
+                      <span key={idx}>{owner} </span>
+                    ))}
                   </td>
                   <td className='border border-[#7f7f7f] p-2 text-center'>
-                    {row.changeInfo}
+                    {row.is_change ? <span>있음</span> : <span>없음</span>}
                   </td>
                   <td className='border border-[#7f7f7f] p-2 text-center'>
-                    {row.openDate}
+                    {row.created_at}
                   </td>
                   <td className='border border-[#7f7f7f] p-2 text-center'>
-                    <button className='bg-blue-500 text-white px-[20px] py-1 rounded text-[14px] w-[68px] h-[30px]'>
-                      열람
-                    </button>
+                    <a href={`${row.pdf_url}`}>
+                      <button className='bg-blue-500 text-white px-[20px] py-1 rounded text-[14px] w-[68px] h-[30px]'>
+                        열람
+                      </button>
+                    </a>
                   </td>
                   <td className='border border-[#7f7f7f] p-2 text-center'>
                     <button className='bg-[#347fff] text-white px-[20px] py-1 rounded text-[14px] w-[68px] h-[30px]'>
@@ -178,9 +187,11 @@ const RegistrationIssuanceHistoryTable = () => {
                     </button>
                   </td>
                   <td className='border border-[#7f7f7f] p-2 text-center'>
-                    <button className='bg-[#347fff] text-white px-2 py-[5px] rounded text-[14px] w-[68px] h-[30px]'>
-                      다운로드
-                    </button>
+                    <a href={`${row.pdf_url}`}>
+                      <button className='bg-[#347fff] text-white px-2 py-[5px] rounded text-[14px] w-[68px] h-[30px]'>
+                        다운로드
+                      </button>
+                    </a>
                   </td>
                 </tr>
               ))}
