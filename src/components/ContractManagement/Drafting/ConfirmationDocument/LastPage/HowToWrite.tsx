@@ -2,7 +2,7 @@ import ContractRadio from "../../Common/ContractRadio";
 
 const HowToWrite = () => {
   return (
-    <div className="w-[1197px]  mt-8 ">
+    <div className="w-[1197px]  mt-8 pb-32">
       <div className="border-bt flex pt-2">
         작성방법(주거용 건축물) 출력
         <div className="ml-12">
@@ -21,8 +21,10 @@ const HowToWrite = () => {
           <br />
           1. “[ ]”있는 항목은 해당하는 “[ ]”안에 √로 표시합니다.
           <br />
+          <br />
           2. 세부항목 작성 시 해당 내용을 작성란에 모두 작성할 수 없는 경우에는
           별지로 작성하여 첨부하고, 해당란에는 “별지 참고”라고 적습니다.
+          <br />
           <br />
           <span className="font-bold">&lt;세부항목&gt;</span>
           <br />
