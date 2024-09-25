@@ -60,7 +60,7 @@ const CalculationDetails = () => {
           placeholder="실비 산출 방식을 입력해주세요"
           className="border-32 p-2 placeholder-black"
         />
-        <div className="gap-2 flex">
+        <div className="gap-2 items flex">
           중개보수율 1천분의
           <ContractInput width="100px" /> %
         </div>

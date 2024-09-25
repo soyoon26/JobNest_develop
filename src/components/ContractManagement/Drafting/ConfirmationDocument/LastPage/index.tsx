@@ -6,7 +6,7 @@ import CalculationDetails from "./CalculationDetails";
 const LsatPage = () => {
   return (
     <>
-      <span>3. 중개보수 등에 관한 사항</span>
+      <span className="text-[20px]">3. 중개보수 등에 관한 사항</span>
       <CalculationDetails />
       <Signiture />
       <ContractSignature />
