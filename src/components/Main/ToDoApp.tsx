@@ -305,12 +305,13 @@ const ToDoApp = () => {
             )}
           </div>
           <span>
+            <div className='flex items-end justify-end'>
             <button
-              className='px-4 py-2 bg-[#347fff] text-white w-[136px] h-[42px]  rounded-md shadow-md text-[15px] font-extrabold'
-              onClick={() => setShowToDoList(!showToDoList)}
-            >
+              className='px-4 py-2 bg-[#347fff] text-white w-[136px] h-[42px]  rounded-md text-[15px] font-extrabold '
+              onClick={() => setShowToDoList(!showToDoList)}>
               오늘 할 일 메모
             </button>
+            </div>
           </span>
         </>
       )}
