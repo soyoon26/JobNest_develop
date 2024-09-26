@@ -1,5 +1,4 @@
 import axios from 'axios';
-import { spawn } from 'child_process';
 import { useEffect, useState } from 'react';
 
 type TApiResponse = {
@@ -16,74 +15,74 @@ type TApiResponse = {
 };
 
 const RegistrationIssuanceHistoryTable = () => {
-  const data = [
-    {
-      type: '등기, 대장',
-      number: '1718-2019-000001',
-      address: '대전광역시 유성구 문화원로 77 1104',
-      owner: '홍길동',
-      changeInfo: '있음',
-      openDate: '2024.08.29',
-      newOpen: true,
-      contractCreate: true,
-      download: true,
-    },
-    {
-      type: '등기',
-      number: '-',
-      address: '-',
-      owner: '-',
-      changeInfo: '없음',
-      openDate: '2024.08.27',
-      newOpen: true,
-      contractCreate: true,
-      download: true,
-    },
-    {
-      type: '등기',
-      number: '-',
-      address: '-',
-      owner: '-',
-      changeInfo: '-',
-      openDate: '-',
-      newOpen: true,
-      contractCreate: true,
-      download: true,
-    },
-    {
-      type: '대장',
-      number: '-',
-      address: '-',
-      owner: '-',
-      changeInfo: '-',
-      openDate: '-',
-      newOpen: false,
-      contractCreate: false,
-      download: true,
-    },
-    {
-      type: '대장',
-      number: '-',
-      address: '-',
-      owner: '-',
-      changeInfo: '-',
-      openDate: '-',
-      newOpen: false,
-      contractCreate: false,
-      download: true,
-    },
-    {
-      type: '대장',
-      number: '-',
-      address: '-',
-      owner: '-',
-      changeInfo: '-',
-      openDate: '-',
-      newOpen: false,
-      contractCreate: false,
-      download: true,
-    },
-  ];
+  // const data = [
+  //   {
+  //     type: '등기, 대장',
+  //     number: '1718-2019-000001',
+  //     address: '대전광역시 유성구 문화원로 77 1104',
+  //     owner: '홍길동',
+  //     changeInfo: '있음',
+  //     openDate: '2024.08.29',
+  //     newOpen: true,
+  //     contractCreate: true,
+  //     download: true,
+  //   },
+  //   {
+  //     type: '등기',
+  //     number: '-',
+  //     address: '-',
+  //     owner: '-',
+  //     changeInfo: '없음',
+  //     openDate: '2024.08.27',
+  //     newOpen: true,
+  //     contractCreate: true,
+  //     download: true,
+  //   },
+  //   {
+  //     type: '등기',
+  //     number: '-',
+  //     address: '-',
+  //     owner: '-',
+  //     changeInfo: '-',
+  //     openDate: '-',
+  //     newOpen: true,
+  //     contractCreate: true,
+  //     download: true,
+  //   },
+  //   {
+  //     type: '대장',
+  //     number: '-',
+  //     address: '-',
+  //     owner: '-',
+  //     changeInfo: '-',
+  //     openDate: '-',
+  //     newOpen: false,
+  //     contractCreate: false,
+  //     download: true,
+  //   },
+  //   {
+  //     type: '대장',
+  //     number: '-',
+  //     address: '-',
+  //     owner: '-',
+  //     changeInfo: '-',
+  //     openDate: '-',
+  //     newOpen: false,
+  //     contractCreate: false,
+  //     download: true,
+  //   },
+  //   {
+  //     type: '대장',
+  //     number: '-',
+  //     address: '-',
+  //     owner: '-',
+  //     changeInfo: '-',
+  //     openDate: '-',
+  //     newOpen: false,
+  //     contractCreate: false,
+  //     download: true,
+  //   },
+  // ];
 
   const [historyData, setHistoryData] = useState<TApiResponse['result']>([]);
   const [loading, setLoading] = useState(false);
