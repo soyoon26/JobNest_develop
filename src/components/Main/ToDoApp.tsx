@@ -242,13 +242,13 @@ const ToDoApp: React.FC<ToDoAppProps> = ({ onSave }) => {
                 <div className='absolute top-[-1px] right-10 bg-white w-[58px] border rounded shadow-lg z-50'>
                   <button
                     onClick={() => handleEditClick(todo.id, todo.text)}
-                    className='block text-left px-4 py-2 text-black hover:bg-gray-100 text-sm'
+                    className='block text-left px-3 py-2 text-black hover:bg-gray-100 text-sm'
                   >
                     수정
                   </button>
                   <button
                     onClick={() => handleDeleteTodo(todo.id)}
-                    className='block text-left px-4 py-2 text-black hover:bg-gray-100 text-sm'
+                    className='block text-left px-3 py-2 text-black hover:bg-gray-100 text-sm'
                   >
                     삭제
                   </button>

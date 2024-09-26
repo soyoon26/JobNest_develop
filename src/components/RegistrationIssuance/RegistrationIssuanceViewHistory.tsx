@@ -35,9 +35,9 @@ const RegistrationViewHistory = () => {
       </div>
       <div className='w-[90%] mt-[42px]'>
         <div className='flex flex-wrap'>
-          <span className='pr-[20px] grow-0 shrink-0 basis-[10%]'>
+          <span className='grow-0 shrink-0 basis-[7%]'>
             <select
-              className='text-[#6f6f6f] cursor-pointer w-[100px] h-[40px] border border-[#cccccc] text-[14x] pl-[7px] py-[1px]'
+              className='text-[#6f6f6f] cursor-pointer w-[90%] h-[40px] border border-[#cccccc] text-[14x] pl-[7px] py-[1px]'
               name='doc'
               id='type'
             >
@@ -46,7 +46,7 @@ const RegistrationViewHistory = () => {
               <option value='대장'>대장</option>
             </select>
           </span>
-          <span className='relative grow-0 shrink-0 basis-[85%]'>
+          <span className='relative grow-0 shrink-0 basis-[88.5%]'>
             <input
               type='text'
               placeholder='주소를 입력해주세요.'
@@ -66,8 +66,8 @@ const RegistrationViewHistory = () => {
               </button>
             )}
           </span>
-          <span className='pl-[12px] relative grow-0 shrink-0 basis-[5%]'>
-            <button className='text-[14px] w-[48px] h-[40px] bg-[#347fff] text-white rounded font-normal'>
+          <span className='pl-[12px] relative grow-0 shrink-0 basis-[4.5%]'>
+            <button className='text-[14px] w-[100%] h-[40px] bg-[#347fff] text-white rounded font-normal'>
               검색
             </button>
           </span>

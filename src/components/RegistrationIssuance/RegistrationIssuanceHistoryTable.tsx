@@ -175,11 +175,9 @@ const RegistrationIssuanceHistoryTable = () => {
                     {row.created_at}
                   </td>
                   <td className='border border-[#7f7f7f] p-2 text-center'>
-                    <a href={`${row.pdf_url}`}>
-                      <button className='bg-blue-500 text-white px-[20px] py-1 rounded text-[14px] w-[68px] h-[30px]'>
-                        열람
-                      </button>
-                    </a>
+                    <button className='bg-blue-500 text-white px-[20px] py-1 rounded text-[14px] w-[68px] h-[30px]'>
+                      열람
+                    </button>
                   </td>
                   <td className='border border-[#7f7f7f] p-2 text-center'>
                     <button className='bg-[#347fff] text-white px-[20px] py-1 rounded text-[14px] w-[68px] h-[30px]'>
