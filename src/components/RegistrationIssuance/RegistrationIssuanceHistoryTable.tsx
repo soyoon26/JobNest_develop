@@ -141,7 +141,7 @@ const RegistrationIssuanceHistoryTable = () => {
               </tr>
             </thead>
             <tbody>
-              {historyData.map((row, index) => (
+              {data.map((row, index) => (
                 <tr key={index} className='text-[14px]'>
                   <td className='border border-[#7f7f7f] p-2 text-center'>
                     <input
@@ -150,28 +150,22 @@ const RegistrationIssuanceHistoryTable = () => {
                     />
                   </td>
                   <td className='border border-[#7f7f7f] p-2 text-center'>
-                    {row.category === 'iros' ? (
-                      <span>등기</span>
-                    ) : (
-                      <span>대장</span>
-                    )}
+                    {row.type}
                   </td>
                   <td className='border border-[#7f7f7f] p-2 text-center'>
-                    {row.unique}
+                    {row.number}
                   </td>
                   <td className='border border-[#7f7f7f] p-2 text-center'>
-                    {row.juso}
+                    {row.address}
                   </td>
                   <td className='border border-[#7f7f7f] p-2 text-center'>
-                    {row.owner.map((owner, idx) => (
-                      <span key={idx}>{owner} </span>
-                    ))}
+                    {row.owner}
                   </td>
                   <td className='border border-[#7f7f7f] p-2 text-center'>
-                    {row.is_change ? <span>있음</span> : <span>없음</span>}
+                    {row.changeInfo}
                   </td>
                   <td className='border border-[#7f7f7f] p-2 text-center'>
-                    {row.created_at}
+                    {row.openDate}
                   </td>
                   <td className='border border-[#7f7f7f] p-2 text-center'>
                     <button className='bg-blue-500 text-white px-[20px] py-1 rounded text-[14px] w-[68px] h-[30px]'>
@@ -184,11 +178,9 @@ const RegistrationIssuanceHistoryTable = () => {
                     </button>
                   </td>
                   <td className='border border-[#7f7f7f] p-2 text-center'>
-                    <a href={`${row.pdf_url}`}>
-                      <button className='bg-[#347fff] text-white px-2 py-[5px] rounded text-[14px] w-[68px] h-[30px]'>
-                        다운로드
-                      </button>
-                    </a>
+                    <button className='bg-[#347fff] text-white px-2 py-[5px] rounded text-[14px] w-[68px] h-[30px]'>
+                      다운로드
+                    </button>
                   </td>
                 </tr>
               ))}
