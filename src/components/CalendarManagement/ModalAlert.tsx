@@ -26,7 +26,7 @@ const ModalAlert: React.FC<ModalAlertProps> = ({
   // Escape key closes the modal
   useEffect(() => {
     const handleKeyDown = (event: KeyboardEvent) => {
-      if (event.key === 'Escape') {
+      if (event.key === 'Escape' || event.key === 'Enter') {
         onClose();
       }
     };

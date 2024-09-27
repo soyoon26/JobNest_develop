@@ -4,7 +4,11 @@ import { useSelector, useDispatch } from 'react-redux';
 import { Link, useNavigate } from 'react-router-dom';
 import { login, logout } from '../../redux/loginSlice';
 import { RootState } from '../../redux/store';
-import { initGoogleClient, handleGoogleSignIn, handleGoogleLogout } from '../CalendarManagement/GoogleCalendarAuth';
+import {
+  initGoogleClient,
+  handleGoogleSignIn,
+  handleGoogleLogout,
+} from '../CalendarManagement/GoogleCalendarAuth';
 
 const Header = () => {
   const navigate = useNavigate();
@@ -68,21 +72,21 @@ const Header = () => {
   };
 
   return (
-    <div className="h-[100px] flex items-center bg-[#fff] border-b border-[#ededed]">
+    <div className='h-[100px] flex items-center bg-[#fff] border-b border-[#ededed]'>
       <div
-        className="text-[40px] w-[164px] h-[50px] flex items-center justify-center ml-[40px] font-black text-[#347fff] cursor-pointer select-none"
+        className='text-[40px] w-[164px] h-[50px] flex items-center justify-center ml-[40px] font-black text-[#347fff] cursor-pointer select-none'
         onClick={clickLogo}
       >
         JobNest
       </div>
-      <div className="flex items-center ml-auto">
-        <ul className="flex gap-[38px]">
-          <li className="font-medium text-[18px] select-none">매물 관리</li>
-          <li className="font-medium text-[18px] select-none">
-            <Link to="/contractManagement">계약 관리</Link>
+      <div className='flex items-center ml-auto'>
+        <ul className='flex gap-[38px]'>
+          <li className='font-medium text-[18px] select-none'>매물 관리</li>
+          <li className='font-medium text-[18px] select-none'>
+            <Link to='/contractManagement'>계약 관리</Link>
           </li>
           <li
-            className="font-medium text-[18px] cursor-pointer select-none"
+            className='font-medium text-[18px] cursor-pointer select-none'
             onClick={() => navigate('/registrationIssuance')}
           >
             등기/대장 발급
@@ -91,11 +95,11 @@ const Header = () => {
 
         {loginState || googleLogin ? (
           <>
-            <span className="text-[#8894A0] ml-[88px] select-none">
+            <span className='text-[#8894A0] ml-[88px] select-none'>
               환영합니다!
             </span>
             <button
-              className="bg-[#347fff] w-[130px] h-[42px] ml-[50px] font-medium mr-[41px] text-white select-none"
+              className='bg-[#347fff] w-[130px] h-[42px] ml-[50px] font-medium mr-[41px] text-white select-none'
               onClick={handleLogout}
             >
               로그아웃
@@ -103,7 +107,7 @@ const Header = () => {
           </>
         ) : (
           <button
-            className="bg-[#347fff] w-[130px] h-[42px] ml-[50px] font-medium mr-[41px] text-white select-none"
+            className='bg-[#347fff] w-[130px] h-[42px] ml-[50px] font-medium mr-[41px] text-white select-none'
             onClick={getLoginToken}
           >
             로그인

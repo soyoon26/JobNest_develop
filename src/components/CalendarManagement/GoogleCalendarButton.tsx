@@ -28,7 +28,7 @@ const GoogleCalendarButton: React.FC<GoogleCalendarButtonProps> = ({
           onClick={handleClick}
           className='bg-[#347fff] text-white w-[136px] h-[42px] rounded-md shadow-md text-[15px] font-extrabold'
         >
-          구글 달력
+          구글 캘린더
         </button>
       </div>
       {isCalendarVisible && (

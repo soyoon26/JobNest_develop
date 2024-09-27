@@ -141,7 +141,7 @@ const RegistrationIssuanceHistoryTable = () => {
               </tr>
             </thead>
             <tbody>
-              {data.map((row, index) => (
+              {historyData.map((row, index) => (
                 <tr key={index} className='text-[14px]'>
                   <td className='border border-[#7f7f7f] p-2 text-center'>
                     <input
@@ -150,22 +150,22 @@ const RegistrationIssuanceHistoryTable = () => {
                     />
                   </td>
                   <td className='border border-[#7f7f7f] p-2 text-center'>
-                    {row.type}
+                    {row.category === 'building' ? '대장' : '등기'}
                   </td>
                   <td className='border border-[#7f7f7f] p-2 text-center'>
-                    {row.number}
+                    {row.unique}
                   </td>
                   <td className='border border-[#7f7f7f] p-2 text-center'>
-                    {row.address}
+                    {row.juso}
                   </td>
                   <td className='border border-[#7f7f7f] p-2 text-center'>
                     {row.owner}
                   </td>
                   <td className='border border-[#7f7f7f] p-2 text-center'>
-                    {row.changeInfo}
+                    {row.is_change ? '있음' : '없음'}
                   </td>
                   <td className='border border-[#7f7f7f] p-2 text-center'>
-                    {row.openDate}
+                    {row.created_at}
                   </td>
                   <td className='border border-[#7f7f7f] p-2 text-center'>
                     <button className='bg-blue-500 text-white px-[20px] py-1 rounded text-[14px] w-[68px] h-[30px]'>
@@ -178,9 +178,11 @@ const RegistrationIssuanceHistoryTable = () => {
                     </button>
                   </td>
                   <td className='border border-[#7f7f7f] p-2 text-center'>
-                    <button className='bg-[#347fff] text-white px-2 py-[5px] rounded text-[14px] w-[68px] h-[30px]'>
-                      다운로드
-                    </button>
+                    <a href={`${row.pdf_url}`} target='_blank'>
+                      <button className='bg-[#347fff] text-white px-2 py-[5px] rounded text-[14px] w-[68px] h-[30px]'>
+                        다운로드
+                      </button>
+                    </a>
                   </td>
                 </tr>
               ))}

@@ -4,6 +4,7 @@ import BookMarkList from './bookmark/BookMarkList';
 import BookMarkManageModal from './bookmark/BookMarkManageModal';
 import axios from 'axios';
 import ToDoApp from './ToDoApp';
+import FullCalender from './FullCalender';
 
 type TBookmark = {
   id: number;
@@ -274,6 +275,9 @@ const BookMark = () => {
           ></BookMarkManageModal>
         </div>
       )}
+      <div>
+        <FullCalender></FullCalender>
+      </div>
       <div className='absolute right-9 bottom-5 select-none'>
         <ToDoApp />
       </div>
