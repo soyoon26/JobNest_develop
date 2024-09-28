@@ -110,7 +110,7 @@ const DraftContract: React.FC<DraftContractProps> = ({ onCancel }) => {
             />
           </div>
         </div>
-        <div className="text-[13px] font-bold my-4">상세 주소 입력</div>
+        <div className="text-[13px] font-bold my-4">주소 입력</div>
         <SearchInput
           value={selectedDetailAddress}
           onChange={setSelectedDetailAddress}

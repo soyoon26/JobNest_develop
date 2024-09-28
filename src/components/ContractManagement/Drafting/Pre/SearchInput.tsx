@@ -52,7 +52,7 @@ const SearchInput: React.FC<SearchInputProps> = ({ value, onChange }) => {
           type="text"
           value={value}
           onChange={(e) => onChange(e.target.value)}
-          placeholder="상세주소를 입력해주세요"
+          placeholder="주소를 검색해주세요. 예시)궁동 201-4"
           className="w-full h-full px-3 py-1.5 text-xs text-[#6F6F6F] border border-[#6F6F6F] rounded-md pr-10"
           onKeyDown={(e) => {
             if (e.key === "Enter") fetchData();
